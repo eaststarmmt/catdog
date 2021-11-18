@@ -5,24 +5,24 @@
 <mapper namespace="com.ssafy.happyhouse.model.mapper.UserMapper">
 
 	<update id="updateUser" parameterType="userDto">
-		UPDATE user
-		SET password = #{password}, name = #{name}, phone = #{phone}, address = #{address} 
+		UPDATE ssafy_member
+		SET userpwd = #{userpwd}, name = #{name}, phone = #{phone}, address = #{address} 
 		WHERE userid = #{userid}
 	</update>
 
 	<insert id="registerMember" parameterType="UserDto">
-		insert into user (userid, password, name, phone, address)
-		values (#{userid}, #{password}, #{name}, #{phone}, #{address})
+		insert into ssafy_member
+		values (#{userid},#{username},#{userpwd},#{email} ,now())
 	</insert>
 	
 	<select id="login" parameterType="map" resultType="UserDto">
-		select userid, password, name, phone, address 
-		from user
-		where userid = #{userid} and password = #{password}
+		select userid, userpwd, name, email, joindate 
+		from ssafy_member
+		where userid = #{userid} and password = #{userpwd}
 	</select>
 	
 	<delete id="deleteUser" parameterType="String">
-		DELETE FROM user
+		DELETE FROM ssafy_member
 		WHERE userid = #{userid}
 	</delete>
 </mapper>

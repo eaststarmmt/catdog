@@ -20,24 +20,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.UserDto;
 import com.ssafy.happyhouse.model.service.UserService;
 
-import io.swagger.annotations.ApiOperation;
 
-@Controller
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+	
 	@ApiOperation(value = "회원가입. 회원 정보를 입력한다. 아직 성공여부에 따른 반환값은 정해지지 않음 ")
 	@PostMapping("/register")
-	public String register(UserDto userDto, Model model) throws Exception {
+	public ResponseEntity<String> register(@RequestBody @ApiParam(value = "회원가입시 필요한 회원정보", required = true)UserDto userDto) throws Exception {
 		userService.registerMember(userDto);
-		return "redirect:/";
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		
 	}
+	
+//	@ApiOperation(value = "회원가입", notes = "회원 가입")
+//	@PostMapping("/register")
+//	public ResponseEntity<String> register(@RequestBody @ApiParam(value = "회원가입시 필요한 회원정보", required = true) MemberDto memberDto) throws Exception{
+//		
+//		memberService.register(memberDto);
+//		
+//	}
 	
 	@ApiOperation(value = "로그인. 아이디와 비밀번호를 입력한다. 세션에 UserDto 정보를 넣어서 보낸다")
 	@PostMapping("/login")
@@ -61,7 +77,6 @@ public class UserController {
 	// 정보수정
 	@ApiOperation(value = "회원 정보 수정. 회원정보를 보낸다. 수정 화면에 기존 정보를 살려서 표현하여 변경하고자 하는 정보만 입력할 수 있도록 제공", response = UserDto.class)
 	@PutMapping("/update")
-	@ResponseBody
 	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, Model model, HttpSession session,
 			HttpServletResponse response) throws Exception {
 		System.out.println(userDto.toString());
@@ -71,7 +86,6 @@ public class UserController {
 	}
 	@ApiOperation(value = "회원정보 삭제. 현재 로그인 된 회원의 정보를 삭제하고 세션을 만료시켜 로그인 전 화면으로 돌아가게 한다.")
 	@DeleteMapping("/delete/{userid}")
-	@ResponseBody
 	public ResponseEntity<String> deleteUser(@PathVariable("userid") String userid, HttpSession session) throws Exception {
 		userService.deleteUser(userid);
 		session.invalidate();
