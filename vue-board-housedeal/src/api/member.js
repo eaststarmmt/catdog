@@ -18,4 +18,4 @@ async function registerUser(user, success, fail) {
 }
 // function logout(success, fail)
 
-export { login, findById };
+export { login, registerUser, findById };
