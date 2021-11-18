@@ -21,8 +21,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto login(Map<String, String> map) throws Exception {
-		return sqlSession.getMapper(UserMapper.class).login(map);
+	public UserDto login(UserDto userDto) throws Exception {
+		if(userDto.getUserid() == null || userDto.getUserpwd() == null)
+			return null;
+		return sqlSession.getMapper(UserMapper.class).login(userDto);
 	}
 
 	@Override
@@ -34,6 +36,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(String userid) throws Exception {
 		sqlSession.getMapper(UserMapper.class).deleteUser(userid);
+	}
+
+	@Override
+	public UserDto userInfo(String userid) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).userInfo(userid);
 	}
 	
 }

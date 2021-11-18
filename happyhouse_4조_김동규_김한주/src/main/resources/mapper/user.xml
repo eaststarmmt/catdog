@@ -15,10 +15,16 @@
 		values (#{userid},#{username},#{userpwd},#{email} ,now())
 	</insert>
 	
-	<select id="login" parameterType="map" resultType="UserDto">
-		select userid, userpwd, name, email, joindate 
+	<select id="login" parameterType="userDto" resultType="userDto">
+		select username, userid, email
 		from ssafy_member
-		where userid = #{userid} and password = #{userpwd}
+		where userid = #{userid} and userpwd = #{userpwd}
+	</select>
+	
+	<select id="userInfo" parameterType="String" resultType="userDto">
+		select username, userid, email, joindate
+		from ssafy_member
+		where userid = #{userid}
 	</select>
 	
 	<delete id="deleteUser" parameterType="String">
