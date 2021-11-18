@@ -13,20 +13,19 @@
         alt="Image 1"
       ></b-img>
     </b-col>
-    <b-col cols="8" class="align-self-center">
-      [{{ house.dongCode }}] {{ house.aptName }}
+    <b-col cols="10" class="align-self-center">
+      [{{ house.일련번호 }}] {{ house.아파트 }}
     </b-col>
   </b-row>
 </template>
 
 <script>
-// import KakaoMap from "@/components/house/KakaoMap.vue";
 import { mapActions } from "vuex";
+
+const houseStore = "houseStore";
+
 export default {
   name: "HouseListRow",
-  components: {
-    // KakaoMap,
-  },
   data() {
     return {
       isColor: false,
@@ -36,12 +35,14 @@ export default {
     house: Object,
   },
   methods: {
-    ...mapActions(["detailMap"]),
+    ...mapActions(houseStore, ["detailHouse"]),
+    selectHouse() {
+      // console.log("listRow : ", this.house);
+      // this.$store.dispatch("getHouse", this.house);
+      this.detailHouse(this.house);
+    },
     colorChange(flag) {
       this.isColor = flag;
-    },
-    selectHouse() {
-      this.detailMap(this.house);
     },
   },
 };

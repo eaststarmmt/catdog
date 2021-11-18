@@ -15,21 +15,23 @@
 
 <script>
 import HouseListRow from "@/components/house/HouseListRow.vue";
-// import KakaoMap from "@/components/house/KakaoMap.vue";
 import { mapState } from "vuex";
+
+const houseStore = "houseStore";
+
 export default {
   name: "HouseList",
   components: {
     HouseListRow,
-    // KakaoMap,
   },
   data() {
-    return {
-      apts: ["a"],
-    };
+    return {};
   },
   computed: {
-    ...mapState(["houses"]),
+    ...mapState(houseStore, ["houses"]),
+    // houses() {
+    //   return this.$store.state.houses;
+    // },
   },
 };
 </script>

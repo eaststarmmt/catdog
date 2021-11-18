@@ -13,28 +13,22 @@
         <house-list />
       </b-col>
       <b-col cols="6">
-        <!-- <house-detail /> -->
-        <kakao-map></kakao-map>
+        <house-detail />
       </b-col>
     </b-row>
-    <!-- <b-row>
-      <b-col> </b-col>
-    </b-row> -->
   </b-container>
 </template>
 <script>
 import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseList from "@/components/house/HouseList.vue";
-// import HouseDetail from "@/components/house/HouseDetail.vue";
-import KakaoMap from "@/components/house/KakaoMap.vue";
+import HouseDetail from "@/components/house/HouseDetail.vue";
 
 export default {
   name: "House",
   components: {
     HouseSearchBar,
     HouseList,
-    // HouseDetail,
-    KakaoMap,
+    HouseDetail,
   },
 };
 </script>

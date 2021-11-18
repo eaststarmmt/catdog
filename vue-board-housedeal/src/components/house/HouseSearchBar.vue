@@ -21,22 +21,26 @@
       <b-form-select
         v-model="gugunCode"
         :options="guguns"
-        @change="dongList"
-      ></b-form-select>
-    </b-col>
-    <b-col class="sm-3">
-      <b-form-select
-        v-model="dongCode"
-        :options="dongs"
-        @change="searchApt2"
+        @change="searchApt"
       ></b-form-select>
     </b-col>
   </b-row>
 </template>
 
 <script>
-// import http from "@/util/http-common.js";
 import { mapState, mapActions, mapMutations } from "vuex";
+
+/*
+  namespaced: true를 사용했기 때문에 선언해줍니다.
+  index.js 에서 modules 객체의 '키' 이름입니다.
+
+  modules: {
+    키: 값
+    memberStore: memberStore,
+    houseStore: houseStore
+  }  
+*/
+const houseStore = "houseStore";
 
 export default {
   name: "HouseSearchBar",
@@ -44,11 +48,10 @@ export default {
     return {
       sidoCode: null,
       gugunCode: null,
-      dongCode: null,
     };
   },
   computed: {
-    ...mapState(["sidos", "guguns", "dongs", "houses"]),
+    ...mapState(houseStore, ["sidos", "guguns"]),
     // sidos() {
     //   return this.$store.state.sidos;
     // },
@@ -60,38 +63,19 @@ export default {
     this.getSido();
   },
   methods: {
-    ...mapActions([
-      "getSido",
-      "getGugun",
-      "getDong",
-      "getHouseList",
-      "getDBHouseList",
-    ]),
-    ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST", "CLEAR_DONG_LIST"]),
+    ...mapActions(houseStore, ["getSido", "getGugun", "getHouseList"]),
+    ...mapMutations(houseStore, ["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST"]),
     // sidoList() {
     //   this.getSido();
     // },
     gugunList() {
-      console.log("시도코드", this.sidoCode);
-      // this.$store.commi("CLEAR_GUGUN_LIST");
+      // console.log(this.sidoCode);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
-    dongList() {
-      console.log("동코드", this.dongCode);
-      // this.$store.commi("CLEAR_GUGUN_LIST");
-      this.CLEAR_DONG_LIST();
-      this.dongCode = null;
-      if (this.gugunCode) this.getDong(this.gugunCode);
-    },
     searchApt() {
-      console.log("구군코드", this.gugunCode);
-      // if (this.gugunCode) this.getHouseList(this.gugunCode);
-    },
-    searchApt2() {
-      console.log("동코드", this.dongCode);
-      if (this.dongCode) this.getDBHouseList(this.dongCode);
+      if (this.gugunCode) this.getHouseList(this.gugunCode);
     },
   },
 };

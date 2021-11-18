@@ -37,14 +37,11 @@
 </template>
 
 <script>
-import http from "@/util/http-common";
-// import BoardListRow from "@/components/board/BoardListRow";
+import { listArticle } from "@/api/board";
 
 export default {
   name: "BoardList",
-  components: {
-    // BoardListRow,
-  },
+  components: {},
   data() {
     return {
       articles: [],
@@ -58,9 +55,21 @@ export default {
     };
   },
   created() {
-    http.get(`/board`).then(({ data }) => {
-      this.articles = data;
-    });
+    let param = {
+      pg: 1,
+      spp: 20,
+      key: null,
+      word: null,
+    };
+    listArticle(
+      param,
+      (response) => {
+        this.articles = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
   methods: {
     moveWrite() {

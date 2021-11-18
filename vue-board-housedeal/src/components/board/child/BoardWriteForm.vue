@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import http from "@/util/http-common";
+import { writeArticle, getArticle, modifyArticle } from "@/api/board";
 
 export default {
   name: "BoardWriteForm",
@@ -80,13 +80,19 @@ export default {
   },
   created() {
     if (this.type === "modify") {
-      http.get(`/board/${this.$route.params.articleno}`).then(({ data }) => {
-        // this.article.articleno = data.article.articleno;
-        // this.article.userid = data.article.userid;
-        // this.article.subject = data.article.subject;
-        // this.article.content = data.article.content;
-        this.article = data;
-      });
+      getArticle(
+        this.$route.params.articleno,
+        ({ data }) => {
+          // this.article.articleno = data.article.articleno;
+          // this.article.userid = data.article.userid;
+          // this.article.subject = data.article.subject;
+          // this.article.content = data.article.content;
+          this.article = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
       this.isUserid = true;
     }
   },
@@ -113,7 +119,7 @@ export default {
 
       if (!err) alert(msg);
       else
-        this.type === "register" ? this.registArticle() : this.modifyArticle();
+        this.type === "register" ? this.registArticle() : this.updateArticle();
     },
     onReset(event) {
       event.preventDefault();
@@ -123,30 +129,34 @@ export default {
       this.$router.push({ name: "BoardList" });
     },
     registArticle() {
-      http
-        .post(`/board`, {
+      writeArticle(
+        {
           userid: this.article.userid,
           subject: this.article.subject,
           content: this.article.content,
-        })
-        .then(({ data }) => {
+        },
+        ({ data }) => {
           let msg = "등록 처리시 문제가 발생했습니다.";
           if (data === "success") {
             msg = "등록이 완료되었습니다.";
           }
           alert(msg);
           this.moveList();
-        });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
-    modifyArticle() {
-      http
-        .put(`/board`, {
+    updateArticle() {
+      modifyArticle(
+        {
           articleno: this.article.articleno,
           userid: this.article.userid,
           subject: this.article.subject,
           content: this.article.content,
-        })
-        .then(({ data }) => {
+        },
+        ({ data }) => {
           let msg = "수정 처리시 문제가 발생했습니다.";
           if (data === "success") {
             msg = "수정이 완료되었습니다.";
@@ -154,7 +164,11 @@ export default {
           alert(msg);
           // 현재 route를 /list로 변경.
           this.$router.push({ name: "BoardList" });
-        });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     moveList() {
       this.$router.push({ name: "BoardList" });

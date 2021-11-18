@@ -17,7 +17,7 @@
           class="mr-2"
           >글수정</b-button
         >
-        <b-button variant="outline-danger" size="sm" @click="deleteArticle"
+        <b-button variant="outline-danger" size="sm" @click="removeArticle"
           >글삭제</b-button
         >
       </b-col>
@@ -42,7 +42,7 @@
 
 <script>
 // import moment from "moment";
-import http from "@/util/http-common";
+import { getArticle, deleteArticle } from "@/api/board";
 
 export default {
   data() {
@@ -63,9 +63,15 @@ export default {
     // },
   },
   created() {
-    http.get(`/board/${this.$route.params.articleno}`).then(({ data }) => {
-      this.article = data;
-    });
+    getArticle(
+      this.$route.params.articleno,
+      (response) => {
+        this.article = response.data;
+      },
+      (error) => {
+        console.log("삭제시 에러발생!!", error);
+      }
+    );
   },
   methods: {
     listArticle() {
@@ -78,11 +84,10 @@ export default {
       });
       //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
     },
-    deleteArticle() {
+    removeArticle() {
       if (confirm("정말로 삭제?")) {
-        this.$router.replace({
-          name: "BoardDelete",
-          params: { articleno: this.article.articleno },
+        deleteArticle(this.article.articleno, () => {
+          this.$router.push({ name: "BoardList" });
         });
       }
     },

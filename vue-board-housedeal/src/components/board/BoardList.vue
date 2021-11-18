@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import http from "@/util/http-common";
 import BoardListRow from "@/components/board/child/BoardListRow";
+import { listArticle } from "@/api/board.js";
 
 export default {
   name: "BoardList",
@@ -54,9 +54,21 @@ export default {
     };
   },
   created() {
-    http.get(`/board`).then(({ data }) => {
-      this.articles = data;
-    });
+    let param = {
+      pg: 1,
+      spp: 20,
+      key: null,
+      word: null,
+    };
+    listArticle(
+      param,
+      (response) => {
+        this.articles = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
   methods: {
     moveWrite() {
