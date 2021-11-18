@@ -15,11 +15,13 @@
 
 <script>
 import HouseListRow from "@/components/house/HouseListRow.vue";
+// import KakaoMap from "@/components/house/KakaoMap.vue";
 import { mapState } from "vuex";
 export default {
   name: "HouseList",
   components: {
     HouseListRow,
+    // KakaoMap,
   },
   data() {
     return {

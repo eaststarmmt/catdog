@@ -21,7 +21,14 @@
       <b-form-select
         v-model="gugunCode"
         :options="guguns"
-        @change="searchApt"
+        @change="dongList"
+      ></b-form-select>
+    </b-col>
+    <b-col class="sm-3">
+      <b-form-select
+        v-model="dongCode"
+        :options="dongs"
+        @change="searchApt2"
       ></b-form-select>
     </b-col>
   </b-row>
@@ -35,13 +42,13 @@ export default {
   name: "HouseSearchBar",
   data() {
     return {
-      // dongCode: "",
       sidoCode: null,
       gugunCode: null,
+      dongCode: null,
     };
   },
   computed: {
-    ...mapState(["sidos", "guguns", "houses"]),
+    ...mapState(["sidos", "guguns", "dongs", "houses"]),
     // sidos() {
     //   return this.$store.state.sidos;
     // },
@@ -53,20 +60,38 @@ export default {
     this.getSido();
   },
   methods: {
-    ...mapActions(["getSido", "getGugun", "getHouseList"]),
-    ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST"]),
+    ...mapActions([
+      "getSido",
+      "getGugun",
+      "getDong",
+      "getHouseList",
+      "getDBHouseList",
+    ]),
+    ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST", "CLEAR_DONG_LIST"]),
     // sidoList() {
     //   this.getSido();
     // },
     gugunList() {
-      console.log(this.sidoCode);
+      console.log("시도코드", this.sidoCode);
       // this.$store.commi("CLEAR_GUGUN_LIST");
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
+    dongList() {
+      console.log("동코드", this.dongCode);
+      // this.$store.commi("CLEAR_GUGUN_LIST");
+      this.CLEAR_DONG_LIST();
+      this.dongCode = null;
+      if (this.gugunCode) this.getDong(this.gugunCode);
+    },
     searchApt() {
-      if (this.gugunCode) this.getHouseList(this.gugunCode);
+      console.log("구군코드", this.gugunCode);
+      // if (this.gugunCode) this.getHouseList(this.gugunCode);
+    },
+    searchApt2() {
+      console.log("동코드", this.dongCode);
+      if (this.dongCode) this.getDBHouseList(this.dongCode);
     },
   },
 };
