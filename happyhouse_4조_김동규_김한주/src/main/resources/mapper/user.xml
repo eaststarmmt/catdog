@@ -6,7 +6,7 @@
 
 	<update id="updateUser" parameterType="userDto">
 		UPDATE ssafy_member
-		SET userpwd = #{userpwd}, name = #{name}, phone = #{phone}, address = #{address} 
+		SET username = #{username}, email = #{email} 
 		WHERE userid = #{userid}
 	</update>
 

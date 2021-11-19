@@ -16,6 +16,12 @@ async function registerUser(user, success, fail) {
     .then(success)
     .catch(fail);
 }
+async function modifyUserById(user, success, fail) {
+  await api.put(`/user/update`, JSON.stringify(user)).then(success).catch(fail);
+}
+async function deleteUserById(userid, success, fail) {
+  await api.delete(`/user/delete/${userid}`).then(success).catch(fail);
+}
 // function logout(success, fail)
 
-export { login, registerUser, findById };
+export { login, registerUser, findById, modifyUserById, deleteUserById };

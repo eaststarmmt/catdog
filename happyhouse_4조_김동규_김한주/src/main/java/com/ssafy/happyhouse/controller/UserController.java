@@ -121,20 +121,16 @@ public class UserController {
 	// 정보수정
 	@ApiOperation(value = "회원 정보 수정. 회원정보를 보낸다. 수정 화면에 기존 정보를 살려서 표현하여 변경하고자 하는 정보만 입력할 수 있도록 제공", response = UserDto.class)
 	@PutMapping("/update")
-	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, Model model, HttpSession session,
-			HttpServletResponse response) throws Exception {
+	public ResponseEntity<String> updateUser(@RequestBody @ApiParam(value = "변경할 회원정보", required = true) UserDto userDto) throws Exception {
 		System.out.println(userDto.toString());
 		userService.updateUser(userDto);
-		session.setAttribute("userinfo", userDto);
-		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
-	@ApiOperation(value = "회원정보 삭제. 현재 로그인 된 회원의 정보를 삭제하고 세션을 만료시켜 로그인 전 화면으로 돌아가게 한다.")
+	@ApiOperation(value = "회원정보 삭제. 현재 로그인 된 회원의 정보를 삭제하고 token을 없앤다.")
 	@DeleteMapping("/delete/{userid}")
-	public ResponseEntity<String> deleteUser(@PathVariable("userid") String userid, HttpSession session) throws Exception {
-		userService.deleteUser(userid);
-		session.invalidate();
-		
-		return new ResponseEntity(HttpStatus.NO_CONTENT);
+	public ResponseEntity<String> deleteUser(@PathVariable("userid") @ApiParam(value = "삭제할 회원의 아이디.", required = true) String userid) throws Exception {
+		userService.deleteUser(userid);		
+		return new ResponseEntity<String>(SUCCESS,HttpStatus.OK);
 	}
 //	ajax로 로그인
 //	@PostMapping("/login")
