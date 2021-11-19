@@ -56,7 +56,9 @@ export default {
       level: 5,
     };
     this.map = new kakao.maps.Map(container, options);
-    // this.initMap();
+
+    var marker = new kakao.maps.Marker({ position: this.map.getCenter() });
+    marker.setMap(this.map);
   },
   methods: {
     initMap() {
