@@ -37,14 +37,20 @@
         </b-card>
       </b-col>
     </b-row>
+    <reply-list />
   </b-container>
 </template>
 
 <script>
 // import moment from "moment";
+import ReplyList from "@/components/reply/ReplyList";
 import { getArticle, deleteArticle } from "@/api/board";
+// import ReplyList from "../reply/ReplyList.vue";
 
 export default {
+  components: {
+    ReplyList,
+  },
   data() {
     return {
       article: {},
