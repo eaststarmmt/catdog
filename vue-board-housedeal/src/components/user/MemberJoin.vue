@@ -17,6 +17,7 @@
               <b-form-input
                 id="userid"
                 v-model="user.userid"
+                ref="userid"
                 required
                 placeholder="아이디 입력...."
               ></b-form-input>
@@ -25,6 +26,7 @@
               <b-form-input
                 id="username"
                 v-model="user.username"
+                ref="username"
                 required
                 placeholder="이름 입력...."
               ></b-form-input>
@@ -34,6 +36,7 @@
                 type="password"
                 id="userpwd"
                 v-model="user.userpwd"
+                ref="userpwd"
                 required
                 placeholder="비밀번호 입력...."
               ></b-form-input>
@@ -42,6 +45,7 @@
               <b-form-input
                 id="email"
                 v-model="user.email"
+                ref="email"
                 required
                 placeholder="이메일 입력...."
               ></b-form-input>
@@ -50,7 +54,7 @@
               type="button"
               variant="primary"
               class="m-1"
-              @click="register"
+              @click="checkValue"
               >회원가입</b-button
             >
             <b-button type="button" variant="danger" class="m-1" @click="cancel"
@@ -79,11 +83,42 @@ export default {
     };
   },
   methods: {
+    checkValue() {
+      console.log(this.user);
+      // 사용자 입력값 체크하기
+      // 아이디, 이름, 비밀번호, 이메일 이 없을 경우 각 항목에 맞는 메세지를 출력
+      let err = true;
+      let msg = "";
+      !this.user.userid &&
+        ((msg = "아이디 입력해주세요"),
+        (err = false),
+        this.$refs.userid.focus());
+      err &&
+        !this.user.username &&
+        ((msg = "이름 입력해주세요"),
+        (err = false),
+        this.$refs.username.focus());
+      err &&
+        !this.user.userpwd &&
+        ((msg = "비밀번호 입력해주세요"),
+        (err = false),
+        this.$refs.userpwd.focus());
+      err &&
+        !this.user.email &&
+        ((msg = "이메일 입력해주세요"),
+        (err = false),
+        this.$refs.email.focus());
+
+      if (!err) alert(msg);
+      // 만약, 내용이 다 입력되어 있다면 register호출
+      else this.register();
+    },
+    //취소버튼 클릭시 로그인 화면으로
     cancel() {
       this.$router.push({ name: "SignIn" });
     },
+    //입력이 다 되어있다면 register호출
     register() {
-      console.log(this.user);
       registerUser(this.user);
       this.$router.push({ name: "Home" });
     },
