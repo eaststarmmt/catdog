@@ -48,9 +48,9 @@ export default {
   data() {
     return {
       // map: null,
-      markers: [],
-      infowindow: null,
-      customOverlay: null,
+      // markers: [],
+      // infowindow: null,
+      // customOverlay: null,
     };
   },
   // props: {
@@ -92,7 +92,7 @@ export default {
     var marker = new kakao.maps.Marker({ position: map.getCenter() });
     marker.setMap(map);
 
-    var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
+    var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 99 }),
       contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
       markers = [], // 마커를 담을 배열입니다
       currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
@@ -106,7 +106,7 @@ export default {
     kakao.maps.event.addListener(map, "idle", searchPlaces);
 
     // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
-    contentNode.className = "placeinfo_wrap";
+    contentNode.id = "placeinfo_wrap";
 
     // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
     // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
@@ -217,7 +217,7 @@ export default {
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
     function displayPlaceInfo(place) {
       var content =
-        '<div class="placeinfo">' +
+        '<div id="placeinfo" style="position: relative; width: 100%; border-radius: 6px; border: 1px solid #ccc; border-bottom: 2px solid #ddd; padding-bottom: 10px; background: #fff;">' +
         '   <a class="title" href="' +
         place.place_url +
         '" target="_blank" title="' +
@@ -320,7 +320,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 #map {
   width: 70%;
   height: 300px;
@@ -409,13 +409,13 @@ button {
 #category li.on .category_bg {
   background-position-x: -46px;
 }
-.placeinfo_wrap {
+#placeinfo_wrap {
   position: absolute;
   bottom: 28px;
   left: -150px;
   width: 300px;
 }
-.placeinfo {
+/* #placeinfo {
   position: relative;
   width: 100%;
   border-radius: 6px;
@@ -423,12 +423,12 @@ button {
   border-bottom: 2px solid #ddd;
   padding-bottom: 10px;
   background: #fff;
-}
-.placeinfo:nth-of-type(n) {
+} */
+#placeinfo:nth-of-type(n) {
   border: 0;
   box-shadow: 0px 1px 2px #888;
 }
-.placeinfo_wrap .after {
+#placeinfo_wrap .after {
   content: "";
   position: relative;
   margin-left: -12px;
@@ -437,25 +437,25 @@ button {
   height: 12px;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
 }
-.placeinfo a,
-.placeinfo a:hover,
-.placeinfo a:active {
+#placeinfo a,
+#placeinfo a:hover,
+#placeinfo a:active {
   color: #fff;
   text-decoration: none;
 }
-.placeinfo a,
-.placeinfo span {
+#placeinfo a,
+#placeinfo span {
   display: block;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
-.placeinfo span {
+#placeinfo span {
   margin: 5px 5px 0 5px;
   cursor: default;
   font-size: 13px;
 }
-.placeinfo .title {
+#placeinfo .title {
   font-weight: bold;
   font-size: 14px;
   border-radius: 6px 6px 0 0;
@@ -467,10 +467,10 @@ button {
     url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
     no-repeat right 14px center;
 }
-.placeinfo .tel {
+#placeinfo .tel {
   color: #0f7833;
 }
-.placeinfo .jibun {
+#placeinfo .jibun {
   color: #999;
   font-size: 11px;
   margin-top: 0;
