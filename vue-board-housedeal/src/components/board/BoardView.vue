@@ -38,18 +38,21 @@
       </b-col>
     </b-row>
     <reply-list />
+    <reply-write />
   </b-container>
 </template>
 
 <script>
 // import moment from "moment";
 import ReplyList from "@/components/reply/ReplyList";
+import ReplyWrite from "@/components/reply/ReplyWrite";
 import { getArticle, deleteArticle } from "@/api/board";
 // import ReplyList from "../reply/ReplyList.vue";
 
 export default {
   components: {
     ReplyList,
+    ReplyWrite,
   },
   data() {
     return {
