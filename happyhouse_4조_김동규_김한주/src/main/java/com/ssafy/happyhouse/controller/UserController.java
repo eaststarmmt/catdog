@@ -108,6 +108,9 @@ public class UserController {
 		return new ResponseEntity<Map<String,Object>> (resultMap, status);
 	}
 	
+	//=======================================================================================
+	//여기부터 구현 :  수정 / 탈퇴 , 아이디 중복체크 
+	
 	@ApiOperation(value = "로그아웃. 세션을 만료해서 회원 정보 접근을 막음")
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
