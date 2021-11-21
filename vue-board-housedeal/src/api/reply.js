@@ -6,4 +6,8 @@ function writeReply(reply, success, fail) {
   api.post(`/reply`, JSON.stringify(reply)).then(success).catch(fail);
 }
 
-export { writeReply };
+function listReply(boardid, success, fail) {
+  api.get(`/reply/${boardid}`).then(success).catch(fail);
+}
+
+export { writeReply, listReply };

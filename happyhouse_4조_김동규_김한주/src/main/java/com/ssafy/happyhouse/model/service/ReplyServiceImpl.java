@@ -1,5 +1,7 @@
 package com.ssafy.happyhouse.model.service;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,11 @@ public class ReplyServiceImpl implements ReplyService {
 			throw new Exception();
 		}
 		return sqlSession.getMapper(ReplyMapper.class).writeReply(replyDto) == 1;
+	}
+
+	@Override
+	public List<ReplyDto> listReply(int boardid) throws Exception {
+		return sqlSession.getMapper(ReplyMapper.class).listArticle(boardid);
 	}
 
 }

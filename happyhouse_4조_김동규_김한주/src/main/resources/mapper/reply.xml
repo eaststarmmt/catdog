@@ -9,4 +9,9 @@
 		value (#{userid}, #{username}, #{content}, #{boardid})
 	</insert>
 	
+	<select id="listArticle" parameterType="int" resultType="replyDto">
+		select replyno, userid, username, content, boardid, regtime
+		from reply
+		where boardid = #{boardid}
+	</select>
 </mapper>	
