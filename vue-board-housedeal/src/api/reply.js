@@ -10,4 +10,8 @@ function listReply(boardid, success, fail) {
   api.get(`/reply/${boardid}`).then(success).catch(fail);
 }
 
-export { writeReply, listReply };
+function deleteReply(replyid, success, fail) {
+  api.delete(`/reply/${replyid}`).then(success).catch(fail);
+}
+
+export { writeReply, listReply, deleteReply };

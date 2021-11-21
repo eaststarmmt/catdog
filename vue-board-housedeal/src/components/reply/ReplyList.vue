@@ -6,7 +6,16 @@
         <b-td>{{ reply.content }}</b-td>
         <b-td
           ><b-button type="button" variant="primary" class="m-1"
-            >글수정</b-button
+            >수정</b-button
+          ></b-td
+        >
+        <b-td
+          ><b-button
+            type="button"
+            variant="primary"
+            class="m-1"
+            @click="deleteReply(reply.replyno)"
+            >삭제</b-button
           ></b-td
         >
       </b-tr>
@@ -15,7 +24,7 @@
 </template>
 
 <script>
-import { listReply } from "@/api/reply.js";
+import { listReply, deleteReply } from "@/api/reply.js";
 
 export default {
   name: "ReplyList",
@@ -37,6 +46,16 @@ export default {
         console.log(error);
       }
     );
+  },
+  methods: {
+    deleteReply(replyno) {
+      if (confirm("정말로 삭제?")) {
+        deleteReply(replyno, () => {
+          alert("삭제 완료");
+          location.reload();
+        });
+      }
+    },
   },
 };
 </script>

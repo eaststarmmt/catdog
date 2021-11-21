@@ -14,4 +14,9 @@
 		from reply
 		where boardid = #{boardid}
 	</select>
+	
+	<delete id="deleteReply" parameterType="int">
+		delete from reply
+		where replyno = #{replyno}
+	</delete>
 </mapper>	

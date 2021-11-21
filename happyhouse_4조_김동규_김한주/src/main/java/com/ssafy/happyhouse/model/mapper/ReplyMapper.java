@@ -9,5 +9,6 @@ public interface ReplyMapper {
 
 	int writeReply(ReplyDto replyDto) throws SQLException;
 	List<ReplyDto> listArticle(int boardid) throws SQLException;
+	int deleteReply(int replyno) throws SQLException;
 
 }

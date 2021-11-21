@@ -76,6 +76,7 @@ export default {
             this.reply.content = "";
           }
           alert(msg);
+          location.reload();
         },
         (error) => {
           console.log(error);

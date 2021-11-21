@@ -28,4 +28,9 @@ public class ReplyServiceImpl implements ReplyService {
 		return sqlSession.getMapper(ReplyMapper.class).listArticle(boardid);
 	}
 
+	@Override
+	public boolean deleteReply(int replyno) throws Exception {
+		return sqlSession.getMapper(ReplyMapper.class).deleteReply(replyno) == 1;
+	}
+
 }
