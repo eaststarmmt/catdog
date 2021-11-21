@@ -48,13 +48,7 @@ public class UserController {
 		
 	}
 	
-//	@ApiOperation(value = "회원가입", notes = "회원 가입")
-//	@PostMapping("/register")
-//	public ResponseEntity<String> register(@RequestBody @ApiParam(value = "회원가입시 필요한 회원정보", required = true) MemberDto memberDto) throws Exception{
-//		
-//		memberService.register(memberDto);
-//		
-//	}
+
 	
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
@@ -109,7 +103,8 @@ public class UserController {
 	}
 	
 	//=======================================================================================
-	//여기부터 구현 :  수정 / 탈퇴 , 아이디 중복체크 
+	//여기부터 구현 :  수정 / 탈퇴 ,  : 완료
+//	아이디 중복체크 
 	
 	@ApiOperation(value = "로그아웃. 세션을 만료해서 회원 정보 접근을 막음")
 	@GetMapping("/logout")
@@ -131,6 +126,15 @@ public class UserController {
 	public ResponseEntity<String> deleteUser(@PathVariable("userid") @ApiParam(value = "삭제할 회원의 아이디.", required = true) String userid) throws Exception {
 		userService.deleteUser(userid);		
 		return new ResponseEntity<String>(SUCCESS,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value ="아이디 중복검사", notes="String을 받아서 db에 일치하는 아이디가 있는지 확인")
+	@GetMapping("/idcheck/{chkid}")
+	public ResponseEntity<Integer> idcheck(@PathVariable("chkid") @ApiParam(value="검사할 아이디",required=true) String chkid) throws Exception{
+		
+		int isExist=userService.idcheck(chkid);
+		
+		return new ResponseEntity<Integer>(isExist,HttpStatus.OK);
 	}
 //	ajax로 로그인
 //	@PostMapping("/login")

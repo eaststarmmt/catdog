@@ -22,6 +22,16 @@ async function modifyUserById(user, success, fail) {
 async function deleteUserById(userid, success, fail) {
   await api.delete(`/user/delete/${userid}`).then(success).catch(fail);
 }
+async function checkRepeatIdById(userid, success, fail) {
+  await api.get(`/user/idcheck/${userid}`).then(success).catch(fail);
+}
 // function logout(success, fail)
 
-export { login, registerUser, findById, modifyUserById, deleteUserById };
+export {
+  login,
+  registerUser,
+  findById,
+  modifyUserById,
+  deleteUserById,
+  checkRepeatIdById,
+};
