@@ -43,4 +43,8 @@ public class UserServiceImpl implements UserService {
 		return sqlSession.getMapper(UserMapper.class).userInfo(userid);
 	}
 	
+	@Override
+	public int idcheck(String chkid) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).idcheck(chkid);
+	}
 }

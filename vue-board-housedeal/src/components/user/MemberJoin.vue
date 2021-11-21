@@ -19,9 +19,18 @@
                 v-model="user.userid"
                 ref="userid"
                 required
+                @keyup="checkIdRepeat"
                 placeholder="아이디 입력...."
               ></b-form-input>
             </b-form-group>
+            <div
+              class="mt-1"
+              :class="{
+                success: isSuccess,
+                fail: isFail,
+              }"
+              v-html="idresult"
+            ></div>
             <b-form-group label="이름:" label-for="username">
               <b-form-input
                 id="username"
@@ -69,7 +78,7 @@
 </template>
 
 <script>
-import { registerUser } from "../../api/member.js";
+import { registerUser, checkRepeatIdById } from "../../api/member.js";
 export default {
   name: "MemberJoin",
   data() {
@@ -80,6 +89,10 @@ export default {
         userpwd: null,
         email: null,
       },
+      idresult: "",
+      isSuccess: false,
+      isFail: false,
+      idLenValidate: false,
     };
   },
   methods: {
@@ -93,6 +106,17 @@ export default {
         ((msg = "아이디 입력해주세요"),
         (err = false),
         this.$refs.userid.focus());
+      err &&
+        this.isFail &&
+        ((msg = "중복된 아이디 입니다. 변경해주세요."),
+        (err = false),
+        this.$refs.userid.focus());
+      err &&
+        !this.idLenValidate &&
+        ((msg = "아이디 길이가 이상합니다. 변경해주세요"),
+        (err = false),
+        this.$refs.userid.focus());
+
       err &&
         !this.user.username &&
         ((msg = "이름 입력해주세요"),
@@ -122,8 +146,43 @@ export default {
       registerUser(this.user);
       this.$router.push({ name: "Home" });
     },
+
+    // 아이디 중복검사
+    checkIdRepeat() {
+      // 키가 눌릴 때마다 아이디 중복검사
+      var ckid = this.user.userid;
+      if (ckid.length < 4 || ckid.length > 16) {
+        this.idresult = "아이디는 6자이상 16자이하입니다.";
+        //console.log(ckid);
+        this.$refs.userid.focus();
+        this.isSuccess = false;
+        this.isFail = false;
+        this.idLenValidate = false;
+        return;
+      } else {
+        this.idLenValidate = true;
+        checkRepeatIdById(this.user.userid, (response) => {
+          if (response.data == 1) {
+            this.idresult = `<b>${ckid}</b>는 이미 사용중입니다. 사용할 수 없습니다.`;
+            this.isFail = true;
+            this.isSuccess = false;
+          } else {
+            this.idresult = `<b>${ckid}</b>는 사용할 수 있습니다.`;
+            this.isSuccess = true;
+            this.isFail = false;
+          }
+        });
+      }
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.success {
+  color: dodgerblue;
+}
+.fail {
+  color: darkred;
+}
+</style>
