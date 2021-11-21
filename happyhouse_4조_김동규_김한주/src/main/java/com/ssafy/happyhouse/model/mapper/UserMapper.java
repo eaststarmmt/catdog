@@ -11,5 +11,6 @@ public interface UserMapper {
 	void updateUser(UserDto userDto) throws Exception;
 	void deleteUser(String userid) throws Exception;
 	UserDto userInfo(String userid) throws Exception;
+	int idcheck(String chkid) throws Exception;
 
 }

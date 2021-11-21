@@ -6,7 +6,7 @@
 
 	<update id="updateUser" parameterType="userDto">
 		UPDATE ssafy_member
-		SET userpwd = #{userpwd}, name = #{name}, phone = #{phone}, address = #{address} 
+		SET username = #{username}, email = #{email} 
 		WHERE userid = #{userid}
 	</update>
 
@@ -31,4 +31,10 @@
 		DELETE FROM ssafy_member
 		WHERE userid = #{userid}
 	</delete>
+	
+	<select id="idcheck" parameterType="String" resultType="int">
+		select count(userid)
+		from ssafy_member
+		where userid=#{userid}
+	</select>
 </mapper>

@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
-import Instargram from "@/views/Instargram.vue";
+import NewsList from "@/components/news/NewsList.vue";
+import Catdog from "@/views/Catdog.vue";
 
 import Member from "@/views/Member.vue";
 import MemberLogin from "@/components/user/MemberLogin.vue";
@@ -44,11 +45,19 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    // redirect: "/",
+    children: [
+      {
+        path: "news",
+        name: "NewsList",
+        component: NewsList,
+      },
+    ],
   },
   {
-    path: "/instargram",
-    name: "Instargram",
-    component: Instargram,
+    path: "/catdoggram",
+    name: "Catdoggram",
+    component: Catdog,
   },
   {
     path: "/user",
