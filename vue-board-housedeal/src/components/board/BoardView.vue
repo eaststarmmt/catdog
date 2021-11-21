@@ -38,7 +38,7 @@
       </b-col>
     </b-row>
     <reply-list />
-    <reply-write />
+    <reply-write :articleno="article.articleno" />
   </b-container>
 </template>
 

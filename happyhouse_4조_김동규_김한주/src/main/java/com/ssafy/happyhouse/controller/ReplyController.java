@@ -31,6 +31,6 @@ public class ReplyController {
 		if(replyService.writeReply(replyDto)) {
 			new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 }
