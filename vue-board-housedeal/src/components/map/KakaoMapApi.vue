@@ -89,6 +89,7 @@ export default {
     // this.map = new kakao.maps.Map(container, options);
     var map = new kakao.maps.Map(mapContainer, mapOption);
     var ps = new kakao.maps.services.Places();
+    console.log("houses 데이터 확인: ", this.houses);
     var add1 = this.houses[0].법정동;
     var add2 = this.houses[0].지번;
     console.log("가져온 주소: ", add1, add2);
@@ -112,9 +113,7 @@ export default {
         console.log("검색전 keyword: ", key2);
         // 키워드로 장소를 검색합니다
         ps.keywordSearch(key2, placesSearchCB, {
-          x: lat,
-          y: lng,
-          radius: 10,
+          location: new kakao.maps.LatLng(lat, lng),
           // page: 45,
         });
         // map.setLevel(5, { anchor: new kakao.maps.LatLng(lat, lng) });
@@ -189,15 +188,13 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 #map {
   width: 70%;
   height: 300px;
   margin: auto;
 }
-
-/* .button-group {
+.button-group {
   margin: 10px 0px;
 }
 
@@ -284,8 +281,8 @@ button {
   bottom: 28px;
   left: -150px;
   width: 300px;
-} */
-/* #placeinfo {
+}
+#placeinfo {
   position: relative;
   width: 100%;
   border-radius: 6px;
@@ -293,8 +290,8 @@ button {
   border-bottom: 2px solid #ddd;
   padding-bottom: 10px;
   background: #fff;
-} */
-/* #placeinfo:nth-of-type(n) {
+}
+#placeinfo:nth-of-type(n) {
   border: 0;
   box-shadow: 0px 1px 2px #888;
 }
@@ -344,5 +341,5 @@ button {
   color: #999;
   font-size: 11px;
   margin-top: 0;
-} */
+}
 </style>
