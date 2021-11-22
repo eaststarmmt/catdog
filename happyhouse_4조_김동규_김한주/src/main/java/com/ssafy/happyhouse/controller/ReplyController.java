@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +51,15 @@ public class ReplyController {
 	@DeleteMapping("/{replyno}")
 	public ResponseEntity<String> deleteReply(@PathVariable("replyno") @ApiParam(value = "삭제할 댓글의 댓글번호.", required = true) int replyno) throws Exception {
 		if(replyService.deleteReply(replyno)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "댓글 수정", notes = "수정할 댓글 정보를 입력한다. DB 수정 성공 여부에 따라 'success' 또는 'fail'을 반환한다.", response = String.class)
+	@PutMapping
+	public ResponseEntity<String> modifyReply(@RequestBody @ApiParam(value = "수정할 댓글 정보", required = true) ReplyDto replyDto) throws Exception {
+		if(replyService.modifyReply(replyDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.OK);

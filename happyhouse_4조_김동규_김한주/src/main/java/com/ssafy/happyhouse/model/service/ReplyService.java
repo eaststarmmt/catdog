@@ -9,5 +9,6 @@ public interface ReplyService {
 	boolean writeReply(ReplyDto replyDto) throws Exception;
 	List<ReplyDto> listReply(int boardid) throws Exception;
 	boolean deleteReply(int replyno) throws Exception;
+	boolean modifyReply(ReplyDto replyDto) throws Exception;
 
 }

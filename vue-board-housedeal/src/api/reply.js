@@ -13,5 +13,8 @@ function listReply(boardid, success, fail) {
 function deleteReply(replyid, success, fail) {
   api.delete(`/reply/${replyid}`).then(success).catch(fail);
 }
+function updateReply(reply, success, fail) {
+  api.put(`/reply/`, JSON.stringify(reply)).then(success).catch(fail);
+}
 
-export { writeReply, listReply, deleteReply };
+export { writeReply, listReply, deleteReply, updateReply };

@@ -1,7 +1,12 @@
 <template>
   <b-table-simple>
     <tbody>
-      <b-tr v-for="(reply, index) in replies" :key="index">
+      <reply-list-row
+        v-for="(reply, index) in replies"
+        :key="index"
+        v-bind="reply"
+      />
+      <!-- <b-tr v-for="(reply, index) in replies" :key="index">
         <b-td>{{ reply.username }}</b-td>
         <b-td>{{ reply.content }}</b-td>
         <b-td
@@ -18,16 +23,19 @@
             >삭제</b-button
           ></b-td
         >
-      </b-tr>
+      </b-tr> -->
     </tbody>
   </b-table-simple>
 </template>
 
 <script>
 import { listReply, deleteReply } from "@/api/reply.js";
-
+import ReplyListRow from "@/components/reply/child/ReplyListRow";
 export default {
   name: "ReplyList",
+  components: {
+    ReplyListRow,
+  },
   data() {
     return {
       replies: [],

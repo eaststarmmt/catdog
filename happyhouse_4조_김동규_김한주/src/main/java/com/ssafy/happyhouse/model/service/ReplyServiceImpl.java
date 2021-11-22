@@ -33,4 +33,9 @@ public class ReplyServiceImpl implements ReplyService {
 		return sqlSession.getMapper(ReplyMapper.class).deleteReply(replyno) == 1;
 	}
 
+	@Override
+	public boolean modifyReply(ReplyDto replyDto) throws Exception {
+		return sqlSession.getMapper(ReplyMapper.class).modifyReply(replyDto) == 1;
+	}
+
 }
