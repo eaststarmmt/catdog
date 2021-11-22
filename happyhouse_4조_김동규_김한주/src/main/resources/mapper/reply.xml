@@ -19,4 +19,10 @@
 		delete from reply
 		where replyno = #{replyno}
 	</delete>
+	
+	<update id="modifyReply" parameterType="replyDto">
+		update reply
+		set content = #{content}
+		where replyno = #{replyno}
+	</update>
 </mapper>	
