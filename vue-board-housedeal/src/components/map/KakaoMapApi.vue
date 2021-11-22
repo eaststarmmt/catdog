@@ -163,9 +163,23 @@ export default {
       kakao.maps.event.addListener(marker, "click", function () {
         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
         infowindow.setContent(
-          '<div style="padding:5px;font-size:12px;">' +
+          '<div id="placeinfo">' +
+            '   <a class="title" href="' +
+            place.place_url +
+            '" target="_blank" title="' +
+            '">' +
             place.place_name +
-            "</div>"
+            "</a>" +
+            '    <span title="' +
+            place.road_address_name +
+            '">' +
+            place.road_address_name +
+            "</span>" +
+            '  <span class="jibun" title="' +
+            place.address_name +
+            '">(지번 : ' +
+            place.address_name +
+            ")</span>"
         );
         infowindow.open(map, marker);
       });
@@ -280,7 +294,7 @@ button {
   position: absolute;
   bottom: 28px;
   left: -150px;
-  width: 300px;
+  width: 500px;
 }
 #placeinfo {
   position: relative;
