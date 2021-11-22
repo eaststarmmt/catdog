@@ -5,7 +5,9 @@
     </h3>
     <b-row>
       <b-col></b-col>
-      <b-col cols="10"> 가운대 카카오 맵 공공데이터 api </b-col>
+      <b-col cols="10">
+        <kakao-map-api></kakao-map-api>
+      </b-col>
       <b-col></b-col>
     </b-row>
     <b-row>
@@ -21,11 +23,13 @@
 
 <script>
 import NewsList from "../components/news/NewsList.vue";
+import KakaoMapApi from "@/components/map/KakaoMapApi.vue";
 
 export default {
   name: "Home",
   components: {
     NewsList,
+    KakaoMapApi,
   },
   props: {
     msg: String,
