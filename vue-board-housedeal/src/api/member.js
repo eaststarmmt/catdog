@@ -25,6 +25,18 @@ async function deleteUserById(userid, success, fail) {
 async function checkRepeatIdById(userid, success, fail) {
   await api.get(`/user/idcheck/${userid}`).then(success).catch(fail);
 }
+async function updateInterestArea(param, success, fail) {
+  await api
+    .put(`/user/updateArea`, null, { params: param })
+    .then(success)
+    .catch(fail);
+}
+async function convertCodeToString(code, success, fail) {
+  await api
+    .get(`/user/convert`, { params: { code: code } })
+    .then(success)
+    .catch(fail);
+}
 // function logout(success, fail)
 
 export {
@@ -34,4 +46,6 @@ export {
   modifyUserById,
   deleteUserById,
   checkRepeatIdById,
+  updateInterestArea,
+  convertCodeToString,
 };

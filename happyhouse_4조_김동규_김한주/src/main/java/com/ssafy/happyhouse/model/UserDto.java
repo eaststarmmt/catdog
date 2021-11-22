@@ -15,6 +15,8 @@ public class UserDto {
 	private String email;
 	@ApiModelProperty(value = "회원 가입일")
 	private String joindate;
+	@ApiModelProperty(value = "회원 관심지역")
+	private String interestarea;
 	
 	public UserDto() {}
 
@@ -57,6 +59,15 @@ public class UserDto {
 	public void setJoindate(String joindate) {
 		this.joindate = joindate;
 	}
+
+	public String getInterestarea() {
+		return interestarea;
+	}
+
+	public void setInterestarea(String interestarea) {
+		this.interestarea = interestarea;
+	}
+	
 	
 	
 }

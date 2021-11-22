@@ -27,17 +27,17 @@ public class HappyHouseMapController {
 	@Autowired
 	private HappyHouseMapService happyHouseMapService;
 	
-	@ApiOperation(value = "시도 코드를 입력받아서 구군 리스트를 받아온다.", response = List.class)
+	@ApiOperation(value = "시도 리스트를 받아온다.", response = List.class)
 	@GetMapping("/sido")
 	public ResponseEntity<List<SidoGugunCodeDto>> sido() throws Exception {
 		return new ResponseEntity<List<SidoGugunCodeDto>> (happyHouseMapService.getSido(), HttpStatus.OK);
 	}
-	@ApiOperation(value = "구군 코드를 입력받아서 동 리스트를 받아온다.", response = List.class)
+	@ApiOperation(value = "시도 코드를 입력받아서 구군 리스트를 받아온다.", response = List.class)
 	@GetMapping("/gugun")
 	public ResponseEntity<List<SidoGugunCodeDto>> gugun(@RequestParam("sido") String sido) throws Exception {
 		return new ResponseEntity<List<SidoGugunCodeDto>> (happyHouseMapService.getGugunInSido(sido), HttpStatus.OK);
 	}
-	@ApiOperation(value = "동 코드를 입력받아서 아파트 리스트를 받아온다.", response = List.class)
+	@ApiOperation(value = "구군 코드를 입력받아서 동 리스트를 받아온다.", response = List.class)
 	@GetMapping("/dong")
 	public ResponseEntity<List<HouseInfoDto>> dong(@RequestParam("gugun") String gugun) throws Exception {
 		return new ResponseEntity<List<HouseInfoDto>> (happyHouseMapService.getDongInGugun(gugun), HttpStatus.OK);

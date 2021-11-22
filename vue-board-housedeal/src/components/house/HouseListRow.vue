@@ -2,7 +2,6 @@
   <b-container>
     <b-row
       class="m-2"
-      v-if="!display"
       @click="selectHouse"
       @mouseover="colorChange(true)"
       @mouseout="colorChange(false)"
@@ -19,8 +18,6 @@
         [{{ house.dongCode }}] {{ house.aptName }}
       </b-col>
     </b-row>
-    <b-row v-if="display"> 메렁 </b-row>
-    <b-button @click="displayy">임시</b-button>
   </b-container>
 </template>
 
@@ -34,7 +31,6 @@ export default {
   data() {
     return {
       isColor: false,
-      display: false,
     };
   },
   props: {
@@ -50,9 +46,6 @@ export default {
     },
     colorChange(flag) {
       this.isColor = flag;
-    },
-    displayy() {
-      this.display = !this.display;
     },
   },
 };

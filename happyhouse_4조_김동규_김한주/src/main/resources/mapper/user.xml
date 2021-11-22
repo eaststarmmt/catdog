@@ -6,13 +6,19 @@
 
 	<update id="updateUser" parameterType="userDto">
 		UPDATE ssafy_member
-		SET username = #{username}, email = #{email} 
+		SET username = #{username}, email = #{email} , interestarea=#{interestarea}
 		WHERE userid = #{userid}
 	</update>
+	<update id="updateInterestArea" parameterType="map">
+		UPDATE ssafy_member
+		SET interestarea=#{dongcode}
+		WHERE userid = #{userid}
+	</update>
+	
 
 	<insert id="registerMember" parameterType="UserDto">
 		insert into ssafy_member
-		values (#{userid},#{username},#{userpwd},#{email} ,now())
+		values (#{userid},#{username},#{userpwd},#{email} ,now(),#{interestarea})
 	</insert>
 	
 	<select id="login" parameterType="userDto" resultType="userDto">
@@ -22,7 +28,7 @@
 	</select>
 	
 	<select id="userInfo" parameterType="String" resultType="userDto">
-		select username, userid, email, joindate
+		select username, userid, email, joindate, interestarea
 		from ssafy_member
 		where userid = #{userid}
 	</select>
@@ -36,5 +42,10 @@
 		select count(userid)
 		from ssafy_member
 		where userid=#{userid}
+	</select>
+	<select id ="convertCodeToString" parameterType="String" resultType="String">
+		select concat(sidoName," ", gugunName," ", dongName) 
+		from dongcode 
+		where dongcode = #{code} 
 	</select>
 </mapper>

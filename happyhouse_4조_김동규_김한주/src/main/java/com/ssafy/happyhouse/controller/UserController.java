@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.happyhouse.model.UserDto;
@@ -37,6 +40,7 @@ public class UserController {
 	@Autowired
 	private JwtServiceImpl jwtService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	
@@ -104,7 +108,8 @@ public class UserController {
 	
 	//=======================================================================================
 	//여기부터 구현 :  수정 / 탈퇴 ,  : 완료
-//	아이디 중복체크 
+//	아이디 중복체크  : 완료
+//	관심지역 등록 : 완료
 	
 	@ApiOperation(value = "로그아웃. 세션을 만료해서 회원 정보 접근을 막음")
 	@GetMapping("/logout")
@@ -135,6 +140,24 @@ public class UserController {
 		int isExist=userService.idcheck(chkid);
 		
 		return new ResponseEntity<Integer>(isExist,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "관심지역 등록",notes="원하는 1개의 지역을 관심지역으로 등록")
+	@PutMapping("/updateArea")
+	public ResponseEntity<String> updateInterestArea(@RequestParam @ApiParam(value = "유저아이디 , 변경할 관심지역정보", required = true) Map<String,String> params) throws Exception {
+//		System.out.println(userDto.toString());
+		logger.info("map: " + params.get("userid") + " " +params.get("dongcode"));
+		userService.updateInterestArea(params);
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value ="dongcode를 주소로", notes="code를 주소로변환")
+	@GetMapping("/convert")
+	public ResponseEntity<String> convertCodeToString(@RequestParam("code") @ApiParam(value="바꿀 코드",required=true) String code) throws Exception{
+		logger.info("code: "+code);
+		String addr =userService.convertCodeToString(code);
+		
+		return new ResponseEntity<String>(addr,HttpStatus.OK);
 	}
 //	ajax로 로그인
 //	@PostMapping("/login")

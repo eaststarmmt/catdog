@@ -1,6 +1,7 @@
 <template>
-  <b-row class="mt-4 mb-4 text-center">
-    <!-- <b-col class="sm-3">
+  <div>
+    <b-row class="mt-4 mb-4 text-center">
+      <!-- <b-col class="sm-3">
       <b-form-input
         v-model.trim="dongCode"
         placeholder="동코드 입력...(예 : 11110)"
@@ -10,32 +11,42 @@
     <b-col class="sm-3" align="left">
       <b-button variant="outline-primary" @click="sendKeyword">검색</b-button>
     </b-col> -->
-    <b-col class="sm-3">
-      <b-form-select
-        v-model="sidoCode"
-        :options="sidos"
-        @change="gugunList"
-      ></b-form-select>
-    </b-col>
-    <b-col class="sm-3">
-      <b-form-select
-        v-model="gugunCode"
-        :options="guguns"
-        @change="dongList"
-      ></b-form-select>
-    </b-col>
-    <b-col class="sm-3">
-      <b-form-select
-        v-model="dongCode"
-        :options="dongs"
-        @change="searchApt2"
-      ></b-form-select>
-    </b-col>
-  </b-row>
+      <b-col class="sm-3">
+        <b-form-select
+          v-model="sidoCode"
+          :options="sidos"
+          @change="gugunList"
+        ></b-form-select>
+      </b-col>
+      <b-col class="sm-3">
+        <b-form-select
+          v-model="gugunCode"
+          :options="guguns"
+          @change="dongList"
+        ></b-form-select>
+      </b-col>
+      <b-col class="sm-3">
+        <b-form-select
+          v-model="dongCode"
+          :options="dongs"
+          @change="searchApt2"
+        ></b-form-select>
+      </b-col>
+      <b-col class="sm-3">
+        <b-button @click="registInterest">관심지역 등록</b-button>
+      </b-col>
+    </b-row>
+    <b-row class="mt-4 mb-4">
+      <b-col class="sm-3">
+        <b-button @click="showInterest">관심지역 보기</b-button>
+      </b-col>
+    </b-row>
+  </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+import { updateInterestArea } from "../../api/member.js";
 
 /*
   namespaced: true를 사용했기 때문에 선언해줍니다.
@@ -43,11 +54,11 @@ import { mapState, mapActions, mapMutations } from "vuex";
 
   modules: {
     키: 값
-    memberStore: memberStore,
     houseStore: houseStore
-  }  
+  }
 */
 const houseStore = "houseStore";
+const memberStore = "memberStore";
 
 export default {
   name: "HouseSearchBar",
@@ -60,6 +71,8 @@ export default {
   },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+    ...mapState(memberStore, ["userInfo"]),
+
     // sidos() {
     //   return this.$store.state.sidos;
     // },
@@ -71,6 +84,7 @@ export default {
     this.getSido();
   },
   methods: {
+    ...mapActions(memberStore, ["getUserInfo"]),
     ...mapActions(houseStore, [
       "getSido",
       "getGugun",
@@ -94,7 +108,7 @@ export default {
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      console.log("동코드", this.dongCode);
+      console.log("구군코드", this.gugunCode);
       // this.$store.commi("CLEAR_GUGUN_LIST");
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
@@ -107,6 +121,49 @@ export default {
     searchApt2() {
       console.log("동코드", this.dongCode);
       if (this.dongCode) this.getDBHouseList(this.dongCode);
+    },
+    //관심지역 등록 or 업데이트
+    async registInterest() {
+      console.log("등록전 : " + this.userInfo.interestarea);
+      if (this.userInfo == null) {
+        alert("로그인이 필요합니다.");
+        this.$router.push({ name: "SignIn" });
+      } else {
+        let param = {
+          userid: this.userInfo.userid,
+          dongcode: this.dongCode,
+        };
+        if (this.dongCode) {
+          console.log(param);
+          await updateInterestArea(param);
+          //등록된 관심지역정보를 다시 vuex에 업데이트
+          let token = sessionStorage.getItem("access-token");
+          await this.getUserInfo(token);
+          console.log("등록gn : " + this.userInfo.interestarea);
+        } else {
+          alert("동까지 선택하세요");
+        }
+      }
+    },
+
+    showInterest() {
+      //dongcode를 userinfo에서 등록하고
+      if (this.userInfo == null) {
+        alert("로그인이 필요합니다.");
+        this.$router.push({ name: "SignIn" });
+      } else {
+        const interCode = this.userInfo.interestarea;
+        this.sidoCode = interCode.substring(0, 2);
+        this.gugunCode = interCode.substring(0, 5);
+        this.dongCode = interCode;
+        this.getGugun(this.sidoCode);
+        this.getDong(this.gugunCode);
+        console.log("시코 : " + this.sidoCode);
+        console.log("군코 : " + this.gugunCode);
+        console.log("동코 : " + this.dongCode);
+        console.log("관코 : " + interCode);
+        this.getDBHouseList(this.userInfo.interestarea);
+      }
     },
   },
 };

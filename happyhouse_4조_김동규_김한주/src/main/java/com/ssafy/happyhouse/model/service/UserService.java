@@ -17,4 +17,8 @@ public interface UserService {
 	UserDto userInfo(String userid) throws Exception;
 	
 	int idcheck(String chkid) throws Exception;
+	
+	void updateInterestArea(Map<String,String> params) throws Exception;
+	
+	String convertCodeToString(String code) throws Exception;
 }

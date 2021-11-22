@@ -59,6 +59,31 @@
                 placeholder="이메일 입력...."
               ></b-form-input>
             </b-form-group>
+            <b-form-group label="관심지역코드:" label-for="interestarea">
+              <b-row>
+                <b-col class="sm-3">
+                  <b-form-select
+                    v-model="sidoCode"
+                    :options="sidos"
+                    @change="gugunList"
+                  ></b-form-select>
+                </b-col>
+                <b-col class="sm-3">
+                  <b-form-select
+                    v-model="gugunCode"
+                    :options="guguns"
+                    @change="dongList"
+                  ></b-form-select>
+                </b-col>
+                <b-col class="sm-3">
+                  <b-form-select
+                    v-model="dongCode"
+                    :options="dongs"
+                    @change="registInterestArea"
+                  ></b-form-select>
+                </b-col>
+              </b-row>
+            </b-form-group>
             <b-button
               type="button"
               variant="primary"
@@ -78,7 +103,11 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapMutations } from "vuex";
 import { registerUser, checkRepeatIdById } from "../../api/member.js";
+
+const houseStore = "houseStore";
+
 export default {
   name: "MemberJoin",
   data() {
@@ -88,14 +117,34 @@ export default {
         username: null,
         userpwd: null,
         email: null,
+        interestarea: null,
       },
       idresult: "",
       isSuccess: false,
       isFail: false,
       idLenValidate: false,
+      sidoCode: null,
+      gugunCode: null,
+      dongCode: null,
     };
   },
+  computed: {
+    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+  },
+
   methods: {
+    ...mapActions(houseStore, [
+      "getSido",
+      "getGugun",
+      "getDong",
+      "getHouseList",
+      "getDBHouseList",
+    ]),
+    ...mapMutations(houseStore, [
+      "CLEAR_SIDO_LIST",
+      "CLEAR_GUGUN_LIST",
+      "CLEAR_DONG_LIST",
+    ]),
     checkValue() {
       console.log(this.user);
       // 사용자 입력값 체크하기
@@ -173,6 +222,24 @@ export default {
           }
         });
       }
+    },
+    gugunList() {
+      // console.log(this.sidoCode);
+      console.log("시도코드", this.sidoCode);
+      this.CLEAR_GUGUN_LIST();
+      this.gugunCode = null;
+      if (this.sidoCode) this.getGugun(this.sidoCode);
+    },
+    dongList() {
+      console.log("구군코드", this.gugunCode);
+      // this.$store.commi("CLEAR_GUGUN_LIST");
+      this.CLEAR_DONG_LIST();
+      this.dongCode = null;
+      if (this.gugunCode) this.getDong(this.gugunCode);
+    },
+    registInterestArea() {
+      this.user.interestarea = this.dongCode;
+      console.log(this.dongCode);
     },
   },
 };

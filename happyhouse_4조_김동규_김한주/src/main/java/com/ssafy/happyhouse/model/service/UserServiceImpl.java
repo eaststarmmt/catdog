@@ -47,4 +47,14 @@ public class UserServiceImpl implements UserService {
 	public int idcheck(String chkid) throws Exception {
 		return sqlSession.getMapper(UserMapper.class).idcheck(chkid);
 	}
+	@Override
+	public void updateInterestArea(Map<String,String> params) throws Exception {
+		sqlSession.getMapper(UserMapper.class).updateInterestArea(params);
+		
+	}
+	@Override
+	public String convertCodeToString(String code) throws Exception {
+		
+		return sqlSession.getMapper(UserMapper.class).convertCodeToString(code);
+	}
 }
