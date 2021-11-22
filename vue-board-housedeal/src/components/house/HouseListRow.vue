@@ -1,22 +1,27 @@
 <template>
-  <b-row
-    class="m-2"
-    @click="selectHouse"
-    @mouseover="colorChange(true)"
-    @mouseout="colorChange(false)"
-    :class="{ 'mouse-over-bgcolor': isColor }"
-  >
-    <b-col cols="2" class="text-center align-self-center">
-      <b-img
-        thumbnail
-        src="https://picsum.photos/250/250/?image=58"
-        alt="Image 1"
-      ></b-img>
-    </b-col>
-    <b-col cols="10" class="align-self-center">
-      [{{ house.dongCode }}] {{ house.aptName }}
-    </b-col>
-  </b-row>
+  <b-container>
+    <b-row
+      class="m-2"
+      v-if="!display"
+      @click="selectHouse"
+      @mouseover="colorChange(true)"
+      @mouseout="colorChange(false)"
+      :class="{ 'mouse-over-bgcolor': isColor }"
+    >
+      <b-col cols="2" class="text-center align-self-center">
+        <b-img
+          thumbnail
+          src="https://picsum.photos/250/250/?image=58"
+          alt="Image 1"
+        ></b-img>
+      </b-col>
+      <b-col cols="10" class="align-self-center">
+        [{{ house.dongCode }}] {{ house.aptName }}
+      </b-col>
+    </b-row>
+    <b-row v-if="display"> 메렁 </b-row>
+    <b-button @click="displayy">임시</b-button>
+  </b-container>
 </template>
 
 <script>
@@ -29,6 +34,7 @@ export default {
   data() {
     return {
       isColor: false,
+      display: false,
     };
   },
   props: {
@@ -44,6 +50,9 @@ export default {
     },
     colorChange(flag) {
       this.isColor = flag;
+    },
+    displayy() {
+      this.display = !this.display;
     },
   },
 };
