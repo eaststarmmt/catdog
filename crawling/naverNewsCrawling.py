@@ -5,6 +5,29 @@ import pymysql
 from apscheduler.schedulers.blocking import BlockingScheduler  # 스케줄러
 
 
+# 네이버 뉴스기사 100개 이외의 기사 삭제
+def naver_news_remove(conn):
+    cursor = conn.cursor()
+
+    # sql = """select min(upload_date) from (
+    #             select upload_date
+    #             from NaverNews
+    #             order by upload_date desc limit 9) a"""
+
+    # cursor.execute(sql)
+    # results = cursor.fetchall()
+
+    sql = f"""delete from NaverNews
+                where upload_date < (select min(upload_date) from (
+                select upload_date
+                from NaverNews
+                order by upload_date desc limit 7) a)"""
+
+    cursor.execute(sql)
+    conn.commit()
+    print('기사삭제완료')
+
+
 def newsCrawl(conn):
     # 에이전트 요청 헤더로 네트워크에게 크롤링하려는 크롤러라는 정보를 알려줌
     headers = {
@@ -115,6 +138,9 @@ def db_connect():
 
 conn = db_connect()
 newsCrawl(conn)
+
+naver_news_remove(conn)
+
 conn.close()
 
 # sched = BlockingScheduler()

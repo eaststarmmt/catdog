@@ -2,7 +2,17 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show><h4>뉴스목록</h4></b-alert>
+        <b-alert show
+          ><h4>
+            뉴스목록<b-button variant="outline-info" class="btn float-right"
+              ><a
+                href="https://search.naver.com/search.naver?where=news&sm=tab_jum&query=%EB%B6%80%EB%8F%99%EC%82%B0"
+                target="_blank"
+                >더보기</a
+              ></b-button
+            >
+          </h4>
+        </b-alert>
       </b-col>
     </b-row>
     <b-row class="mb-1">

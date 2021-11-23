@@ -55,7 +55,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(homemapStore, ["sidos", "guguns"]),
+    ...mapState(homemapStore, ["sidos", "guguns", "keyword"]),
     // sidos() {
     //   return this.$store.state.sidos;
     // },
@@ -64,6 +64,8 @@ export default {
     // this.$store.dispatch("getSido");
     // this.sidoList();
     this.CLEAR_SIDO_LIST();
+    this.CLEAR_KEYWORD();
+
     // this.CLEAR_KEYWORD();
     this.getSido();
   },
@@ -78,6 +80,7 @@ export default {
       "SUBMIT_KEYWORD",
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
+      "CLEAR_KEYWORD",
     ]),
     // sidoList() {
     //   this.getSido();
@@ -85,6 +88,7 @@ export default {
     gugunList() {
       // console.log(this.sidoCode);
       this.CLEAR_GUGUN_LIST();
+      this.CLEAR_KEYWORD();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },

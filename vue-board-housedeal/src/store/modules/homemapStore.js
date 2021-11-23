@@ -7,14 +7,14 @@ const homemapStore = {
     guguns: [{ value: null, text: "선택하세요" }],
     houses: [],
     house: null,
-    keyword: null,
+    keyword: { value: null, text: "엔터키를 눌러 검색하세요" },
   },
 
   getters: {},
 
   mutations: {
     SUBMIT_KEYWORD: (state, keyword) => {
-      console.log("homemapstore 안 keyword", keyword);
+      // console.log("homemapstore 안 keyword", keyword);
       state.keyword = keyword;
     },
     SET_SIDO_LIST: (state, sidos) => {
@@ -34,7 +34,7 @@ const homemapStore = {
     CLEAR_GUGUN_LIST: (state) => {
       state.guguns = [{ value: null, text: "선택하세요" }];
     },
-    CLEAR_KEYWORD_LIST: (state) => {
+    CLEAR_KEYWORD: (state) => {
       state.keyword = { value: null, text: "엔터키를 눌러 검색하세요" };
     },
     SET_HOUSE_LIST: (state, houses) => {
