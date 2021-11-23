@@ -15,6 +15,7 @@
             type="text"
             required
             placeholder="작성자 입력..."
+            readonly
           ></b-form-input>
         </b-form-group>
 
@@ -61,7 +62,9 @@
 
 <script>
 import { writeArticle, getArticle, modifyArticle } from "@/api/board";
+import { mapState } from "vuex";
 
+const memberStore = "memberStore";
 export default {
   name: "BoardWriteForm",
   data() {
@@ -78,7 +81,11 @@ export default {
   props: {
     type: { type: String },
   },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   created() {
+    this.article.userid = this.userInfo.userid;
     if (this.type === "modify") {
       getArticle(
         this.$route.params.articleno,
