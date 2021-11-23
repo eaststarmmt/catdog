@@ -44,10 +44,13 @@
 
 <script>
 // import moment from "moment";
+import { mapActions } from "vuex";
 import ReplyList from "@/components/reply/ReplyList";
 import ReplyWrite from "@/components/reply/ReplyWrite";
 import { getArticle, deleteArticle } from "@/api/board";
 // import ReplyList from "../reply/ReplyList.vue";
+
+const boardStore = "boardStore";
 
 export default {
   components: {
@@ -83,10 +86,16 @@ export default {
     );
   },
   methods: {
+    ...mapActions(boardStore, ["setUserid"]),
+    // async saveUserid() {
+    //   console("1111111111111111");
+    //   await this.getUserid(this.article.userid);
+    // },
     listArticle() {
       this.$router.push({ name: "BoardList" });
     },
-    moveModifyArticle() {
+    async moveModifyArticle() {
+      this.setUserid(this.article.userid);
       this.$router.replace({
         name: "BoardUpdate",
         params: { articleno: this.article.articleno },
