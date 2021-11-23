@@ -1,5 +1,5 @@
 import { sidoList, gugunList, houseList } from "@/api/house.js";
-
+const { VUE_APP_APT_DEAL_API_KEY } = require("@/config/index.js");
 const homemapStore = {
   namespaced: true,
   state: {
@@ -15,7 +15,7 @@ const homemapStore = {
   mutations: {
     SUBMIT_KEYWORD: (state, keyword) => {
       // console.log("homemapstore 안 keyword", keyword);
-      state.keyword = keyword;
+      state.keyword.value = keyword;
     },
     SET_SIDO_LIST: (state, sidos) => {
       sidos.forEach((sido) => {
@@ -77,9 +77,7 @@ const homemapStore = {
       // vue cli enviroment variables 검색
       //.env.local file 생성.
       // 반드시 VUE_APP으로 시작해야 한다.
-      // const SERVICE_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
-      const SERVICE_KEY =
-        "Ur7nNqGxvuGAogyV9044US98LEK%2By6SLSJIdS%2Bia1GFHAAMIY6uv%2BLBh39CKeFfhj5sjjlgVfUGJ%2BODgfMYjtA%3D%3D";
+      const SERVICE_KEY = VUE_APP_APT_DEAL_API_KEY;
       const params = {
         LAWD_CD: gugunCode,
         DEAL_YMD: "202110",
@@ -88,7 +86,7 @@ const homemapStore = {
       houseList(
         params,
         (response) => {
-          //   console.log(response.data.response.body.items.item);
+          console.log(response.data.response.body.items.item);
           commit("SET_HOUSE_LIST", response.data.response.body.items.item);
         },
         (error) => {

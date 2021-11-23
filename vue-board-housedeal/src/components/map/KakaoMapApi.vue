@@ -10,7 +10,7 @@
     <div class="map_wrap">
       <div
         id="map"
-        v-if="houses && houses.length != 0"
+        v-if="houses || houses.length == 0"
         style="width: 100%; height: 100%; position: relative; overflow: hidden"
       ></div>
     </div>
@@ -22,6 +22,7 @@
 // 데이터 가지고 검색하기 + 맵 위치 이동
 import { mapState } from "vuex";
 import HomeSearchBar from "@/components/map/HomeSearchBar.vue";
+import { VUE_APP_KAKAO_KEY } from "@/config/index.js";
 
 const homemapStore = "homemapStore";
 
@@ -59,8 +60,7 @@ export default {
 
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0&libraries=services";
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${VUE_APP_KAKAO_KEY}&libraries=services`;
       document.head.appendChild(script);
     }
   },
@@ -68,9 +68,9 @@ export default {
     console.log("updated에서 호출!");
     console.log("updated에서 호출하는 구군", this.guguns);
     console.log("updated에서 호출하는 구군안 집들", this.houses);
-    console.log("homemap 안 키워드", this.keyword);
+    console.log("homemap 안 키워드", this.keyword.value);
 
-    var key2 = this.keyword;
+    var key2 = this.keyword.value;
 
     var geocoder = new kakao.maps.services.Geocoder();
     var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
