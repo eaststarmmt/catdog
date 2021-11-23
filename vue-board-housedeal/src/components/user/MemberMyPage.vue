@@ -180,11 +180,16 @@ export default {
     this.user.username = this.userInfo.username;
     this.user.email = this.userInfo.email;
     this.convertInterCodeToString();
+    this.CLEAR_SIDO_LIST();
+    this.getSido();
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
 
     ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+  },
+  updated() {
+    this.convertInterCodeToString();
   },
   methods: {
     ...mapActions(memberStore, ["getUserInfo"]),
@@ -217,17 +222,13 @@ export default {
     async confirmModify() {
       //수정한 내용대로 db수정하고
       await modifyUserById(this.user);
-      this.getModifiedInfo();
-      this.convertInterCodeToString();
-    },
-    async getModifiedInfo() {
-      // getuserinfo로 불러와서 userinfo update함
       let token = sessionStorage.getItem("access-token");
       await this.getUserInfo(token);
       //그리고 다시 mypage로감
       alert("수정완료!");
       this.modifying = false;
     },
+
     removeInfo() {
       if (confirm("정말 탈퇴하시겠습니까?")) {
         //삭제하고 로그아웃한 후 홈으로
