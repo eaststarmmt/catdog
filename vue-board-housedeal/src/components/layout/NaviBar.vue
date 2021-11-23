@@ -1,10 +1,15 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar
+      toggleable="lg"
+      type="dark"
+      variant=""
+      style="background-color: BurlyWood"
+    >
       <b-navbar-brand href="#">
         <router-link to="/">
           <img
-            src="@/assets/ssafy_logo.png"
+            src="@/assets/navibrand-removebg-preview.png"
             class="d-inline-block align-middle"
             width="90px"
             alt="Kitten"

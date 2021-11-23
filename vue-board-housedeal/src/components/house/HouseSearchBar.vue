@@ -124,7 +124,6 @@ export default {
     },
     //관심지역 등록 or 업데이트
     async registInterest() {
-      console.log("등록전 : " + this.userInfo.interestarea);
       if (this.userInfo == null) {
         alert("로그인이 필요합니다.");
         this.$router.push({ name: "SignIn" });
