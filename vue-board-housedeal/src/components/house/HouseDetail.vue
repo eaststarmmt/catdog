@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 const houseStore = "houseStore";
 
@@ -59,6 +59,12 @@ export default {
     // house() {
     //   return this.$store.state.house;
     // },
+  },
+  created() {
+    this.SET_DETAIL_HOUSE(null);
+  },
+  methods: {
+    ...mapMutations(houseStore, ["SET_DETAIL_HOUSE"]),
   },
   filters: {
     price(value) {

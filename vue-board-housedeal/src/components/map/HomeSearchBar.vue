@@ -55,7 +55,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(homemapStore, ["sidos", "guguns", "keyword"]),
+    ...mapState(homemapStore, ["sidos", "guguns"]),
     // sidos() {
     //   return this.$store.state.sidos;
     // },
@@ -70,12 +70,7 @@ export default {
     this.getSido();
   },
   methods: {
-    ...mapActions(homemapStore, [
-      "getSido",
-      "getGugun",
-      "getHouseList",
-      "getKeyword",
-    ]),
+    ...mapActions(homemapStore, ["getSido", "getGugun", "getHouseList"]),
     ...mapMutations(homemapStore, [
       "SUBMIT_KEYWORD",
       "CLEAR_SIDO_LIST",

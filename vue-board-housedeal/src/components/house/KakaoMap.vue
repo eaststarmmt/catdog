@@ -3,7 +3,7 @@
     <div class="map_wrap">
       <div
         id="map"
-        v-if="house"
+        v-if="house || house == null"
         style="width: 100%; height: 100%; position: relative; overflow: hidden"
       >
         <ul id="category">
@@ -40,6 +40,7 @@
 <script>
 // 카카오 맵에서 vuex에 있는 데이터를 가지고 와야함
 import { mapState } from "vuex";
+import { VUE_APP_KAKAO_KEY } from "@/config/index.js";
 
 const houseStore = "houseStore";
 
@@ -48,7 +49,7 @@ export default {
   // house로 데이터는 불러왔는데 이제 이거를 어떻게 해야하냐
   data() {
     return {
-      // map: null,
+      map: null,
       // markers: [],
       // infowindow: null,
       // customOverlay: null,
@@ -62,7 +63,6 @@ export default {
     // 카카오 맵을 다시 새로 그려줘야함
     ...mapState(houseStore, ["house"]),
   },
-
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
@@ -71,10 +71,20 @@ export default {
 
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0&libraries=services";
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${VUE_APP_KAKAO_KEY}&libraries=services`;
       document.head.appendChild(script);
+      console.log("mounted map 생성");
     }
+  },
+  methods: {
+    initMap() {
+      const container = document.getElementById("map");
+      const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 5,
+      };
+      this.map = new kakao.maps.Map(container, options);
+    },
   },
   updated() {
     console.log("updated에서 호출!");
@@ -302,20 +312,6 @@ export default {
         el.className = "on";
       }
     }
-  },
-  methods: {
-    initMap() {
-      // const lat = this.house.lat;
-      // const lng = this.house.lng;
-      // console.log("위도 경도", lat, lng);
-      const container = document.getElementById("map");
-      const options = {
-        // center: new kakao.maps.LatLng(33.450701, 126.570667),
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 5,
-      };
-      this.map = new kakao.maps.Map(container, options);
-    },
   },
 };
 </script>

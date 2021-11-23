@@ -70,7 +70,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+    ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
     ...mapState(memberStore, ["userInfo"]),
 
     // sidos() {
