@@ -9,7 +9,10 @@
       <b-col class="text-left">
         <b-button variant="outline-primary" @click="listArticle">목록</b-button>
       </b-col>
-      <b-col class="text-right">
+      <b-col
+        class="text-right"
+        v-if="loginid === article.userid || loginid === 'admin'"
+      >
         <b-button
           variant="outline-info"
           size="sm"
@@ -44,13 +47,14 @@
 
 <script>
 // import moment from "moment";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import ReplyList from "@/components/reply/ReplyList";
 import ReplyWrite from "@/components/reply/ReplyWrite";
 import { getArticle, deleteArticle } from "@/api/board";
 // import ReplyList from "../reply/ReplyList.vue";
 
 const boardStore = "boardStore";
+const memberStore = "memberStore";
 
 export default {
   components: {
@@ -60,9 +64,11 @@ export default {
   data() {
     return {
       article: {},
+      loginid: "",
     };
   },
   computed: {
+    ...mapState(memberStore, ["userInfo"]),
     message() {
       if (this.article.content)
         return this.article.content.split("\n").join("<br>");
@@ -75,6 +81,7 @@ export default {
     // },
   },
   created() {
+    this.loginid = this.userInfo.userid;
     getArticle(
       this.$route.params.articleno,
       (response) => {
@@ -84,6 +91,9 @@ export default {
         console.log("삭제시 에러발생!!", error);
       }
     );
+  },
+  comments: {
+    ...mapState(memberStore, ["userInfo"]),
   },
   methods: {
     ...mapActions(boardStore, ["setUserid"]),
