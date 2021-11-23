@@ -128,6 +128,10 @@ export default {
       dongCode: null,
     };
   },
+  created() {
+    this.CLEAR_SIDO_LIST();
+    this.getSido();
+  },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
   },
