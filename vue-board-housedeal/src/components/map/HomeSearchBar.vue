@@ -95,6 +95,7 @@ export default {
     searchApt() {
       this.submitKeyword();
       if (this.gugunCode) this.getHouseList(this.gugunCode);
+      this.keyword = null;
     },
     submitKeyword() {
       console.log("입력한 keyword: ", this.keyword);
