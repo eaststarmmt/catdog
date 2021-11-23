@@ -1,6 +1,7 @@
 package com.ssafy.happyhouse.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -159,6 +160,45 @@ public class UserController {
 		
 		return new ResponseEntity<String>(addr,HttpStatus.OK);
 	}
+	
+	@ApiOperation(value="관심지역 리스트 ", notes="해당 유저의 관심지역 리스트를 불러온다.")
+	@GetMapping("/getArea/{userid}")
+	public ResponseEntity<Map<String, Object>> getInterestAreaById(@PathVariable("userid") String userid) throws Exception{
+		logger.info(userid);
+		List<String> list = userService.getInterestAreaById(userid);
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		if(list.size()>0) {
+			logger.info("area가져오기"+list.get(0));
+			resultMap.put("message",SUCCESS);
+			resultMap.put("areas",list);
+		}
+		else {
+			resultMap.put("message",FAIL);
+			
+		}
+			return new ResponseEntity<Map<String, Object>>(resultMap,HttpStatus.OK);
+			
+	}
+	
+	@ApiOperation(value ="아이디의 동주소 모두삭제", notes="아이디로 동코드 다삭제")
+	@DeleteMapping("/delArea")
+	public ResponseEntity<String> deleteAreaById(@RequestParam("userid") @ApiParam(value="삭제할아이디",required=true) String userid) throws Exception{
+		
+		userService.deleteAreaById(userid);
+		
+		return new ResponseEntity<String>(SUCCESS,HttpStatus.OK);
+	}
+	@ApiOperation(value ="관심지역등록", notes="아이디로 코드등록")
+	@PostMapping("/insertArea")
+	public ResponseEntity<String> insertAreaById(@RequestParam @ApiParam(value="넣을 아이디 / 지역코드",required=true) Map<String,String> params) throws Exception{
+		logger.info(params.get("userid"));
+		userService.insertAreaById(params);
+		 
+		return new ResponseEntity<String>(SUCCESS,HttpStatus.OK);
+	}
+	
 //	ajax로 로그인
 //	@PostMapping("/login")
 //	@ResponseBody

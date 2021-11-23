@@ -79,10 +79,22 @@
                   <b-form-select
                     v-model="dongCode"
                     :options="dongs"
-                    @change="registInterestArea"
                   ></b-form-select>
                 </b-col>
+                <b-col>
+                  <button @click.prevent="addInterArea">추가</button>
+                </b-col>
               </b-row>
+              <b-container
+                v-if="userInterestArea && userInterestArea.length != 0"
+              >
+                <member-my-page-interest-row
+                  v-for="(area, index) in userInterestArea"
+                  :key="index"
+                  :area="area"
+                  isin="mod"
+                />
+              </b-container>
             </b-form-group>
             <b-button
               type="button"
@@ -105,11 +117,15 @@
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
 import { registerUser, checkRepeatIdById } from "../../api/member.js";
-
+import MemberMyPageInterestRow from "@/components/user/MemberMyPageInterestRow.vue";
 const houseStore = "houseStore";
+const memberStore = "memberStore";
 
 export default {
   name: "MemberJoin",
+  components: {
+    MemberMyPageInterestRow,
+  },
   data() {
     return {
       user: {
@@ -134,6 +150,7 @@ export default {
   },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+    ...mapState(memberStore, ["userInterestArea"]),
   },
 
   methods: {
@@ -149,6 +166,7 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
+    ...mapMutations(memberStore, ["ADD_AREA_INTERESTAREA"]),
     checkValue() {
       console.log(this.user);
       // 사용자 입력값 체크하기
@@ -244,6 +262,14 @@ export default {
     registInterestArea() {
       this.user.interestarea = this.dongCode;
       console.log(this.dongCode);
+    },
+    addInterArea() {
+      // console.log();
+      if (this.dongCode && !this.userInterestArea.includes(this.dongCode)) {
+        this.ADD_AREA_INTERESTAREA(this.dongCode);
+      } else {
+        alert("제대로선택");
+      }
     },
   },
 };

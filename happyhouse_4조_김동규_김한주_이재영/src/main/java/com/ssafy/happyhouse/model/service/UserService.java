@@ -1,5 +1,7 @@
 package com.ssafy.happyhouse.model.service;
 
+
+import java.util.List;
 import java.util.Map;
 
 import com.ssafy.happyhouse.model.UserDto;
@@ -21,4 +23,9 @@ public interface UserService {
 	void updateInterestArea(Map<String,String> params) throws Exception;
 	
 	String convertCodeToString(String code) throws Exception;
+	
+	List<String> getInterestAreaById(String userid)throws Exception;
+	
+	void deleteAreaById(String userid) throws Exception;
+	void insertAreaById(Map<String,String> params) throws Exception;
 }
