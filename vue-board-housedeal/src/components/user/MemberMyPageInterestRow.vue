@@ -42,6 +42,7 @@ export default {
       });
     },
     showInterest() {
+      console.log("현재", this.area);
       this.getDBHouseList(this.area);
     },
     deleteInterest() {

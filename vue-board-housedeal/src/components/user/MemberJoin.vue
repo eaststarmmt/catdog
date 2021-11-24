@@ -116,7 +116,11 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
-import { registerUser, checkRepeatIdById } from "../../api/member.js";
+import {
+  registerUser,
+  checkRepeatIdById,
+  insertInterestAreaById,
+} from "../../api/member.js";
 import MemberMyPageInterestRow from "@/components/user/MemberMyPageInterestRow.vue";
 const houseStore = "houseStore";
 const memberStore = "memberStore";
@@ -167,6 +171,8 @@ export default {
       "CLEAR_DONG_LIST",
     ]),
     ...mapMutations(memberStore, ["ADD_AREA_INTERESTAREA"]),
+    ...mapActions(memberStore, ["insertInterestArea"]),
+
     checkValue() {
       console.log(this.user);
       // 사용자 입력값 체크하기
@@ -215,6 +221,7 @@ export default {
     //입력이 다 되어있다면 register호출
     register() {
       registerUser(this.user);
+      this.insertInterestArea();
       this.$router.push({ name: "Home" });
     },
 
@@ -263,12 +270,19 @@ export default {
       this.user.interestarea = this.dongCode;
       console.log(this.dongCode);
     },
-    addInterArea() {
+    async addInterArea() {
       // console.log();
       if (this.dongCode && !this.userInterestArea.includes(this.dongCode)) {
         this.ADD_AREA_INTERESTAREA(this.dongCode);
       } else {
         alert("제대로선택");
+      }
+    },
+    async insertInterestArea() {
+      for (const area of this.userInterestArea) {
+        let param = { userid: this.user.userid, area: area };
+        console.log(param);
+        await insertInterestAreaById(param);
       }
     },
   },

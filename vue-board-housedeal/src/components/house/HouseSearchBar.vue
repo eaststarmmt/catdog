@@ -33,7 +33,7 @@
         ></b-form-select>
       </b-col>
       <b-col class="sm-3">
-        <b-button @click="registInterest">관심지역 등록</b-button>
+        <b-button @click.prevent="addInterArea">관심지역 등록</b-button>
       </b-col>
     </b-row>
     <b-row class="mt-4 mb-4">
@@ -47,9 +47,9 @@
       <b-col> </b-col>
       <b-col> </b-col>
     </b-row>
-    <b-row v-if="userInterestArea && userInterestArea.length != 0"
+    <b-row v-if="change && tempareas && tempareas.length != 0"
       ><member-my-page-interest-row
-        v-for="(area, index) in userInterestArea"
+        v-for="(area, index) in tempareas"
         :key="index"
         :area="area"
         isin="apt"
@@ -61,7 +61,10 @@
 <script>
 import MemberMyPageInterestRow from "@/components/user/MemberMyPageInterestRow.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
-import { updateInterestArea } from "../../api/member.js";
+import {
+  updateInterestArea,
+  insertInterestAreaById,
+} from "../../api/member.js";
 
 /*
   namespaced: true를 사용했기 때문에 선언해줍니다.
@@ -85,6 +88,8 @@ export default {
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
+      tempareas: [],
+      change: true,
     };
   },
   computed: {
@@ -101,8 +106,16 @@ export default {
     this.CLEAR_SIDO_LIST();
     this.getSido();
   },
+  updated() {
+    this.tempareas = this.userInterestArea;
+    this.change = true;
+  },
   methods: {
-    ...mapActions(memberStore, ["getUserInfo"]),
+    ...mapActions(memberStore, [
+      "getUserInfo",
+      "getInterestArea",
+      "insertInterestArea",
+    ]),
     ...mapActions(houseStore, [
       "getSido",
       "getGugun",
@@ -115,6 +128,7 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
+    ...mapMutations(memberStore, ["ADD_AREA_INTERESTAREA"]),
     // sidoList() {
     //   this.getSido();
     // },
@@ -160,6 +174,20 @@ export default {
         } else {
           alert("동까지 선택하세요");
         }
+      }
+    },
+    async addInterArea() {
+      if (this.dongCode && !this.userInterestArea.includes(this.dongCode)) {
+        console.log(this.dongCode);
+        this.ADD_AREA_INTERESTAREA(this.dongCode);
+        await insertInterestAreaById({
+          userid: this.userInfo.userid,
+          area: this.dongCode,
+        });
+        await this.getInterestArea(this.userInfo.userid);
+        this.change = false;
+      } else {
+        alert("제대로선택");
       }
     },
 
