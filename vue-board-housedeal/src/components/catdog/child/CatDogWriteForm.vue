@@ -40,6 +40,7 @@
         >
           <b-form-file
             multiple
+            v-model="images"
             accept="image/jpeg, image/jpg, image/png, image/gif"
             placeholder="사진을 선택하세요"
             style="margin-left: 13px"
@@ -73,7 +74,7 @@
 </template>
 
 <script>
-import { writeArticle, getArticle } from "@/api/catdog";
+import { writeArticle, getArticle } from "@/api/catdog.js";
 import { mapState } from "vuex";
 
 const memberStore = "memberStore";
@@ -86,8 +87,8 @@ export default {
         userid: "",
         subject: "",
         content: "",
-        images: [],
       },
+      images: [],
       isUserid: false,
     };
   },
@@ -146,17 +147,17 @@ export default {
       this.article.articleno = 0;
       this.article.subject = "";
       this.article.content = "";
-      this.article.images = [];
+      //this.article.images = [];
       this.$router.push({ name: "CatDogList" });
     },
     registArticle() {
+      let params = {
+        article: this.article,
+        images: this.images,
+      };
+      console.log(params);
       writeArticle(
-        {
-          userid: this.article.userid,
-          subject: this.article.subject,
-          content: this.article.content,
-          images: this.article.images,
-        },
+        params,
         ({ data }) => {
           console.log("catdog그램 보내는 data: ", data);
           let msg = "등록 처리시 문제가 발생했습니다.";
