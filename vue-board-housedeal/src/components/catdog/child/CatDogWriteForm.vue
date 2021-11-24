@@ -151,15 +151,13 @@ export default {
       this.$router.push({ name: "CatDogList" });
     },
     registArticle() {
-      let params = {
-        article: this.article,
-        images: this.images,
-      };
-      console.log(params);
       writeArticle(
-        params,
+        {
+          userid: this.article.userid,
+          subject: this.article.subject,
+          content: this.article.content,
+        },
         ({ data }) => {
-          console.log("catdog그램 보내는 data: ", data);
           let msg = "등록 처리시 문제가 발생했습니다.";
           if (data === "success") {
             msg = "등록이 완료되었습니다.";

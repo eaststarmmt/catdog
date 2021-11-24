@@ -6,9 +6,9 @@ function listArticle(param, success, fail) {
   api.get(`/catdog/list`, { params: param }).then(success).catch(fail);
 }
 
-function writeArticle(params, success, fail) {
+function writeArticle(catDog, success, fail) {
   api
-    .post(`/catdog/register`, null, { params: params })
+    .post(`/catdog/register`, JSON.stringify(catDog))
     .then(success)
     .catch(fail);
 }

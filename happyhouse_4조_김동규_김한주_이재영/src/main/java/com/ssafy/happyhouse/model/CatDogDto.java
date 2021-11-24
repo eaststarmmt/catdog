@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "CatDogDto : 캣독 정보", description = "캣독의 정보를 나타낸다.")
 public class CatDogDto {
 	@ApiModelProperty(value = "게시글 번호")
-	private int articleNo; // 게시글 번호
+	private int articleno; // 게시글 번호
 	@ApiModelProperty(value = "게시글 제목")
 	private String subject;// 제목
 	@ApiModelProperty(value = "게시글 날짜")
@@ -19,11 +19,11 @@ public class CatDogDto {
 	private List<FileInfoDto> fileInfos;// 사진(파일)
 	@ApiModelProperty(value = "게시글 내용")
 	private String content;// 내용
-	public int getArticleNo() {
-		return articleNo;
+	public int getArticleno() {
+		return articleno;
 	}
-	public void setArticleNo(int articleNo) {
-		this.articleNo = articleNo;
+	public void setArticleno(int articleno) {
+		this.articleno = articleno;
 	}
 	public String getSubject() {
 		return subject;
@@ -55,6 +55,10 @@ public class CatDogDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
 	
 }
