@@ -151,12 +151,24 @@ export default {
       this.$router.push({ name: "CatDogList" });
     },
     registArticle() {
+      console.log(this.images);
+      var formData = new FormData();
+      formData.append("userid", this.article.userid);
+      formData.append("subject", this.article.subject);
+      formData.append("content", this.article.content);
+      for (let i = 0; i < this.images.length; i++) {
+        formData.append("files", this.images[i]);
+        console.log(this.images[i]);
+      }
+      // let param = {
+      //   userid: this.article.userid,
+      //   subject: this.article.subject,
+      //   content: this.article.content,
+      //   images: this.images,
+      // };
+      console.log(formData);
       writeArticle(
-        {
-          userid: this.article.userid,
-          subject: this.article.subject,
-          content: this.article.content,
-        },
+        formData,
         ({ data }) => {
           let msg = "등록 처리시 문제가 발생했습니다.";
           if (data === "success") {

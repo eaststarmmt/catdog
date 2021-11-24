@@ -60,12 +60,20 @@ public class CatDogController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> writeArticle(@RequestBody @ApiParam(value = "게시글 정보.", required = true) CatDogDto catDogDto) throws Exception {
+	public ResponseEntity<String> writeArticle(
+			@RequestParam("userid") @ApiParam(value = "게시글 정보.", required = true) String userid, 
+			@RequestParam("subject") @ApiParam(value = "게시글 정보.", required = true) String subject, 
+			@RequestParam("content") @ApiParam(value = "게시글 정보.", required = true) String content, 
+			@RequestParam("files") MultipartFile[] files ) throws Exception {
 		
 		
-//		logger.info("registerArticle - 호출" + catDogDto.getUserid()+" "+files[0].getName());
+		logger.info("registerArticle - 호출" + userid +" "+subject+" "+files.length);
 		
-		System.out.println(catDogDto);
+		CatDogDto catDogDto=new CatDogDto();
+		
+		System.out.println(files[0].getName());
+		
+//		System.out.println(catDogDto); 
 
 //		FileUpload 관련 설정.
 //		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());

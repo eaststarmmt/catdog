@@ -6,11 +6,8 @@ function listArticle(param, success, fail) {
   api.get(`/catdog/list`, { params: param }).then(success).catch(fail);
 }
 
-function writeArticle(catDog, success, fail) {
-  api
-    .post(`/catdog/register`, JSON.stringify(catDog))
-    .then(success)
-    .catch(fail);
+function writeArticle(formData, success, fail) {
+  api.post(`/catdog/register`, formData).then(success).catch(fail);
 }
 
 function getArticle(articleno, success, fail) {
