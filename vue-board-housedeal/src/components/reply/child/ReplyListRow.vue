@@ -20,19 +20,14 @@
         @click="updateForm()"
         v-if="con"
         >수정</b-button
-      ></b-td
-    >
-    <b-td
-      ><b-button
+      >
+      <b-button
         type="button"
         variant="primary"
         class="m-1"
         @click="updateReply()"
         v-if="update"
         >등록</b-button
-      ></b-td
-    >
-    <b-td
       ><b-button
         type="button"
         variant="primary"
@@ -40,9 +35,6 @@
         @click="deleteReply(replyno)"
         v-if="con"
         >삭제</b-button
-      ></b-td
-    >
-    <b-td
       ><b-button
         type="button"
         variant="primary"

@@ -6,24 +6,6 @@
         :key="index"
         v-bind="reply"
       />
-      <!-- <b-tr v-for="(reply, index) in replies" :key="index">
-        <b-td>{{ reply.username }}</b-td>
-        <b-td>{{ reply.content }}</b-td>
-        <b-td
-          ><b-button type="button" variant="primary" class="m-1"
-            >수정</b-button
-          ></b-td
-        >
-        <b-td
-          ><b-button
-            type="button"
-            variant="primary"
-            class="m-1"
-            @click="deleteReply(reply.replyno)"
-            >삭제</b-button
-          ></b-td
-        >
-      </b-tr> -->
     </tbody>
   </b-table-simple>
 </template>

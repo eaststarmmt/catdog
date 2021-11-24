@@ -43,8 +43,6 @@ const onlyAuthUser = async (to, from, next) => {
 const boardAuthUser = async (to, from, next) => {
   const checkUserInfo = store.getters["memberStore/checkUserInfo"];
   const writerid = store.getters["boardStore/getUserid"];
-  console.log("게시글 작성자 아이디", writerid);
-  console.log("로그인된 아이디", checkUserInfo.userid);
   if (checkUserInfo.userid != "admin" && checkUserInfo.userid != writerid) {
     alert("권한이 없습니다");
   } else {
