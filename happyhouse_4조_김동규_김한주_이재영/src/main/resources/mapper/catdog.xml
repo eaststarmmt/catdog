@@ -6,16 +6,16 @@
 	<insert id="writeArticle" parameterType="catDogDto">
 		insert into catdog (userid, subject, content, regtime)
 		values (#{userid}, #{subject}, #{content}, now())
-<!-- 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER"> -->
-<!-- 			select last_insert_id() -->
-<!-- 		</selectKey> -->
+		<selectKey resultType="int" keyProperty="articleno" order="AFTER">
+			select last_insert_id()
+		</selectKey> 
 	</insert>
 	
 	<insert id="registerFile" parameterType="CatDogDto">
 		insert into file_info (articleno, savefolder, originfile, savefile)
 		values
 		<foreach collection="fileInfos" item="fileinfo" separator=" , ">
-			(#{articleNo}, #{fileinfo.saveFolder}, #{fileinfo.originFile}, #{fileinfo.saveFile})
+			(#{articleno}, #{fileinfo.saveFolder}, #{fileinfo.originFile}, #{fileinfo.saveFile})
 		</foreach>
 	</insert>
 

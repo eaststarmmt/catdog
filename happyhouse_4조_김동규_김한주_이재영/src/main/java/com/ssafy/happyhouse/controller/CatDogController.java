@@ -70,44 +70,46 @@ public class CatDogController {
 		logger.info("registerArticle - 호출" + userid +" "+subject+" "+files.length);
 		
 		CatDogDto catDogDto=new CatDogDto();
+		catDogDto.setUserid(userid);
+		catDogDto.setSubject(subject);
+		catDogDto.setContent(content);
+		
 		
 		System.out.println(files[0].getName());
 		
 //		System.out.println(catDogDto); 
 
 //		FileUpload 관련 설정.
-//		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
-//		if (!files[0].isEmpty()) {
-////			String realPath = servletContext.getRealPath("/upload");
-//			String realPath = servletContext.getRealPath("/resources/img");
-//			String today = new SimpleDateFormat("yyMMdd").format(new Date());
-//			String saveFolder = realPath + File.separator + today;
-//			logger.debug("저장 폴더 : {}", saveFolder);
-//			File folder = new File(saveFolder);
-//			if (!folder.exists())
-//				folder.mkdirs();
-//			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
-//			for (MultipartFile mfile : files) {
-//				FileInfoDto fileInfoDto = new FileInfoDto();
-//				String originalFileName = mfile.getOriginalFilename();
-//				if (!originalFileName.isEmpty()) {
-//					String saveFileName = UUID.randomUUID().toString()
-//							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-//					fileInfoDto.setSaveFolder(today);
-//					fileInfoDto.setOriginFile(originalFileName);
-//					fileInfoDto.setSaveFile(saveFileName);
-//					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
-//					mfile.transferTo(new File(folder, saveFileName));
-//				}
-//				fileInfos.add(fileInfoDto);
-//			}
-//			catDogDto.setFileInfos(fileInfos);
-//		}
+		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
+		if (!files[0].isEmpty()) {
+//			String realPath = servletContext.getRealPath("/upload");
+			String realPath = servletContext.getRealPath("/resources/img");
+			String today = new SimpleDateFormat("yyMMdd").format(new Date());
+			String saveFolder = realPath + File.separator + today;
+			logger.debug("저장 폴더 : {}", saveFolder);
+			File folder = new File(saveFolder);
+			if (!folder.exists())
+				folder.mkdirs();
+			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
+			for (MultipartFile mfile : files) {
+				FileInfoDto fileInfoDto = new FileInfoDto();
+				String originalFileName = mfile.getOriginalFilename();
+				if (!originalFileName.isEmpty()) {
+					String saveFileName = UUID.randomUUID().toString()
+							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+					fileInfoDto.setSaveFolder(today);
+					fileInfoDto.setOriginFile(originalFileName);
+					fileInfoDto.setSaveFile(saveFileName);
+					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
+					mfile.transferTo(new File(folder, saveFileName));
+				}
+				fileInfos.add(fileInfoDto);
+			}
+			catDogDto.setFileInfos(fileInfos);
+		}
 		if (catDogService.writeArticle(catDogDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-
-		catDogService.writeArticle(catDogDto);
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	

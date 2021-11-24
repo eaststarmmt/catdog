@@ -27,13 +27,14 @@ public class CatDogServiceImpl implements CatDogService {
 		if(catDogDto.getSubject() == null || catDogDto.getContent() == null) {
 			throw new Exception();
 		}
-//		CatDogMapper catDogMapper = sqlSession.getMapper(CatDogMapper.class);
-//		List<FileInfoDto> fileInfos = catDogDto.getFileInfos();
-//		if (fileInfos != null && !fileInfos.isEmpty()) {
-//			catDogMapper.registerFile(catDogDto);
-//		}
-//		return catDogMapper.writeArticle(catDogDto) == 1;
-		return sqlSession.getMapper(CatDogMapper.class).writeArticle(catDogDto) == 1;
+		CatDogMapper catDogMapper = sqlSession.getMapper(CatDogMapper.class);
+		int insert =catDogMapper.writeArticle(catDogDto);
+		List<FileInfoDto> fileInfos = catDogDto.getFileInfos();
+		if (fileInfos != null && !fileInfos.isEmpty()) {
+			catDogMapper.registerFile(catDogDto);
+		}
+		return insert == 1;
+		
 	}
 
 	@Override
