@@ -17,6 +17,7 @@ public class BoardDto {
 	private int hit;
 	@ApiModelProperty(value = "작성일")
 	private String regtime;
+	
 
 	public int getArticleno() {
 		return articleno;

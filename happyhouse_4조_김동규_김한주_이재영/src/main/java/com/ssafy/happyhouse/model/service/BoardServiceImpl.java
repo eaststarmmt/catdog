@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.happyhouse.model.BoardDto;
 import com.ssafy.happyhouse.model.BoardParameterDto;
 import com.ssafy.happyhouse.model.mapper.BoardMapper;
+import com.ssafy.util.PageNavigation;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -54,4 +55,13 @@ public class BoardServiceImpl implements BoardService{
 	public BoardDto getArticle(int articleno) throws Exception {
 		return sqlSession.getMapper(BoardMapper.class).getArticle(articleno);
 	}
+
+	@Override
+	public Integer totalArticle(BoardParameterDto boardParameterDto) throws Exception {
+		int last = sqlSession.getMapper(BoardMapper.class).totalArticle();
+		return (last - 1) / boardParameterDto.getSpp() + 1;
+		
+	}
+
+	
 }

@@ -52,6 +52,12 @@ public class BoardController {
 		logger.info("listArticle - 호출");
 		return new ResponseEntity<List<BoardDto>>(boardService.listArticle(boardParameterDto), HttpStatus.OK);
 	}
+	@ApiOperation(value = "게시판 글 갯수", notes = "페이지네이션을 위해서 글 갯수 반환.", response = Integer.class)
+	@GetMapping("/total")
+	public ResponseEntity<Integer> totalArticle(@ApiParam(value = "게시글을 얻기위한 부가정보.", required = true) BoardParameterDto boardParameterDto) throws Exception {
+		logger.info("listArticle - 호출");
+		return new ResponseEntity<Integer>(boardService.totalArticle(boardParameterDto), HttpStatus.OK);
+	}
 	
 	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = BoardDto.class)
 	@GetMapping("/{articleno}")

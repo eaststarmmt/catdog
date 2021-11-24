@@ -16,6 +16,8 @@ public class BoardParameterDto {
 	private String key;
 	@ApiModelProperty(value = "검색어")
 	private String word;
+	@ApiModelProperty(value = "마지막 페이지")
+	private int last;
 	
 	public BoardParameterDto() {
 		pg = 1;
@@ -61,6 +63,14 @@ public class BoardParameterDto {
 
 	public void setWord(String word) {
 		this.word = word;
+	}
+
+	public int getLast() {
+		return last;
+	}
+
+	public void setLast(int last) {
+		this.last = last;
 	}
 
 }

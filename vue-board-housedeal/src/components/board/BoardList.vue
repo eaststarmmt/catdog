@@ -36,12 +36,17 @@
       </b-col>
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
     </b-row>
+    <button @click="prev()" v-if="pg != 1">이전</button>
+    <span v-for="(page, index) in pages" :key="index">
+      <button v-if="page <= last" @click="pageChange(page)">{{ page }}</button>
+    </span>
+    <button @click="next()" v-if="pg != last">다음</button>
   </b-container>
 </template>
 
 <script>
 import BoardListRow from "@/components/board/child/BoardListRow";
-import { listArticle } from "@/api/board.js";
+import { listArticle, totalArticle } from "@/api/board.js";
 
 export default {
   name: "BoardList",
@@ -51,12 +56,18 @@ export default {
   data() {
     return {
       articles: [],
+      pages: [],
+      pg: 1,
+      spp: 5,
+      start: 1,
+      end: this.start + this.spp - 1,
+      last: null,
     };
   },
   created() {
     let param = {
       pg: 1,
-      spp: 20,
+      spp: 5,
       key: null,
       word: null,
     };
@@ -69,10 +80,93 @@ export default {
         console.log(error);
       }
     );
+    totalArticle(param, (response) => {
+      console.log(response);
+      this.last = response.data;
+      let pages = [];
+      let start = (this.pg - 1) / 5 + 1;
+      for (let i = start; i < start + 5; i++) {
+        pages.push(i);
+      }
+      this.pages = pages;
+    });
   },
   methods: {
+    makePagenation() {
+      let pages = [];
+      let mod = this.pg % 5;
+      if (mod == 0) mod = 5;
+      let start = this.pg - mod + 1;
+      for (let i = start; i < start + 5; i++) {
+        pages.push(parseInt(i));
+      }
+      this.pages = pages;
+    },
     moveWrite() {
       this.$router.push({ name: "BoardWrite" });
+    },
+    next() {
+      this.start += this.spp;
+      let param = {
+        pg: ++this.pg,
+        spp: this.spp,
+        start: this.start,
+        key: null,
+        word: null,
+      };
+      listArticle(
+        param,
+        (response) => {
+          this.articles = response.data;
+          this.makePagenation();
+          console.log(this.pg);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    prev() {
+      this.start -= this.spp;
+      let param = {
+        pg: --this.pg,
+        spp: this.spp,
+        start: this.start,
+        key: null,
+        word: null,
+      };
+      listArticle(
+        param,
+        (response) => {
+          this.articles = response.data;
+          this.makePagenation();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    pageChange(page) {
+      this.start = this.spp * (page - 1) + 1;
+      this.pg = page;
+      console.log(this.pg);
+      let param = {
+        pg: page,
+        spp: this.spp,
+        start: this.start,
+        key: null,
+        word: null,
+      };
+      listArticle(
+        param,
+        (response) => {
+          this.articles = response.data;
+          this.makePagenation();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
 };
