@@ -1,5 +1,6 @@
 package com.ssafy.happyhouse.model.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.happyhouse.model.CatDogDto;
+import com.ssafy.happyhouse.model.FileInfoDto;
 import com.ssafy.happyhouse.model.mapper.CatDogMapper;
 import com.ssafy.util.PageNavigation;
 
@@ -20,12 +22,17 @@ public class CatDogServiceImpl implements CatDogService {
 	private SqlSession sqlSession;
 	
 	@Override
-	public boolean registerArticle(CatDogDto catDogDto) throws Exception {
+	public boolean writeArticle(CatDogDto catDogDto) throws Exception {
 		// TODO Auto-generated method stub
 		if(catDogDto.getSubject() == null || catDogDto.getContent() == null) {
 			throw new Exception();
 		}
-		return sqlSession.getMapper(CatDogMapper.class).registerArticle(catDogDto) == 1;
+		CatDogMapper catDogMapper = sqlSession.getMapper(CatDogMapper.class);
+		List<FileInfoDto> fileInfos = catDogDto.getFileInfos();
+		if (fileInfos != null && !fileInfos.isEmpty()) {
+			catDogMapper.registerFile(catDogDto);
+		}
+		return catDogMapper.writeArticle(catDogDto) == 1;
 	}
 
 	@Override
@@ -80,8 +87,16 @@ public class CatDogServiceImpl implements CatDogService {
 
 	@Override
 	@Transactional
-	public void deleteArticle(int articleNo) throws Exception {
+	public void deleteArticle(int articleNo, String path) throws Exception {
 		// TODO Auto-generated method stub
+		CatDogMapper catDogMapper = sqlSession.getMapper(CatDogMapper.class);
+		List<FileInfoDto> fileList = catDogMapper.fileInfoList(articleNo);
+		catDogMapper.deleteFile(articleNo);
+		catDogMapper.deleteArticle(articleNo);
+		for(FileInfoDto fileInfoDto : fileList) {
+			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
+			file.delete();
+		}
 		sqlSession.getMapper(CatDogMapper.class).deleteArticle(articleNo);
 	}
 

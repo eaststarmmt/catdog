@@ -2,7 +2,12 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import NewsList from "@/components/news/NewsList.vue";
-import Catdog from "@/views/Catdog.vue";
+
+import CatDog from "@/views/CatDog.vue";
+import CatDogList from "@/components/catdog/CatDogList.vue";
+import CatDogWrite from "@/components/catdog/CatDogWrite.vue";
+import CatDogUpdate from "@/components/catdog/CatDogUpdate.vue";
+import CatDogView from "@/components/catdog/CatDogView.vue";
 
 import Member from "@/views/Member.vue";
 import MemberLogin from "@/components/user/MemberLogin.vue";
@@ -66,11 +71,6 @@ const routes = [
     ],
   },
   {
-    path: "/catdoggram",
-    name: "Catdoggram",
-    component: Catdog,
-  },
-  {
     path: "/user",
     name: "Member",
     component: Member,
@@ -90,6 +90,37 @@ const routes = [
         name: "MyPage",
         beforeEnter: onlyAuthUser,
         component: MemberMyPage,
+      },
+    ],
+  },
+  {
+    path: "/catdog",
+    name: "CatDog",
+    component: CatDog,
+    redirect: "/catdog/list",
+    children: [
+      {
+        path: "list",
+        name: "CatDogList",
+        component: CatDogList,
+      },
+      {
+        path: "write",
+        name: "CatDogWrite",
+        beforeEnter: onlyAuthUser,
+        component: CatDogWrite,
+      },
+      {
+        path: "detail/:articleno",
+        name: "CatDogView",
+        beforeEnter: onlyAuthUser,
+        component: CatDogView,
+      },
+      {
+        path: "update/:articleno",
+        name: "CatDogUpdate",
+        beforeEnter: boardAuthUser,
+        component: CatDogUpdate,
       },
     ],
   },
