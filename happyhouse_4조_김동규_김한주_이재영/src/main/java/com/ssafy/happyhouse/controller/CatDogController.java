@@ -55,7 +55,7 @@ public class CatDogController {
 	
 	
 	@PostMapping
-	public ResponseEntity<String> registerArticle(CatDogDto catDogDto, @RequestParam("upfile") MultipartFile[] files, Model model,
+	public ResponseEntity<String> writeArticle(CatDogDto catDogDto, @RequestParam("images") MultipartFile[] files, Model model,
 			HttpSession session, RedirectAttributes redirectAttributes)
 			throws Exception {
 		logger.info("registerArticle - 호출");
@@ -64,13 +64,13 @@ public class CatDogController {
 		catDogDto.setUserid(userDto.getUserid());
 
 //		FileUpload 관련 설정.
-//		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
+		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
 		if (!files[0].isEmpty()) {
 //			String realPath = servletContext.getRealPath("/upload");
 			String realPath = servletContext.getRealPath("/resources/img");
 			String today = new SimpleDateFormat("yyMMdd").format(new Date());
 			String saveFolder = realPath + File.separator + today;
-//			logger.debug("저장 폴더 : {}", saveFolder);
+			logger.debug("저장 폴더 : {}", saveFolder);
 			File folder = new File(saveFolder);
 			if (!folder.exists())
 				folder.mkdirs();
@@ -84,18 +84,18 @@ public class CatDogController {
 					fileInfoDto.setSaveFolder(today);
 					fileInfoDto.setOriginFile(originalFileName);
 					fileInfoDto.setSaveFile(saveFileName);
-//					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
+					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
 					mfile.transferTo(new File(folder, saveFileName));
 				}
 				fileInfos.add(fileInfoDto);
 			}
 			catDogDto.setFileInfos(fileInfos);
 		}
-		if (catDogService.registerArticle(catDogDto)) {
+		if (catDogService.writeArticle(catDogDto)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 
-		catDogService.registerArticle(catDogDto);
+		catDogService.writeArticle(catDogDto);
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	

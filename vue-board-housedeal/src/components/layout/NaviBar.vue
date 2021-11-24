@@ -33,7 +33,7 @@
             ></b-nav-item
           >
           <b-nav-item href="#"
-            ><router-link :to="{ name: 'Catdoggram' }" class="link"
+            ><router-link :to="{ name: 'CatDog' }" class="link"
               ><b-icon icon="instagram" font-scale="1"></b-icon>
               캣독스타그램</router-link
             ></b-nav-item

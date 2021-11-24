@@ -8,7 +8,7 @@ import com.ssafy.happyhouse.model.FileInfoDto;
 
 public interface CatDogMapper {
 
-	int registerArticle(CatDogDto catDogDto) throws Exception;
+	int writeArticle(CatDogDto catDogDto) throws Exception;
 	void registerFile(CatDogDto catDogDto) throws Exception;
 	List<CatDogDto> listArticle(Map<String, Object> map) throws Exception;
 	int getTotalCount(Map<String, String> map) throws Exception;
