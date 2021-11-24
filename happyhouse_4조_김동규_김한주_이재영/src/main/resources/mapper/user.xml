@@ -6,7 +6,7 @@
 
 	<update id="updateUser" parameterType="userDto">
 		UPDATE ssafy_member
-		SET username = #{username}, email = #{email} , interestarea=#{interestarea}
+		SET username = #{username}, email = #{email} 
 		WHERE userid = #{userid}
 	</update>
 	<update id="updateInterestArea" parameterType="map">
@@ -18,7 +18,7 @@
 
 	<insert id="registerMember" parameterType="UserDto">
 		insert into ssafy_member
-		values (#{userid},#{username},#{userpwd},#{email} ,now(),#{interestarea})
+		values (#{userid},#{username},#{userpwd},#{email} ,now())
 	</insert>
 	
 	<select id="login" parameterType="userDto" resultType="userDto">
@@ -28,7 +28,7 @@
 	</select>
 	
 	<select id="userInfo" parameterType="String" resultType="userDto">
-		select username, userid, email, joindate, interestarea
+		select username, userid, email, joindate
 		from ssafy_member
 		where userid = #{userid}
 	</select>
@@ -48,4 +48,17 @@
 		from dongcode 
 		where dongcode = #{code} 
 	</select>
+	<select id ="getInterestAreaById" parameterType ="String" resultType="String">
+		select interestarea
+		from member_interestarea
+		where userid=#{userid}
+	</select>
+	<delete id="deleteAreaById" parameterType="String">
+		DELETE FROM member_interestarea
+		WHERE userid = #{userid}
+	</delete>
+	<insert id ="insertAreaById" parameterType="map">
+		insert into member_interestarea
+		values(#{userid},#{area})
+	</insert>
 </mapper>

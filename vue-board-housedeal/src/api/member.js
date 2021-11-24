@@ -37,6 +37,25 @@ async function convertCodeToString(code, success, fail) {
     .then(success)
     .catch(fail);
 }
+async function getInterestAreaById(userid, success, fail) {
+  console.log("api진입" + userid);
+  await api.get(`/user/getArea/${userid}`).then(success).catch(fail);
+}
+async function deleteAreaById(userid, success, fail) {
+  console.log("api진입" + userid);
+  await api
+    .delete(`/user/delArea/`, { params: { userid: userid } })
+    .then(success)
+    .catch(fail);
+}
+
+async function insertInterestAreaById(param, success, fail) {
+  console.log(param);
+  await api
+    .post(`/user/insertArea`, null, { params: param })
+    .then(success)
+    .catch(fail);
+}
 // function logout(success, fail)
 
 export {
@@ -48,4 +67,7 @@ export {
   checkRepeatIdById,
   updateInterestArea,
   convertCodeToString,
+  getInterestAreaById,
+  insertInterestAreaById,
+  deleteAreaById,
 };

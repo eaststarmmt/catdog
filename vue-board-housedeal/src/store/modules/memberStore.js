@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 import { login } from "@/api/member.js";
-import { findById } from "../../api/member";
+import { findById, getInterestAreaById } from "../../api/member";
 
 const memberStore = {
   namespaced: true,
@@ -8,6 +8,7 @@ const memberStore = {
     isLogin: false,
     isLoginError: false,
     userInfo: null,
+    userInterestArea: [],
   },
   getters: {
     checkUserInfo: function (state) {
@@ -24,6 +25,16 @@ const memberStore = {
     SET_USER_INFO: (state, userInfo) => {
       state.isLogin = true;
       state.userInfo = userInfo;
+    },
+    SET_USER_INTERESTAREA: (state, interestarea) => {
+      state.userInterestArea = interestarea;
+    },
+    ADD_AREA_INTERESTAREA: (state, area) => {
+      state.userInterestArea.push(area);
+    },
+    DELETE_AREA: (state, area) => {
+      const index = state.userInterestArea.indexOf(area);
+      state.userInterestArea.splice(index, 1);
     },
   },
   actions: {
@@ -45,14 +56,14 @@ const memberStore = {
         () => {}
       );
     },
-    getUserInfo({ commit }, token) {
+    async getUserInfo({ commit }, token) {
       let decode_token = jwt_decode(token);
-      findById(
+      await findById(
         decode_token.userid,
         (response) => {
           if (response.data.message === "success") {
             commit("SET_USER_INFO", response.data.userInfo);
-            console.log(response.data.userInfo);
+            //console.log(response.data.userInfo);
           } else {
             console.log("유저 정보 없음!!");
           }
@@ -61,6 +72,17 @@ const memberStore = {
           console.log(error);
         }
       );
+    },
+    async getInterestArea({ commit }, userid) {
+      // console.log("로그인성공 관심지역불러오기", userid);
+      await getInterestAreaById(userid, (response) => {
+        //console.log("결과", response);
+        if (response.data.message === "success") {
+          commit("SET_USER_INTERESTAREA", response.data.areas);
+        } else {
+          console.log("관심지역 없음");
+        }
+      });
     },
   },
 };

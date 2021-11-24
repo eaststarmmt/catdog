@@ -1,5 +1,6 @@
 package com.ssafy.happyhouse.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -56,5 +57,20 @@ public class UserServiceImpl implements UserService {
 	public String convertCodeToString(String code) throws Exception {
 		
 		return sqlSession.getMapper(UserMapper.class).convertCodeToString(code);
+	}
+	
+	@Override
+	public List<String> getInterestAreaById(String userid) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).getInterestAreaById(userid);
+	}
+	@Override
+	public void deleteAreaById(String userid) throws Exception {
+		sqlSession.getMapper(UserMapper.class).deleteAreaById(userid);
+		
+	}
+	@Override
+	public void insertAreaById(Map<String, String> params) throws Exception {
+		sqlSession.getMapper(UserMapper.class).insertAreaById(params);
+		
 	}
 }

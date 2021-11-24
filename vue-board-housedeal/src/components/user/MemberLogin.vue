@@ -73,18 +73,25 @@ export default {
     ...mapState(memberStore, ["isLogin", "isLoginError"]),
   },
   methods: {
-    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    ...mapActions(memberStore, [
+      "userConfirm",
+      "getUserInfo",
+      "getInterestArea",
+    ]),
     async confirm() {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {
         await this.getUserInfo(token);
+
+        await this.getInterestArea(this.user.userid);
         this.$router.push({ name: "Home" });
       }
     },
     movePage() {
       this.$router.push({ name: "SignUp" });
     },
+    loadInterestArea() {},
   },
 };
 </script>

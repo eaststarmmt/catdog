@@ -33,20 +33,38 @@
         ></b-form-select>
       </b-col>
       <b-col class="sm-3">
-        <b-button @click="registInterest">관심지역 등록</b-button>
+        <b-button @click.prevent="addInterArea">관심지역 등록</b-button>
       </b-col>
     </b-row>
     <b-row class="mt-4 mb-4">
       <b-col class="sm-3">
-        <b-button @click="showInterest">관심지역 보기</b-button>
+        <b>관심지역 보기</b>
       </b-col>
+      <b-col> </b-col>
+      <b-col> </b-col>
+      <b-col> </b-col>
+      <b-col> </b-col>
+      <b-col> </b-col>
+      <b-col> </b-col>
+    </b-row>
+    <b-row v-if="change && tempareas && tempareas.length != 0"
+      ><member-my-page-interest-row
+        v-for="(area, index) in tempareas"
+        :key="index"
+        :area="area"
+        isin="apt"
+      />
     </b-row>
   </div>
 </template>
 
 <script>
+import MemberMyPageInterestRow from "@/components/user/MemberMyPageInterestRow.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
-import { updateInterestArea } from "../../api/member.js";
+import {
+  updateInterestArea,
+  insertInterestAreaById,
+} from "../../api/member.js";
 
 /*
   namespaced: true를 사용했기 때문에 선언해줍니다.
@@ -62,16 +80,21 @@ const memberStore = "memberStore";
 
 export default {
   name: "HouseSearchBar",
+  components: {
+    MemberMyPageInterestRow,
+  },
   data() {
     return {
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
+      tempareas: [],
+      change: true,
     };
   },
   computed: {
-    ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
-    ...mapState(memberStore, ["userInfo"]),
+    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+    ...mapState(memberStore, ["userInfo", "userInterestArea"]),
 
     // sidos() {
     //   return this.$store.state.sidos;
@@ -83,8 +106,16 @@ export default {
     this.CLEAR_SIDO_LIST();
     this.getSido();
   },
+  updated() {
+    this.tempareas = this.userInterestArea;
+    this.change = true;
+  },
   methods: {
-    ...mapActions(memberStore, ["getUserInfo"]),
+    ...mapActions(memberStore, [
+      "getUserInfo",
+      "getInterestArea",
+      "insertInterestArea",
+    ]),
     ...mapActions(houseStore, [
       "getSido",
       "getGugun",
@@ -97,6 +128,7 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
+    ...mapMutations(memberStore, ["ADD_AREA_INTERESTAREA"]),
     // sidoList() {
     //   this.getSido();
     // },
@@ -144,26 +176,40 @@ export default {
         }
       }
     },
-
-    showInterest() {
-      //dongcode를 userinfo에서 등록하고
-      if (this.userInfo == null) {
-        alert("로그인이 필요합니다.");
-        this.$router.push({ name: "SignIn" });
+    async addInterArea() {
+      if (this.dongCode && !this.userInterestArea.includes(this.dongCode)) {
+        console.log(this.dongCode);
+        this.ADD_AREA_INTERESTAREA(this.dongCode);
+        await insertInterestAreaById({
+          userid: this.userInfo.userid,
+          area: this.dongCode,
+        });
+        await this.getInterestArea(this.userInfo.userid);
+        this.change = false;
       } else {
-        const interCode = this.userInfo.interestarea;
-        this.sidoCode = interCode.substring(0, 2);
-        this.gugunCode = interCode.substring(0, 5);
-        this.dongCode = interCode;
-        this.getGugun(this.sidoCode);
-        this.getDong(this.gugunCode);
-        console.log("시코 : " + this.sidoCode);
-        console.log("군코 : " + this.gugunCode);
-        console.log("동코 : " + this.dongCode);
-        console.log("관코 : " + interCode);
-        this.getDBHouseList(this.userInfo.interestarea);
+        alert("제대로선택");
       }
     },
+
+    // showInterest() {
+    //   //dongcode를 userinfo에서 등록하고
+    //   if (this.userInfo == null) {
+    //     alert("로그인이 필요합니다.");
+    //     this.$router.push({ name: "SignIn" });
+    //   } else {
+    //     const interCode = this.userInfo.interestarea;
+    //     this.sidoCode = interCode.substring(0, 2);
+    //     this.gugunCode = interCode.substring(0, 5);
+    //     this.dongCode = interCode;
+    //     this.getGugun(this.sidoCode);
+    //     this.getDong(this.gugunCode);
+    //     console.log("시코 : " + this.sidoCode);
+    //     console.log("군코 : " + this.gugunCode);
+    //     console.log("동코 : " + this.dongCode);
+    //     console.log("관코 : " + interCode);
+    //     this.getDBHouseList(this.userInfo.interestarea);
+    //   }
+    // },
   },
 };
 </script>

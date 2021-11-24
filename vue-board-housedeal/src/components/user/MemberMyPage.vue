@@ -47,10 +47,19 @@
             <b-row>
               <b-col cols="2"></b-col>
               <b-col cols="2" align-self="end">관심지역</b-col
-              ><b-col cols="4" align-self="start">{{
-                interestareaString
-              }}</b-col>
-              <b-col cols="2"></b-col>
+              ><b-col
+                cols="6"
+                align-self="start"
+                v-if="userInterestArea && userInterestArea.length != 0"
+              >
+                <member-my-page-interest-row
+                  v-for="(area, index) in userInterestArea"
+                  :key="index"
+                  :area="area"
+                  isin="mypage"
+                />
+              </b-col>
+              <b-col cols="4" align-self="start" v-else> 없음 </b-col>
             </b-row>
           </b-container>
           <b-container class="mt-4" v-if="modifying">
@@ -100,10 +109,22 @@
                     <b-form-select
                       v-model="dongCode"
                       :options="dongs"
-                      @change="registInterestArea"
                     ></b-form-select>
                   </b-col>
+                  <b-col>
+                    <button @click.prevent="addInterArea">추가</button>
+                  </b-col>
                 </b-row>
+                <b-container
+                  v-if="userInterestArea && userInterestArea.length != 0"
+                >
+                  <member-my-page-interest-row
+                    v-for="(area, index) in userInterestArea"
+                    :key="index"
+                    :area="area"
+                    isin="mod"
+                  />
+                </b-container>
               </b-form-group>
             </b-form>
           </b-container>
@@ -147,18 +168,20 @@
 </template>
 
 <script>
+import MemberMyPageInterestRow from "@/components/user/MemberMyPageInterestRow.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
 const memberStore = "memberStore";
 const houseStore = "houseStore";
 import {
   modifyUserById,
   deleteUserById,
-  convertCodeToString,
+  deleteAreaById,
+  insertInterestAreaById,
 } from "../../api/member.js";
 
 export default {
   name: "MemberMyPage",
-  components: {},
+  components: { MemberMyPageInterestRow },
   data() {
     return {
       modifying: false,
@@ -167,9 +190,8 @@ export default {
         username: null,
         userpwd: null,
         email: null,
-        interestarea: null,
       },
-      interestareaString: "",
+
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
@@ -179,21 +201,24 @@ export default {
     this.user.userid = this.userInfo.userid;
     this.user.username = this.userInfo.username;
     this.user.email = this.userInfo.email;
-    this.convertInterCodeToString();
+    this.tempareas = this.userInterestArea;
     this.CLEAR_SIDO_LIST();
     this.getSido();
   },
   computed: {
-    ...mapState(memberStore, ["userInfo"]),
+    ...mapState(memberStore, ["userInfo", "userInterestArea"]),
 
     ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
   },
-  updated() {
-    this.convertInterCodeToString();
-  },
+  //updated() {},
   methods: {
-    ...mapActions(memberStore, ["getUserInfo"]),
-    ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    ...mapActions(memberStore, ["getUserInfo", "getInterestArea"]),
+    ...mapMutations(memberStore, [
+      "SET_IS_LOGIN",
+      "SET_USER_INFO",
+      "SET_USER_INTERESTAREA",
+      "ADD_AREA_INTERESTAREA",
+    ]),
     ...mapActions(houseStore, [
       "getSido",
       "getGugun",
@@ -213,10 +238,11 @@ export default {
       console.log(this.user);
       this.user.username = this.userInfo.username;
       this.user.email = this.userInfo.email;
-      this.setInterCode();
+
       this.modifying = true;
     },
     cancelModify() {
+      this.getInterestArea(this.userInfo.userid);
       this.modifying = false;
     },
     async confirmModify() {
@@ -224,6 +250,9 @@ export default {
       await modifyUserById(this.user);
       let token = sessionStorage.getItem("access-token");
       await this.getUserInfo(token);
+      await this.deleteInterestArea();
+      await this.insertInterestArea();
+      await this.getInterestArea(this.user.userid);
       //그리고 다시 mypage로감
       alert("수정완료!");
       this.modifying = false;
@@ -235,19 +264,13 @@ export default {
         deleteUserById(this.user.userid);
         this.SET_IS_LOGIN(false);
         this.SET_USER_INFO(null);
+        this.SET_USER_INTERESTAREA([]);
         sessionStorage.removeItem("access-token");
         alert("탈퇴완료!");
         this.$router.push({ name: "Home" });
       }
     },
-    //동코드를 글자로
-    convertInterCodeToString() {
-      if (this.userInfo.interestarea != null) {
-        convertCodeToString(this.userInfo.interestarea, (response) => {
-          this.interestareaString = response.data;
-        });
-      }
-    },
+
     gugunList() {
       // console.log(this.sidoCode);
       console.log("시도코드", this.sidoCode);
@@ -262,21 +285,41 @@ export default {
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
-    registInterestArea() {
-      this.user.interestarea = this.dongCode;
-      console.log(this.dongCode);
-    },
-    //동코드를 시구군동으로 나눔
-    setInterCode() {
-      if (this.userInfo.interestarea) {
-        const interCode = this.userInfo.interestarea;
-        this.sidoCode = interCode.substring(0, 2);
-        this.gugunCode = interCode.substring(0, 5);
-        this.dongCode = interCode;
-        this.getGugun(this.sidoCode);
-        this.getDong(this.gugunCode);
+    addInterArea() {
+      // console.log();
+      if (this.dongCode && !this.userInterestArea.includes(this.dongCode)) {
+        this.ADD_AREA_INTERESTAREA(this.dongCode);
+      } else {
+        alert("동까지선택");
       }
     },
+    async insertInterestArea() {
+      for (const area of this.userInterestArea) {
+        let param = { userid: this.userInfo.userid, area: area };
+        console.log(param);
+        await insertInterestAreaById(param);
+      }
+    },
+
+    async deleteInterestArea() {
+      await deleteAreaById(this.user.userid);
+    },
+    // registInterestArea() {
+    //   //this.user.interestarea = this.dongCode;
+    //   console.log(this.dongCode);
+    // },
+
+    // //동코드를 시구군동으로 나눔
+    // setInterCode() {
+    //   if (this.userInfo.interestarea) {
+    //     const interCode = this.userInfo.interestarea;
+    //     this.sidoCode = interCode.substring(0, 2);
+    //     this.gugunCode = interCode.substring(0, 5);
+    //     this.dongCode = interCode;
+    //     this.getGugun(this.sidoCode);
+    //     this.getDong(this.gugunCode);
+    //   }
+    // },
   },
 };
 </script>
