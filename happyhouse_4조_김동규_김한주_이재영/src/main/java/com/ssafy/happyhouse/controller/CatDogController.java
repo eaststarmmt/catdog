@@ -153,28 +153,7 @@ public class CatDogController {
 		return new ResponseEntity<Map<String, Object>>(resultMap,HttpStatus.OK);
 	}
 	 
-	@GetMapping("/listfile")
-	public ResponseEntity<Map<String, Object>> listImages(@RequestParam Map<String, String> map) throws Exception {
-		Map<String,Object> resultMap = new HashMap<>();
 
-		String spp = map.get("spp"); // size per page (페이지당 글갯수)
-		map.put("spp", spp != null ? spp : "10");
-		List<FileInfoDto> list = catDogService.listFile(map);
-		System.out.println("**************************************");
-		System.out.println("리스트 GET 호출시 무엇이 담겨있나요?? " + list.toString());
-		for(int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
-		}
-		System.out.println("**************************************");
-		PageNavigation pageNavigation = catDogService.makePageNavigation(map);
-		resultMap.put("files", list);
-		resultMap.put("navigation", pageNavigation);
-		resultMap.put("key", map.get("key"));
-		resultMap.put("word", map.get("word"));
-		
-		return new ResponseEntity<Map<String, Object>>(resultMap,HttpStatus.OK);
-	}
-	
 	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = BoardDto.class)
 	@GetMapping("/{articleno}")
 	public ResponseEntity<CatDogDto> getArticle(@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno) throws Exception {

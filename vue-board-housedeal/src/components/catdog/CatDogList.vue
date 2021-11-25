@@ -16,7 +16,6 @@
               v-for="(article, index) in articles"
               :key="index"
               v-bind="article"
-              :index="index"
             ></cat-dog-list-row>
             <!-- <cat-dog-list-row /> -->
           </tbody>

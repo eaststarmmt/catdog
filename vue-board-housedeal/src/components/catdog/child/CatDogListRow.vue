@@ -9,20 +9,17 @@
     </b-th> -->
   <!-- <b-td>{{ saveFile }}</b-td> -->
   <!-- </b-tr> -->
-  <b-container fluid class="p-4" bg-dark>
-    <router-link :to="{ name: 'CatDogView', params: { articleno: articleno } }">
-      <b-img
-        v-if="fileInfos"
-        thumbnail
-        fluid
-        id="listrowImg"
-        :src="
-          require(`D:/git/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}
-`)
-        "
-      />
-    </router-link>
-  </b-container>
+  <router-link :to="{ name: 'CatDogView', params: { articleno: articleno } }">
+    <b-img
+      v-if="fileInfos"
+      thumbnail
+      fluid
+      id="listrowImg"
+      :src="
+        require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
+      "
+    />
+  </router-link>
 </template>
 
 <script>
@@ -68,8 +65,11 @@ export default {
 </script>
 
 <style>
+#imgContainer {
+  width: 300px;
+}
 #listrowImg {
   width: 300px;
-  height: 100px;
+  height: 300px;
 }
 </style>
