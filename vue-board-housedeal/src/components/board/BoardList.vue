@@ -67,7 +67,7 @@ export default {
       articles: [],
       pages: [],
       pg: 1,
-      spp: 7,
+      spp: 10,
       start: 1,
       end: this.start + this.spp - 1,
       last: null,
@@ -76,7 +76,7 @@ export default {
   created() {
     let param = {
       pg: 1,
-      spp: 7,
+      spp: 10,
       key: null,
       word: null,
     };
@@ -93,8 +93,8 @@ export default {
       console.log(response);
       this.last = response.data;
       let pages = [];
-      let start = (this.pg - 1) / 7 + 1;
-      for (let i = start; i < start + 7; i++) {
+      let start = (this.pg - 1) / 10 + 1;
+      for (let i = start; i < start + 10; i++) {
         pages.push(i);
       }
       this.pages = pages;
@@ -103,10 +103,10 @@ export default {
   methods: {
     makePagenation() {
       let pages = [];
-      let mod = this.pg % 7;
-      if (mod == 0) mod = 7;
+      let mod = this.pg % 10;
+      if (mod == 0) mod = 10;
       let start = this.pg - mod + 1;
-      for (let i = start; i < start + 7; i++) {
+      for (let i = start; i < start + 10; i++) {
         pages.push(parseInt(i));
       }
       this.pages = pages;
