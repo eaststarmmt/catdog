@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="navibar">
     <b-navbar
       toggleable="lg"
       type="dark"
@@ -117,4 +117,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#navibar {
+  margin-bottom: 100px;
+}
+</style>

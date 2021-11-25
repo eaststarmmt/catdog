@@ -45,11 +45,13 @@
       </b-col>
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
     </b-row>
-    <button @click="prev()" v-if="pg != 1">이전</button>
+    <b-button @click="prev()" v-if="pg != 1">이전</b-button>
     <span v-for="(page, index) in pages" :key="index">
-      <button v-if="page <= last" @click="pageChange(page)">{{ page }}</button>
+      <b-button v-if="page <= last" @click="pageChange(page)">{{
+        page
+      }}</b-button>
     </span>
-    <button @click="next()" v-if="pg != last">다음</button>
+    <b-button @click="next()" v-if="pg != last">다음</b-button>
   </b-container>
 </template>
 
