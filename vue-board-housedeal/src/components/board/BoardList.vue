@@ -45,11 +45,29 @@
       </b-col>
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
     </b-row>
-    <button @click="prev()" v-if="pg != 1">이전</button>
+
+    <b-button size="sm" variant="outline-dark" @click="prev()" v-if="pg != 1"
+      >이전</b-button
+    >
     <span v-for="(page, index) in pages" :key="index">
-      <button v-if="page <= last" @click="pageChange(page)">{{ page }}</button>
+      <b-button
+        size="sm"
+        variant="danger"
+        v-if="page <= last && page == pg"
+        @click="pageChange(page)"
+      >
+        {{ page }}
+      </b-button>
+      <b-button
+        size="sm"
+        v-if="page <= last && page != pg"
+        @click="pageChange(page)"
+        >{{ page }}</b-button
+      >
     </span>
-    <button @click="next()" v-if="pg != last">다음</button>
+    <b-button size="sm" variant="outline-dark" @click="next()" v-if="pg != last"
+      >다음</b-button
+    >
   </b-container>
 </template>
 
@@ -67,7 +85,7 @@ export default {
       articles: [],
       pages: [],
       pg: 1,
-      spp: 7,
+      spp: 10,
       start: 1,
       end: this.start + this.spp - 1,
       last: null,
@@ -76,7 +94,7 @@ export default {
   created() {
     let param = {
       pg: 1,
-      spp: 7,
+      spp: 10,
       key: null,
       word: null,
     };
@@ -93,8 +111,8 @@ export default {
       console.log(response);
       this.last = response.data;
       let pages = [];
-      let start = (this.pg - 1) / 7 + 1;
-      for (let i = start; i < start + 7; i++) {
+      let start = (this.pg - 1) / 10 + 1;
+      for (let i = start; i < start + 10; i++) {
         pages.push(i);
       }
       this.pages = pages;
@@ -103,10 +121,10 @@ export default {
   methods: {
     makePagenation() {
       let pages = [];
-      let mod = this.pg % 7;
-      if (mod == 0) mod = 7;
+      let mod = this.pg % 10;
+      if (mod == 0) mod = 10;
       let start = this.pg - mod + 1;
-      for (let i = start; i < start + 7; i++) {
+      for (let i = start; i < start + 10; i++) {
         pages.push(parseInt(i));
       }
       this.pages = pages;

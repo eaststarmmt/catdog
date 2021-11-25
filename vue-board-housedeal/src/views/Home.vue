@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row mt-3 text-center" fluid="xl">
-    <h3 class="underline-steelblue">
+    <h3 class="underline-steelblue" style="margin-bottom: 30px">
       <b-icon icon="house"></b-icon> HAPPY HOUSE
     </h3>
     <b-row>
