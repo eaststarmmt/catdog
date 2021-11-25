@@ -8,14 +8,14 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col v-if="files.length">
+      <b-col v-if="articles.length">
         <b-table-simple hover responsive>
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
             <cat-dog-list-row
-              v-for="(file, index) in files"
+              v-for="(article, index) in articles"
               :key="index"
-              v-bind="file"
+              v-bind="article"
             ></cat-dog-list-row>
             <!-- <cat-dog-list-row /> -->
           </tbody>
@@ -28,7 +28,7 @@
 
 <script>
 import CatDogListRow from "@/components/catdog/child/CatDogListRow";
-import { listFile } from "@/api/catdog.js";
+import { listArticle } from "@/api/catdog.js";
 
 export default {
   name: "CatDogList",
@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      files: [],
+      articles: [],
     };
   },
   created() {
@@ -47,11 +47,11 @@ export default {
       key: null,
       word: null,
     };
-    listFile(
+    listArticle(
       param,
       (response) => {
-        console.log("캣독 리스트 데이터", response.data.files);
-        this.files = response.data.files;
+        console.log("캣독 리스트 데이터", response.data);
+        this.articles = response.data.articles;
       },
       (error) => {
         console.log(error);

@@ -3,9 +3,12 @@ package com.ssafy.happyhouse.model.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.ssafy.happyhouse.model.CatDogDto;
 import com.ssafy.happyhouse.model.FileInfoDto;
 
+@Mapper
 public interface CatDogMapper {
 
 	int writeArticle(CatDogDto catDogDto) throws Exception;
