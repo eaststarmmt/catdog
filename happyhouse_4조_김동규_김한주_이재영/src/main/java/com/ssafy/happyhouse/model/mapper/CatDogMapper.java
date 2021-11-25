@@ -19,6 +19,6 @@ public interface CatDogMapper {
 	CatDogDto getArticle(int articleNo) throws Exception;
 	void updateArticle(CatDogDto catDogDto) throws Exception;
 	void deleteFile(int articleNo) throws Exception;
-	void deleteArticle(int articleNo) throws Exception;
+	boolean deleteArticle(int articleNo) throws Exception;
 	List<FileInfoDto> getFile(int articleNo) throws Exception;
 }

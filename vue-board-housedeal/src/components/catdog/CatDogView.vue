@@ -50,7 +50,7 @@
 import { mapActions, mapState } from "vuex";
 import ReplyList from "@/components/reply/ReplyList";
 import ReplyWrite from "@/components/reply/ReplyWrite";
-import { getArticle, deleteArticle } from "@/api/board";
+import { getArticle, deleteArticle } from "@/api/catdog";
 // import ReplyList from "../reply/ReplyList.vue";
 
 const boardStore = "boardStore";
@@ -86,6 +86,7 @@ export default {
       this.$route.params.articleno,
       (response) => {
         this.article = response.data;
+        console.log("캣독 뷰에서 호출하는 article", this.article);
       },
       (error) => {
         console.log("삭제시 에러발생!!", error);
@@ -102,12 +103,13 @@ export default {
     //   await this.getUserid(this.article.userid);
     // },
     listArticle() {
-      this.$router.push({ name: "BoardList" });
+      this.$router.push({ name: "CatDogList" });
     },
     async moveModifyArticle() {
+      console.log("캣독뷰에서 호출", this.articleno);
       this.setUserid(this.article.userid);
       this.$router.replace({
-        name: "BoardUpdate",
+        name: "CatDogUpdate",
         params: { articleno: this.article.articleno },
       });
       //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
@@ -115,7 +117,7 @@ export default {
     removeArticle() {
       if (confirm("정말로 삭제?")) {
         deleteArticle(this.article.articleno, () => {
-          this.$router.push({ name: "BoardList" });
+          this.$router.push({ name: "CatDogList" });
         });
       }
     },
