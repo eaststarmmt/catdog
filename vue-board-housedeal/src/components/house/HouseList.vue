@@ -1,10 +1,18 @@
 <template>
   <b-container v-if="houses && houses.length != 0" class="bv-example-row mt-3">
-    <house-list-row
-      v-for="(house, index) in houses"
-      :key="index"
-      :house="house"
-    />
+    <b-table-simple>
+      <b-tr>
+        <b-td>번호</b-td>
+        <b-td>이름</b-td>
+        <b-td>법정동</b-td>
+        <b-td>가격</b-td>
+      </b-tr>
+      <house-list-row
+        v-for="(house, index) in houses"
+        :key="index"
+        :house="house"
+      />
+    </b-table-simple>
   </b-container>
   <b-container v-else class="bv-example-row mt-3">
     <b-row>
