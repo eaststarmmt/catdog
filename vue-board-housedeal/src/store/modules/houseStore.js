@@ -15,6 +15,7 @@ const houseStore = {
     houses: [],
     house: null,
     map: null,
+    aroundinfo: [],
   },
 
   getters: {},
@@ -61,6 +62,9 @@ const houseStore = {
       state.house = house;
       console.log("set_detail_map에서 호출한 house : ", house);
       // house 정보를 불러오므로 이제 선택한 아파트를 map에다가 그려주기
+    },
+    SET_AROUND_INFO(state, data) {
+      state.aroundinfo.push(data);
     },
   },
 

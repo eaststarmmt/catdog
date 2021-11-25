@@ -17,7 +17,7 @@
         fluid
         id="listrowImg"
         :src="
-          require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
+          require(`C:/SSAFY/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
         "
       />
     </router-link>

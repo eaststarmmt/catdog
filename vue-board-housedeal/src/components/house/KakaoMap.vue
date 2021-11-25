@@ -7,39 +7,40 @@
         style="width: 100%; height: 100%; position: relative; overflow: hidden"
       >
         <ul id="category">
-          <li id="BK9" data-order="0">
+          <li id="animalHos" data-order="0">
             <span class="category_bg bank"></span>
-            은행
+            동물병원
           </li>
-          <li id="MT1" data-order="1">
+          <li id="park" data-order="1">
             <span class="category_bg mart"></span>
-            마트
+            공원
           </li>
           <li id="PM9" data-order="2">
             <span class="category_bg pharmacy"></span>
             약국
           </li>
-          <li id="OL7" data-order="3">
+          <li id="petShop" data-order="3">
             <span class="category_bg oil"></span>
-            주유소
+            펫샵
           </li>
           <li id="CE7" data-order="4">
             <span class="category_bg cafe"></span>
             카페
           </li>
-          <li id="CS2" data-order="5">
+          <li id="SC4" data-order="5">
             <span class="category_bg store"></span>
-            편의점
+            학교
           </li>
         </ul>
       </div>
     </div>
+    <div id="scoreboard"></div>
   </div>
 </template>
 
 <script>
 // 카카오 맵에서 vuex에 있는 데이터를 가지고 와야함
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { VUE_APP_KAKAO_KEY } from "@/config/index.js";
 
 const houseStore = "houseStore";
@@ -53,6 +54,14 @@ export default {
       // markers: [],
       // infowindow: null,
       // customOverlay: null,
+      around: {
+        aniHos: 0,
+        park: 0,
+        phar: 0,
+        pet: 0,
+        cafe: 0,
+        schl: 0,
+      },
     };
   },
   // props: {
@@ -77,6 +86,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(houseStore, ["SET_AROUND_INFO", "SET_DETAIL_HOUSE"]),
     initMap() {
       const container = document.getElementById("map");
       const options = {
@@ -88,6 +98,7 @@ export default {
   },
   updated() {
     console.log("updated에서 호출!");
+
     // this.initMap();
     const lat = this.house.lat;
     const lng = this.house.lng;
@@ -110,6 +121,15 @@ export default {
 
     // 장소 검색 객체를 생성합니다
     var ps = new kakao.maps.services.Places(map);
+
+    let around = {
+      aniHos: 0,
+      park: 0,
+      phar: 0,
+      pet: 0,
+      cafe: 0,
+      schl: 0,
+    };
 
     // var ps = new kakao.maps.services.Places(this.map);
 
@@ -156,12 +176,33 @@ export default {
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
     function placesSearchCB(data, status) {
+      console.log(status);
+      console.log(data);
+      if (currCategory === "animalHos") {
+        around.aniHos = data.length;
+      } else if (currCategory === "park") {
+        around.park = data.length;
+      } else if (currCategory === "PM9") {
+        around.phar = data.length;
+      } else if (currCategory === "petShop") {
+        around.pet = data.length;
+      } else if (currCategory === "CE7") {
+        around.cafe = data.length;
+      } else if (currCategory === "SC4") {
+        around.schl = data.length;
+      }
+      console.log(around);
+      var scoreboard = document.getElementById("scoreboard");
+      scoreboard.innerText = data.length + "개 ";
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
         displayPlaces(data);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        console.log("결과x");
+        alert("주변에 없습니다.");
         // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
       } else if (status === kakao.maps.services.Status.ERROR) {
+        console.log("에러");
         // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
       }
     }
@@ -274,9 +315,11 @@ export default {
     function addCategoryClickEvent() {
       var category = document.getElementById("category"),
         children = category.children;
+      console.log(children[0].id);
 
       for (var i = 0; i < children.length; i++) {
         children[i].onclick = onClickCategory;
+        //console.log(children[i].id);
       }
     }
 
@@ -291,8 +334,24 @@ export default {
         currCategory = "";
         changeCategoryClass();
         removeMarker();
+      } else if (id === "animalHos") {
+        currCategory = id;
+        changeCategoryClass(this);
+        // console.log("동병검색!!");
+        searchByKey("동물병원");
+      } else if (id === "park") {
+        currCategory = id;
+        changeCategoryClass(this);
+        // console.log("동병검색!!");
+        searchByKey("공원");
+      } else if (id === "petShop") {
+        currCategory = id;
+        changeCategoryClass(this);
+        // console.log("동병검색!!");
+        searchByKey("펫샵");
       } else {
         currCategory = id;
+        // console.log(this);
         changeCategoryClass(this);
         searchPlaces();
       }
@@ -312,6 +371,76 @@ export default {
         el.className = "on";
       }
     }
+
+    function searchByKey(key) {
+      console.log("key: ", key);
+      // 커스텀 오버레이를 숨깁니다
+      placeOverlay.setMap(null);
+
+      // 지도에 표시되고 있는 마커를 제거합니다
+      removeMarker();
+
+      ps.keywordSearch(key, placesSearchCB, { useMapBounds: true });
+    }
+
+    // function getDataList(id) {
+    //   //console.log(id);
+    //   if (id === "animalHos") {
+    //     currCategory = id;
+
+    //     getDataSearchByKey("동물병원");
+    //   } else if (id === "park") {
+    //     currCategory = id;
+
+    //     getDataSearchByKey("공원");
+    //   } else if (id === "petShop") {
+    //     currCategory = id;
+
+    //     getDataSearchByKey("펫샵");
+    //   } else {
+    //     id;
+
+    //     getDataSearchPlaces(id);
+    //   }
+    // }
+
+    // function getDataSearchByKey(key) {
+    //   console.log(key);
+    //   ps.keywordSearch(key, getData, { useMapBounds: true });
+    // }
+
+    // function getDataSearchPlaces(id) {
+    //   console.log(id);
+    //   ps.categorySearch(id, getData, { useMapBounds: true });
+    // }
+
+    // function getData(data, status) {
+    //   arr.psuh(data.length);
+    //   // if (currCategory === "animalHos") {
+    //   //   around.aniHos = data.length;
+    //   // } else if (currCategory === "park") {
+    //   //   around.park = data.length;
+    //   // } else if (currCategory === "PM9") {
+    //   //   around.phar = data.length;
+    //   // } else if (currCategory === "petShop") {
+    //   //   around.pet = data.length;
+    //   // } else if (currCategory === "CE7") {
+    //   //   around.cafe = data.length;
+    //   // } else if (currCategory === "SC4") {
+    //   //   around.schl = data.length;
+    //   // }
+    //   // console.log(around);
+    //   if (status === kakao.maps.services.Status.OK) {
+    //     // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
+    //   } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+    //     console.log(currCategory + ":결과x");
+
+    //     // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
+    //   } else if (status === kakao.maps.services.Status.ERROR) {
+    //     console.log("에러");
+    //     // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
+    //   }
+    // }
   },
 };
 </script>

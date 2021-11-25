@@ -20,35 +20,35 @@
         >
           <b-carousel-slide
             :img-src="
-              require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${this.articles[0].fileInfos[0].saveFolder}/${this.articles[0].fileInfos[0].saveFile}`)
+              require(`C:/SSAFY/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
             "
             id="catdogCarousel"
           >
           </b-carousel-slide>
           <b-carousel-slide
             :img-src="
-              require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${this.articles[1].fileInfos[0].saveFolder}/${this.articles[1].fileInfos[0].saveFile}`)
+              require(`C:/SSAFY/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
             "
             id="catdogCarousel"
           >
           </b-carousel-slide>
           <b-carousel-slide
             :img-src="
-              require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${this.articles[2].fileInfos[0].saveFolder}/${this.articles[2].fileInfos[0].saveFile}`)
+              require(`C:/SSAFY/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
             "
             id="catdogCarousel"
           >
           </b-carousel-slide>
           <b-carousel-slide
             :img-src="
-              require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${this.articles[3].fileInfos[0].saveFolder}/${this.articles[3].fileInfos[0].saveFile}`)
+              require(`C:/SSAFY/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
             "
             id="catdogCarousel"
           >
           </b-carousel-slide>
           <b-carousel-slide
             :img-src="
-              require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${this.articles[4].fileInfos[0].saveFolder}/${this.articles[4].fileInfos[0].saveFile}`)
+              require(`C:/SSAFY/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
             "
             id="catdogCarousel"
           >
