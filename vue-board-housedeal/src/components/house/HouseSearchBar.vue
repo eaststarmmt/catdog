@@ -38,7 +38,10 @@
         >
       </b-col>
     </b-row>
-    <b-row class="mt-4 mb-4">
+    <b-row
+      class="mt-4 mb-4"
+      v-if="change && tempareas && tempareas.length != 0"
+    >
       <b-col class="sm-6">
         <b>관심지역 보기</b>
       </b-col>
@@ -47,7 +50,7 @@
       <b-col> </b-col>
       <b-col> </b-col>
     </b-row>
-    <b-row v-if="change && tempareas && tempareas.length != 0"
+    <b-row
       ><member-my-page-interest-row
         v-for="(area, index) in tempareas"
         :key="index"
@@ -177,6 +180,10 @@ export default {
       }
     },
     async addInterArea() {
+      if (!this.userInfo) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
       if (this.dongCode && !this.userInterestArea.includes(this.dongCode)) {
         console.log(this.dongCode);
         this.ADD_AREA_INTERESTAREA(this.dongCode);
