@@ -91,7 +91,6 @@ export default {
     movePage() {
       this.$router.push({ name: "SignUp" });
     },
-    loadInterestArea() {},
   },
 };
 </script>

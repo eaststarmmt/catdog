@@ -149,6 +149,7 @@ export default {
     };
   },
   created() {
+    this.SET_USER_INTERESTAREA([]);
     this.CLEAR_SIDO_LIST();
     this.getSido();
   },
@@ -170,7 +171,10 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
-    ...mapMutations(memberStore, ["ADD_AREA_INTERESTAREA"]),
+    ...mapMutations(memberStore, [
+      "ADD_AREA_INTERESTAREA",
+      "SET_USER_INTERESTAREA",
+    ]),
     ...mapActions(memberStore, ["insertInterestArea"]),
 
     checkValue() {
