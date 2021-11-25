@@ -79,6 +79,12 @@ public class CatDogServiceImpl implements CatDogService {
 		// TODO Auto-generated method stub
 		return sqlSession.getMapper(CatDogMapper.class).getArticle(articleNo);
 	}
+	
+	@Override
+	public List<FileInfoDto> getFile(int articleNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.getMapper(CatDogMapper.class).getFile(articleNo);
+	}
 
 	@Override
 	@Transactional
@@ -92,7 +98,7 @@ public class CatDogServiceImpl implements CatDogService {
 	public void deleteArticle(int articleNo, String path) throws Exception {
 		// TODO Auto-generated method stub
 		CatDogMapper catDogMapper = sqlSession.getMapper(CatDogMapper.class);
-		List<FileInfoDto> fileList = catDogMapper.fileInfoList(articleNo);
+		List<FileInfoDto> fileList = catDogMapper.getFile(articleNo);
 		catDogMapper.deleteFile(articleNo);
 		catDogMapper.deleteArticle(articleNo);
 		for(FileInfoDto fileInfoDto : fileList) {
@@ -100,6 +106,19 @@ public class CatDogServiceImpl implements CatDogService {
 			file.delete();
 		}
 		sqlSession.getMapper(CatDogMapper.class).deleteArticle(articleNo);
+	}
+
+	@Override
+	public List<FileInfoDto> listFile(Map<String, String> map) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("key", map.get("key") == null ? "" : map.get("key"));
+		param.put("word", map.get("word") == null ? "" : map.get("word"));
+		int currentPage = Integer.parseInt(map.get("pg") == null ? "1" : map.get("pg"));
+		int sizePerPage = Integer.parseInt(map.get("spp"));
+		int start = (currentPage - 1) * sizePerPage;
+		param.put("start", start);
+		param.put("spp", sizePerPage);
+		return sqlSession.getMapper(CatDogMapper.class).listFile(param);
 	}
 
 }

@@ -1,10 +1,5 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show><h3>글목록</h3></b-alert>
-      </b-col>
-    </b-row>
     <b-row class="mb-1">
       <b-col class="text-right">
         <b-button variant="outline-primary" @click="moveWrite()"
@@ -13,24 +8,16 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col v-if="articles.length">
+      <b-col v-if="files.length">
         <b-table-simple hover responsive>
-          <b-thead head-variant="dark">
-            <b-tr>
-              <b-th>글번호</b-th>
-              <b-th>제목</b-th>
-              <b-th>조회수</b-th>
-              <b-th>작성자</b-th>
-              <b-th>작성일</b-th>
-            </b-tr>
-          </b-thead>
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
-            <catdog-list-row
-              v-for="(article, index) in articles"
+            <cat-dog-list-row
+              v-for="(file, index) in files"
               :key="index"
-              v-bind="article"
-            />
+              v-bind="file"
+            ></cat-dog-list-row>
+            <!-- <cat-dog-list-row /> -->
           </tbody>
         </b-table-simple>
       </b-col>
@@ -40,17 +27,17 @@
 </template>
 
 <script>
-// import CatDogListRow from "@/components/catdog/child/CatDogListRow";
-import { listArticle } from "@/api/catdog.js";
+import CatDogListRow from "@/components/catdog/child/CatDogListRow";
+import { listFile } from "@/api/catdog.js";
 
 export default {
   name: "CatDogList",
   components: {
-    // CatDogListRow,
+    CatDogListRow,
   },
   data() {
     return {
-      articles: [],
+      files: [],
     };
   },
   created() {
@@ -60,10 +47,11 @@ export default {
       key: null,
       word: null,
     };
-    listArticle(
+    listFile(
       param,
       (response) => {
-        this.articles = response.data;
+        console.log("캣독 리스트 데이터", response.data.files);
+        this.files = response.data.files;
       },
       (error) => {
         console.log(error);

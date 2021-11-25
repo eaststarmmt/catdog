@@ -7,17 +7,7 @@
     <!-- 등록버튼 누르면 입력화면 창으로 이동 -->
     <b-row>
       <b-col></b-col>
-      <b-col cols="12">
-        <b-jumbotron
-          bg-variant="muted"
-          text-variant="dark"
-          border-variant="dark"
-        >
-          <template #header>SSAFY 캣독그램</template>
-
-          <hr class="my-4" />
-        </b-jumbotron>
-      </b-col>
+      <b-col cols="12"> </b-col>
       <b-col></b-col>
     </b-row>
   </b-container>
