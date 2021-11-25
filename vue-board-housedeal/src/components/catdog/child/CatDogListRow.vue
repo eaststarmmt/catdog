@@ -9,31 +9,18 @@
     </b-th> -->
   <!-- <b-td>{{ saveFile }}</b-td> -->
   <!-- </b-tr> -->
-  <b-container fluid class="p-4">
-    <b-row>
-      <b-col>
-        <router-link
-          :to="{ name: 'CatDogView', params: { articleno: articleno } }"
-        >
-          {{ articleno }}번 게시물입니다!!!!!!!!!!!!!!!!!!!!!!!!!!!<br />제목:{{
-            subject
-          }}
-        </router-link>
-        <br />
-
-        <!-- {{ fileInfos[0].originFile }}<br />
-        {{ fileInfos[0].saveFolder }}<br />
-        {{ fileInfos[0].saveFile }} -->
-        <b-img
-          v-if="fileInfos"
-          thumbnail
-          fluid
-          :src="
-            require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
-          "
-        />
-      </b-col>
-    </b-row>
+  <b-container fluid class="p-4" bg-dark>
+    <router-link :to="{ name: 'CatDogView', params: { articleno: articleno } }">
+      <b-img
+        v-if="fileInfos"
+        thumbnail
+        fluid
+        id="listrowImg"
+        :src="
+          require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
+        "
+      />
+    </router-link>
   </b-container>
 </template>
 
@@ -52,9 +39,11 @@ export default {
     console.log("리스트 로우에서 호출하는 articleno: ", this.articleno);
     console.log("fileInfos: ", this.fileInfos);
   },
+  created() {},
   props: {
     articleno: Number,
     subject: String,
+    index: Number,
     //content: String,
 
     fileInfos: {
@@ -77,4 +66,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#listrowImg {
+  width: 300px;
+  height: 100px;
+}
+</style>

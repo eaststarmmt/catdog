@@ -22,8 +22,8 @@ function getFile(articleno, success, fail) {
   api.get(`/catdog/file/${articleno}`).then(success).catch(fail);
 }
 
-function modifyArticle(article, success, fail) {
-  api.put(`/catdog`, JSON.stringify(article)).then(success).catch(fail);
+function modifyArticle(formData, success, fail) {
+  api.put(`/catdog`, formData).then(success).catch(fail);
 }
 
 function modifyFile(article, success, fail) {
@@ -31,11 +31,7 @@ function modifyFile(article, success, fail) {
 }
 
 function deleteArticle(articleno, success, fail) {
-  api.delete(`/catdog/${articleno}`).then(success).catch(fail);
-}
-
-function deleteFile(articleno, success, fail) {
-  api.delete(`/catdog/file/${articleno}`).then(success).catch(fail);
+  api.delete(`/catdog//${articleno}`).then(success).catch(fail);
 }
 
 export {
@@ -47,5 +43,4 @@ export {
   modifyArticle,
   modifyFile,
   deleteArticle,
-  deleteFile,
 };

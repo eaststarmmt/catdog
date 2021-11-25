@@ -177,22 +177,21 @@ public class CatDogController {
 	
 	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = BoardDto.class)
 	@GetMapping("/{articleno}")
-	public ResponseEntity<BoardDto> getArticle(@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno) throws Exception {
+	public ResponseEntity<CatDogDto> getArticle(@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno) throws Exception {
 		logger.info("getArticle - 호출 : " + articleno);
-		boardService.updateHit(articleno);
-		return new ResponseEntity<BoardDto>(boardService.getArticle(articleno), HttpStatus.OK);
+		return new ResponseEntity<CatDogDto>(catDogService.getArticle(articleno), HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "게시판 글수정", notes = "새로운 게시글 정보를 입력한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping
-	public ResponseEntity<String> modifyArticle(@RequestBody @ApiParam(value = "수정할 글정보.", required = true) CatDogDto catDogDto) throws Exception {
-		logger.info("modifyArticle - 호출");
-		
-		if (catDogService.updateArticle(catDogDto)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
-	}
+//	@ApiOperation(value = "게시판 글수정", notes = "새로운 게시글 정보를 입력한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+//	@PutMapping
+//	public ResponseEntity<String> modifyArticle(@RequestBody @ApiParam(value = "수정할 글정보.", required = true) CatDogDto catDogDto) throws Exception {
+//		logger.info("modifyArticle - 호출");
+//		
+//		if (catDogService.updateArticle(catDogDto)) {
+//			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+//	}
 	
 	@DeleteMapping("/{articleno}")
 	public ResponseEntity<String> deleteArticle(@PathVariable("articleno") @ApiParam(value = "살제할 글의 글번호.", required = true) int articleno) throws Exception {

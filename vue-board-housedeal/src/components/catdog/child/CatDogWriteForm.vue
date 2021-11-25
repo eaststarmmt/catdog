@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { writeArticle, getArticle } from "@/api/catdog.js";
+import { writeArticle, getArticle, modifyArticle } from "@/api/catdog.js";
 import { mapState } from "vuex";
 
 const memberStore = "memberStore";
@@ -150,6 +150,7 @@ export default {
       //this.article.images = [];
       this.$router.push({ name: "CatDogList" });
     },
+
     registArticle() {
       console.log(this.images);
       var formData = new FormData();
@@ -182,28 +183,31 @@ export default {
         }
       );
     },
-    // updateArticle() {
-    //   modifyArticle(
-    //     {
-    //       articleno: this.article.articleno,
-    //       userid: this.article.userid,
-    //       subject: this.article.subject,
-    //       content: this.article.content,
-    //     },
-    //     ({ data }) => {
-    //       let msg = "수정 처리시 문제가 발생했습니다.";
-    //       if (data === "success") {
-    //         msg = "수정이 완료되었습니다.";
-    //       }
-    //       alert(msg);
-    //       // 현재 route를 /list로 변경.
-    //       this.$router.push({ name: "CatDogList" });
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // },
+    updateArticle() {
+      var formData = new FormData();
+      formData.append("userid", this.article.userid);
+      formData.append("subject", this.article.subject);
+      formData.append("content", this.article.content);
+      for (let i = 0; i < this.images.length; i++) {
+        formData.append("files", this.images[i]);
+        console.log(this.images[i]);
+      }
+      modifyArticle(
+        formData,
+        ({ data }) => {
+          let msg = "수정 처리시 문제가 발생했습니다.";
+          if (data === "success") {
+            msg = "수정이 완료되었습니다.";
+          }
+          alert(msg);
+          // 현재 route를 /list로 변경.
+          this.$router.push({ name: "CatDogList" });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     moveList() {
       this.$router.push({ name: "CatDogList" });
     },

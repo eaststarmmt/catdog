@@ -105,7 +105,7 @@ public class CatDogServiceImpl implements CatDogService {
 			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
 			file.delete();
 		}
-		return sqlSession.getMapper(CatDogMapper.class).deleteArticle(articleNo);
+		return true;
 	}
 
 	@Override
