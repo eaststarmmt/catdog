@@ -60,12 +60,12 @@
 </template>
 
 <script>
-import { writeArticle, getArticle, modifyArticle } from "@/api/board";
+import { writeArticle, getArticle, modifyArticle } from "@/api/notice";
 import { mapState } from "vuex";
 
 const memberStore = "memberStore";
 export default {
-  name: "BoardWriteForm",
+  name: "NoticeWriteForm",
   data() {
     return {
       article: {
@@ -128,7 +128,7 @@ export default {
       this.article.articleno = 0;
       this.article.subject = "";
       this.article.content = "";
-      this.$router.push({ name: "BoardList" });
+      this.$router.push({ name: "NoticeList" });
     },
     registArticle() {
       writeArticle(
@@ -165,7 +165,7 @@ export default {
           }
           alert(msg);
           // 현재 route를 /list로 변경.
-          this.$router.push({ name: "BoardList" });
+          this.$router.push({ name: "NoticeList" });
         },
         (error) => {
           console.log(error);
@@ -173,7 +173,7 @@ export default {
       );
     },
     moveList() {
-      this.$router.push({ name: "BoardList" });
+      this.$router.push({ name: "NoticeList" });
     },
   },
 };

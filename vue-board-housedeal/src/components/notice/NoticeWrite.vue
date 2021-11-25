@@ -5,17 +5,17 @@
         <b-alert show><h3>글작성</h3></b-alert>
       </b-col>
     </b-row>
-    <board-write-form type="register" />
+    <notice-write-form type="register" />
   </b-container>
 </template>
 
 <script>
-import BoardWriteForm from "./child/BoardWriteForm.vue";
+import NoticeWriteForm from "./child/NoticeWriteForm.vue";
 
 export default {
-  name: "BoardWrite",
+  name: "NoticeWrite",
   components: {
-    BoardWriteForm,
+    NoticeWriteForm,
   },
 };
 </script>

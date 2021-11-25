@@ -20,6 +20,12 @@ import BoardWrite from "@/components/board/BoardWrite.vue";
 import BoardView from "@/components/board/BoardView.vue";
 import BoardUpdate from "@/components/board/BoardUpdate.vue";
 
+import Notice from "@/views/Notice.vue";
+import NoticeList from "@/components/notice/NoticeList.vue";
+import NoticeWrite from "@/components/notice/NoticeWrite.vue";
+// import NoticeView from "@/components/notice/NoticeView.vue";
+// import NoticeUpdate from "@/components/notice/NoticeUpdate.vue";
+
 import House from "@/views/House.vue";
 
 import store from "@/store/index.js";
@@ -94,6 +100,37 @@ const routes = [
     ],
   },
   {
+    path: "/notice",
+    name: "Notice",
+    component: Notice,
+    redirect: "/notice/noticelist",
+    children: [
+      {
+        path: "noticelist",
+        name: "NoticeList",
+        component: NoticeList,
+      },
+      {
+        path: "noticewrite",
+        name: "NoticeWrite",
+        beforeEnter: onlyAuthUser,
+        component: NoticeWrite,
+      },
+      // {
+      //   path: "noticedetail/:articleno",
+      //   name: "NoticeView",
+      //   beforeEnter: onlyAuthUser,
+      //   component: NoticeView,
+      // },
+      // {
+      //   path: "noticeupdate/:articleno",
+      //   name: "NoticeUpdate",
+      //   beforeEnter: boardAuthUser,
+      //   component: NoticeUpdate,
+      // },
+    ],
+  },
+  {
     path: "/catdog",
     name: "CatDog",
     component: CatDog,
@@ -160,6 +197,7 @@ const routes = [
     name: "House",
     component: House,
   },
+
   {
     path: "*",
     redirect: "/",

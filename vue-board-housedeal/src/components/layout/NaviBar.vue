@@ -27,6 +27,12 @@
             ></b-nav-item
           >
           <b-nav-item href="#"
+            ><router-link :to="{ name: 'Notice' }" class="link"
+              ><b-icon icon="journal" font-scale="1"></b-icon>
+              공지사항</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
             ><router-link :to="{ name: 'Board' }" class="link"
               ><b-icon icon="journal" font-scale="1"></b-icon>
               QnA게시판</router-link

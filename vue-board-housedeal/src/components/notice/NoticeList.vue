@@ -26,7 +26,7 @@
           </b-thead>
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
-            <board-list-row
+            <notice-list-row
               v-for="(article, index) in articles"
               :key="index"
               v-bind="article"
@@ -40,13 +40,13 @@
 </template>
 
 <script>
-import BoardListRow from "@/components/board/child/BoardListRow";
-import { listArticle } from "@/api/board.js";
+import NoticeListRow from "@/components/notice/child/NoticeListRow";
+import { listArticle } from "@/api/notice.js";
 
 export default {
-  name: "BoardList",
+  name: "NoticeList",
   components: {
-    BoardListRow,
+    NoticeListRow,
   },
   data() {
     return {
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     moveWrite() {
-      this.$router.push({ name: "BoardWrite" });
+      this.$router.push({ name: "NoticeWrite" });
     },
   },
 };
