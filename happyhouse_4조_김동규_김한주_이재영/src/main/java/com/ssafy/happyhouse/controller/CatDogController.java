@@ -84,16 +84,24 @@ public class CatDogController {
 		if (!files[0].isEmpty()) {
 //			String realPath = servletContext.getRealPath("/upload");
 			String realPath = servletContext.getRealPath("/resources/img");
+			String realPath2 = servletContext.getRealPath("/resources/img");
 			String today = new SimpleDateFormat("yyMMdd").format(new Date());
 			String saveFolder = realPath + File.separator + today;
+			String saveFolder2 = realPath2 + File.separator + today;
 			logger.debug("저장 폴더 : {}", saveFolder);
 			File folder = new File(saveFolder);
+			File folder2 = new File(saveFolder2);
 			if (!folder.exists())
 				folder.mkdirs();
+			if (!folder2.exists())
+				folder2.mkdirs();
 			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
+			List<FileInfoDto> fileInfos2 = new ArrayList<FileInfoDto>();
 			for (MultipartFile mfile : files) {
 				FileInfoDto fileInfoDto = new FileInfoDto();
+				FileInfoDto fileInfoDto2 = new FileInfoDto();
 				String originalFileName = mfile.getOriginalFilename();
+				String originalFileName2 = mfile.getOriginalFilename();
 				if (!originalFileName.isEmpty()) {
 					String saveFileName = UUID.randomUUID().toString()
 							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
@@ -103,7 +111,17 @@ public class CatDogController {
 					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
 					mfile.transferTo(new File(folder, saveFileName));
 				}
+				if (!originalFileName2.isEmpty()) {
+					String saveFileName2 = UUID.randomUUID().toString()
+							+ originalFileName2.substring(originalFileName2.lastIndexOf('.'));
+					fileInfoDto2.setSaveFolder(today);
+					fileInfoDto2.setOriginFile(originalFileName2);
+					fileInfoDto2.setSaveFile(saveFileName2);
+					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName2);
+					mfile.transferTo(new File(folder, saveFileName2));
+				}
 				fileInfos.add(fileInfoDto);
+				fileInfos2.add(fileInfoDto2);
 			}
 			catDogDto.setFileInfos(fileInfos);
 		}
@@ -120,8 +138,36 @@ public class CatDogController {
 		String spp = map.get("spp"); // size per page (페이지당 글갯수)
 		map.put("spp", spp != null ? spp : "10");
 		List<CatDogDto> list = catDogService.listArticle(map);
+		System.out.println("**************************************");
+		System.out.println("리스트 GET 호출시 무엇이 담겨있나요?? " + list.toString());
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		System.out.println("**************************************");
 		PageNavigation pageNavigation = catDogService.makePageNavigation(map);
 		resultMap.put("articles", list);
+		resultMap.put("navigation", pageNavigation);
+		resultMap.put("key", map.get("key"));
+		resultMap.put("word", map.get("word"));
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap,HttpStatus.OK);
+	}
+	
+	@GetMapping("/listfile")
+	public ResponseEntity<Map<String, Object>> listImages(@RequestParam Map<String, String> map) throws Exception {
+		Map<String,Object> resultMap = new HashMap<>();
+
+		String spp = map.get("spp"); // size per page (페이지당 글갯수)
+		map.put("spp", spp != null ? spp : "10");
+		List<FileInfoDto> list = catDogService.listFile(map);
+		System.out.println("**************************************");
+		System.out.println("리스트 GET 호출시 무엇이 담겨있나요?? " + list.toString());
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		System.out.println("**************************************");
+		PageNavigation pageNavigation = catDogService.makePageNavigation(map);
+		resultMap.put("files", list);
 		resultMap.put("navigation", pageNavigation);
 		resultMap.put("key", map.get("key"));
 		resultMap.put("word", map.get("word"));
