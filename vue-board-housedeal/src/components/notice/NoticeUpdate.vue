@@ -5,17 +5,17 @@
         <b-alert show><h3>글수정</h3></b-alert>
       </b-col>
     </b-row>
-    <board-write-form type="modify" />
+    <notice-write-form type="modify" />
   </b-container>
 </template>
 
 <script>
-import BoardWriteForm from "./child/BoardWriteForm.vue";
+import NoticeWriteForm from "./child/NoticeWriteForm.vue";
 
 export default {
-  name: "BoardUpdate",
+  name: "NoticeUpdate",
   components: {
-    BoardWriteForm,
+    NoticeWriteForm,
   },
 };
 </script>

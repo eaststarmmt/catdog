@@ -1,9 +1,8 @@
 <template>
   <b-tr>
     <b-td>{{ username }}</b-td>
-
     <b-td>
-      <span v-show="con">{{ replyContent }}</span>
+      <span v-show="con" class="replyContent">{{ replyContent }}</span>
       <b-form-input
         class="replyContent"
         placeholder="내용 입력..."
@@ -14,35 +13,37 @@
       ></b-form-input
     ></b-td>
     <b-td
-      ><b-button
-        type="button"
-        variant="primary"
-        class="m-1"
-        @click="updateForm()"
-        v-if="con"
-        >수정</b-button
-      >
-      <b-button
-        type="button"
-        variant="primary"
-        class="m-1"
-        @click="updateReply()"
-        v-if="update"
-        >등록</b-button
-      ><b-button
-        type="button"
-        variant="primary"
-        class="m-1"
-        @click="deleteReply(replyno)"
-        v-if="con"
-        >삭제</b-button
-      ><b-button
-        type="button"
-        variant="primary"
-        class="m-1"
-        v-if="update"
-        @click="updateForm()"
-        >취소</b-button
+      ><span v-if="userInfo.userid === 'admin'"
+        ><b-button
+          type="button"
+          variant="outline-info"
+          class="m-1"
+          @click="updateForm()"
+          v-if="con"
+          >수정</b-button
+        >
+        <b-button
+          type="button"
+          variant="outline-info"
+          class="m-1"
+          @click="updateReply()"
+          v-if="update"
+          >등록</b-button
+        ><b-button
+          type="button"
+          variant="outline-danger"
+          class="m-1"
+          @click="deleteReply(replyno)"
+          v-if="con"
+          >삭제</b-button
+        ><b-button
+          type="button"
+          variant="outline-danger"
+          class="m-1"
+          v-if="update"
+          @click="updateForm()"
+          >취소</b-button
+        ></span
       ></b-td
     >
   </b-tr>
@@ -50,6 +51,8 @@
 
 <script>
 import { deleteReply, updateReply } from "@/api/reply.js";
+import { mapState } from "vuex";
+const memberStore = "memberStore";
 export default {
   name: "ReplyListRow",
   data() {
@@ -58,6 +61,9 @@ export default {
       con: true,
       replyContent: "",
     };
+  },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
   },
   created() {
     this.replyContent = this.content;

@@ -9,10 +9,7 @@
       <b-col class="text-left">
         <b-button variant="outline-primary" @click="listArticle">목록</b-button>
       </b-col>
-      <b-col
-        class="text-right"
-        v-if="loginid === article.userid || loginid === 'admin'"
-      >
+      <b-col class="text-right" v-if="userInfo.userid == 'admin'">
         <b-button
           variant="outline-info"
           size="sm"
@@ -40,27 +37,19 @@
         </b-card>
       </b-col>
     </b-row>
-    <reply-list />
-    <reply-write :articleno="article.articleno" v-if="loginid === 'admin'" />
   </b-container>
 </template>
 
 <script>
 // import moment from "moment";
 import { mapActions, mapState } from "vuex";
-import ReplyList from "@/components/reply/ReplyList";
-import ReplyWrite from "@/components/reply/ReplyWrite";
-import { getArticle, deleteArticle } from "@/api/board";
+import { getArticle, deleteArticle } from "@/api/notice";
 // import ReplyList from "../reply/ReplyList.vue";
 
 const boardStore = "boardStore";
 const memberStore = "memberStore";
 
 export default {
-  components: {
-    ReplyList,
-    ReplyWrite,
-  },
   data() {
     return {
       article: {},
@@ -102,12 +91,12 @@ export default {
     //   await this.getUserid(this.article.userid);
     // },
     listArticle() {
-      this.$router.push({ name: "BoardList" });
+      this.$router.push({ name: "NoticeList" });
     },
     async moveModifyArticle() {
       this.setUserid(this.article.userid);
       this.$router.replace({
-        name: "BoardUpdate",
+        name: "NoticeUpdate",
         params: { articleno: this.article.articleno },
       });
       //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
@@ -115,7 +104,7 @@ export default {
     removeArticle() {
       if (confirm("정말로 삭제?")) {
         deleteArticle(this.article.articleno, () => {
-          this.$router.push({ name: "BoardList" });
+          this.$router.push({ name: "NoticeList" });
         });
       }
     },
