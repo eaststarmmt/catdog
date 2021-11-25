@@ -21,3 +21,4 @@ npm run serve
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+![KakaoTalk_20200926_190136757](/uploads/218855270ed1122bec48667d1fd13d77/KakaoTalk_20200926_190136757.jpg)
