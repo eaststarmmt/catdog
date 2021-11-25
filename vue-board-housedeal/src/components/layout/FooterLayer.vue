@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-other" style="margin-top: 100px">
+    <footer class="bg-other">
       <div class="container secondContainer">
         <div class="row text-white text-center p-5">
           <div class="col-sm">
@@ -116,7 +116,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -127,6 +127,9 @@ export default {
 </script>
 
 <style scoped>
+footer {
+  margin-top: 100px;
+}
 .bg-other {
   background-color: burlywood;
 }
@@ -135,5 +138,8 @@ export default {
 }
 .text-secondary {
   height: 1px;
+}
+footer {
+  width: 100%;
 }
 </style>

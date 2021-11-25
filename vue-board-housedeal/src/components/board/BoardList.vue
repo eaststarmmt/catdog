@@ -45,6 +45,7 @@
       </b-col>
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
     </b-row>
+
     <b-button size="sm" variant="outline-dark" @click="prev()" v-if="pg != 1"
       >이전</b-button
     >
