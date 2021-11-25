@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.happyhouse.model.BoardDto;
+import com.ssafy.happyhouse.model.NoticeDto;
 import com.ssafy.happyhouse.model.BoardParameterDto;
-import com.ssafy.happyhouse.model.mapper.BoardMapper;
+import com.ssafy.happyhouse.model.mapper.NoticeMapper;
 import com.ssafy.util.PageNavigation;
 
 @Service
@@ -19,47 +19,47 @@ public class NoticeServiceImpl implements NoticeService{
 	private SqlSession sqlSession;
 
 	@Override
-	public boolean writeArticle(BoardDto boardDto) throws Exception {
-		if(boardDto.getSubject() == null || boardDto.getContent() == null) {
+	public boolean writeArticle(NoticeDto noticeDto) throws Exception {
+		if(noticeDto.getSubject() == null || noticeDto.getContent() == null) {
 			throw new Exception();
 		}
-		return sqlSession.getMapper(BoardMapper.class).writeArticle(boardDto) == 1;
+		return sqlSession.getMapper(NoticeMapper.class).writeArticle(noticeDto) == 1;
 	}
 
 	@Override
-	public List<BoardDto> listArticle(BoardParameterDto boardParameterDto) throws Exception {
+	public List<NoticeDto> listArticle(BoardParameterDto boardParameterDto) throws Exception {
 		int start = boardParameterDto.getPg() == 0 ? 0 : (boardParameterDto.getPg() - 1) * boardParameterDto.getSpp();
 		boardParameterDto.setStart(start);
-		return sqlSession.getMapper(BoardMapper.class).listArticle(boardParameterDto);
+		return sqlSession.getMapper(NoticeMapper.class).listArticle(boardParameterDto);
 	}
 
 	@Override
 	public void updateHit(int articleno) throws Exception {
-		sqlSession.getMapper(BoardMapper.class).updateHit(articleno);
+		sqlSession.getMapper(NoticeMapper.class).updateHit(articleno);
 	}
 
 	@Override
 	@Transactional
-	public boolean modifyArticle(BoardDto boardDto) throws Exception {
-		return sqlSession.getMapper(BoardMapper.class).modifyArticle(boardDto) == 1;
+	public boolean modifyArticle(NoticeDto noticeDto) throws Exception {
+		return sqlSession.getMapper(NoticeMapper.class).modifyArticle(noticeDto) == 1;
 	}
 
 	@Override
 	@Transactional
 	public boolean deleteArticle(int articleno) throws Exception {
-//		sqlSession.getMapper(BoardMapper.class).deleteMemo(articleno);
-		return sqlSession.getMapper(BoardMapper.class).deleteArticle(articleno) == 1;
+//		sqlSession.getMapper(NoticeMapper.class).deleteMemo(articleno);
+		return sqlSession.getMapper(NoticeMapper.class).deleteArticle(articleno) == 1;
 	}
 
 	@Override
-	public BoardDto getArticle(int articleno) throws Exception {
-		return sqlSession.getMapper(BoardMapper.class).getArticle(articleno);
+	public NoticeDto getArticle(int articleno) throws Exception {
+		return sqlSession.getMapper(NoticeMapper.class).getArticle(articleno);
 	}
 
 	@Override
-	public Integer totalArticle(BoardParameterDto boardParameterDto) throws Exception {
-		int last = sqlSession.getMapper(BoardMapper.class).totalArticle();
-		return (last - 1) / boardParameterDto.getSpp() + 1;
+	public Integer totalArticle(BoardParameterDto BoardParameterDto) throws Exception {
+		int last = sqlSession.getMapper(NoticeMapper.class).totalArticle();
+		return (last - 1) / BoardParameterDto.getSpp() + 1;
 		
 	}
 

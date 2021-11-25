@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.happyhouse.model.BoardParameterDto;
 import com.ssafy.happyhouse.model.NoticeDto;
-import com.ssafy.happyhouse.model.noticeDto;
-import com.ssafy.happyhouse.model.noticeParameterDto;
 import com.ssafy.happyhouse.model.service.NoticeService;
 
 import io.swagger.annotations.Api;
@@ -49,28 +48,28 @@ public class NoticeController {
 	
 	@ApiOperation(value = "게시판 글목록", notes = "모든 게시글의 정보를 반환한다.", response = List.class)
 	@GetMapping
-	public ResponseEntity<List<NoticeDto>> listArticle(@ApiParam(value = "게시글을 얻기위한 부가정보.", required = true) BoardParameterDto boardParameterDto) throws Exception {
+	public ResponseEntity<List<NoticeDto>> listArticle(@ApiParam(value = "게시글을 얻기위한 부가정보.", required = true) BoardParameterDto boardparameterDto) throws Exception {
 		logger.info("listArticle - 호출");
-		return new ResponseEntity<List<NoticeDto>>(noticeService.listArticle(boardParameterDto), HttpStatus.OK);
+		return new ResponseEntity<List<NoticeDto>>(noticeService.listArticle(boardparameterDto), HttpStatus.OK);
 	}
 	@ApiOperation(value = "게시판 글 갯수", notes = "페이지네이션을 위해서 글 갯수 반환.", response = Integer.class)
 	@GetMapping("/total")
-	public ResponseEntity<Integer> totalArticle(@ApiParam(value = "게시글을 얻기위한 부가정보.", required = true) noticeParameterDto noticeParameterDto) throws Exception {
+	public ResponseEntity<Integer> totalArticle(@ApiParam(value = "게시글을 얻기위한 부가정보.", required = true) BoardParameterDto boardparameterDto) throws Exception {
 		logger.info("listArticle - 호출");
-		return new ResponseEntity<Integer>(noticeService.totalArticle(noticeParameterDto), HttpStatus.OK);
+		return new ResponseEntity<Integer>(noticeService.totalArticle(boardparameterDto), HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = noticeDto.class)
+	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = NoticeDto.class)
 	@GetMapping("/{articleno}")
-	public ResponseEntity<noticeDto> getArticle(@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno) throws Exception {
+	public ResponseEntity<NoticeDto> getArticle(@PathVariable("articleno") @ApiParam(value = "얻어올 글의 글번호.", required = true) int articleno) throws Exception {
 		logger.info("getArticle - 호출 : " + articleno);
 		noticeService.updateHit(articleno);
-		return new ResponseEntity<noticeDto>(noticeService.getArticle(articleno), HttpStatus.OK);
+		return new ResponseEntity<NoticeDto>(noticeService.getArticle(articleno), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "게시판 글수정", notes = "새로운 게시글 정보를 입력한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping
-	public ResponseEntity<String> modifyArticle(@RequestBody @ApiParam(value = "수정할 글정보.", required = true) noticeDto noticeDto) throws Exception {
+	public ResponseEntity<String> modifyArticle(@RequestBody @ApiParam(value = "수정할 글정보.", required = true) NoticeDto noticeDto) throws Exception {
 		logger.info("modifyArticle - 호출");
 		
 		if (noticeService.modifyArticle(noticeDto)) {
