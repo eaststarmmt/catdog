@@ -20,8 +20,8 @@
 	</insert>
 
 	<resultMap type="CatDogDto" id="articleList">
-		<result column="articleno" property="articleNo"/>
-		<result column="userid" property="userId"/>
+		<result column="articleno" property="articleno"/>
+		<result column="userid" property="userid"/>
 		<result column="subject" property="subject"/>
 		<result column="content" property="content"/>
 		<result column="regtime" property="regTime"/>
@@ -40,12 +40,8 @@
 	</sql>
 	
 	
-	<select id="listArticle" parameterType="map" resultType="catDogDto">
-		select articleno, userid, subject, content,
-				case when date_format(regtime, '%Y%m%d') = date_format(now(), '%Y%m%d')
-				then date_format(regtime, '%H:%i:%s')
-				else date_format(regtime, '%y.%m.%d')
-				end regtime
+	<select id="listArticle" parameterType="map" resultMap="articleList">
+		select articleno, userid, subject, content,regtime	
 		from catdog
 		<if test="word != null and word != ''">
 			<if test="key == 'subject'">
@@ -57,6 +53,11 @@
 		</if>
 		order by articleno desc
 		limit #{start}, #{spp}
+	</select>
+	<select id="fileInfoList" resultType="FileInfoDto">
+		select savefolder, originfile, savefile
+		from file_info
+		where articleno = #{articleno}
 	</select>
 	
 	<select id="getTotalCount" parameterType="map" resultType="int">
