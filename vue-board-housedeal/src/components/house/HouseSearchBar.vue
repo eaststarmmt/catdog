@@ -32,17 +32,17 @@
           @change="searchApt2"
         ></b-form-select>
       </b-col>
-      <b-col class="sm-3">
-        <b-button @click.prevent="addInterArea">관심지역 등록</b-button>
+      <b-col>
+        <b-button @click.prevent="addInterArea" variant="warning"
+          >관심등록</b-button
+        >
       </b-col>
     </b-row>
     <b-row class="mt-4 mb-4">
-      <b-col class="sm-3">
+      <b-col class="sm-6">
         <b>관심지역 보기</b>
       </b-col>
-      <b-col> </b-col>
-      <b-col> </b-col>
-      <b-col> </b-col>
+
       <b-col> </b-col>
       <b-col> </b-col>
       <b-col> </b-col>
