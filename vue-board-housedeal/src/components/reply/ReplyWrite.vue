@@ -2,13 +2,13 @@
   <div>
     <b-form @submit="onSubmit">
       <b-form-group id="content-group" label="" label-for="content">
-        <b-form-textarea
+        <b-form-input
           id="content"
           placeholder="내용 입력..."
           rows="5"
           max-rows="15"
           v-model="reply.content"
-        ></b-form-textarea>
+        ></b-form-input>
         <input
           type="hidden"
           name="userid"

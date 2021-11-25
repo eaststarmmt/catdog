@@ -1,16 +1,17 @@
 <template>
   <b-tr>
     <b-td>{{ username }}</b-td>
-    <b-td v-if="con">{{ replyContent }}</b-td>
-    <b-td
-      ><b-form-textarea
+
+    <b-td>
+      <span v-show="con">{{ replyContent }}</span>
+      <b-form-input
         class="replyContent"
         placeholder="내용 입력..."
         rows="10"
         max-rows="15"
         v-model="content"
         v-if="update"
-      ></b-form-textarea
+      ></b-form-input
     ></b-td>
     <b-td
       ><b-button

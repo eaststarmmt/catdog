@@ -44,11 +44,15 @@
               }}</b-col>
               <b-col cols="2"></b-col>
             </b-row>
+            <!-- <b-row>
+              <b-col cols="2"></b-col>
+              <b-col style="text-align: center">관심지역</b-col></b-row
+            > -->
             <b-row>
               <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">관심지역</b-col
-              ><b-col
-                cols="6"
+              <b-col cols="2" align-self="end"> 관심지역</b-col>
+              <b-col
+                cols="8"
                 align-self="start"
                 v-if="userInterestArea && userInterestArea.length != 0"
               >

@@ -1,5 +1,5 @@
 <template>
-  <b-table-simple>
+  <b-table-simple fixed="fixed">
     <tbody>
       <reply-list-row
         v-for="(reply, index) in replies"

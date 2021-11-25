@@ -1,13 +1,34 @@
 <template>
   <b-container style="text-align: left">
-    {{ codeToString }}
-
-    <button v-if="this.isin == 'apt'" @click.prevent="showInterest">
-      보기
-    </button>
-    <button v-if="this.isin == 'mod'" @click.prevent="deleteInterest">
-      삭제
-    </button>
+    <b-row>
+      <b-col>
+        {{ codeToString }}
+      </b-col>
+      <b-col v-if="this.isin != 'mypage'">
+        <b-button
+          size="sm"
+          variant="light"
+          v-if="this.isin == 'apt'"
+          @click.prevent="showInterest"
+          @mouseover="colorChange(true)"
+          @mouseout="colorChange(false)"
+          :calss="{ 'mouse-over-pagecolor': isColor }"
+        >
+          보기
+        </b-button>
+        <b-button
+          size="sm"
+          variant="warning"
+          v-if="this.isin == 'mod'"
+          @click.prevent="deleteInterest"
+          @mouseover="colorChange(true)"
+          @mouseout="colorChange(false)"
+          :calss="{ 'mouse-over-pagecolor': isColor }"
+        >
+          삭제
+        </b-button>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -22,6 +43,7 @@ export default {
   data() {
     return {
       codeToString: "",
+      isColor: false,
     };
   },
   props: {
@@ -48,8 +70,15 @@ export default {
     deleteInterest() {
       this.DELETE_AREA(this.area);
     },
+    colorChange(flag) {
+      this.isColor = flag;
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.mouse-over-bgcolor {
+  background-color: lightblue;
+}
+</style>
