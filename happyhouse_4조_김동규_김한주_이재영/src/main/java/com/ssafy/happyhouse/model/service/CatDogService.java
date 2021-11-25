@@ -15,7 +15,7 @@ public interface CatDogService {
 	PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
 	CatDogDto getArticle(int articleNo) throws Exception;
 	void updateArticle(CatDogDto catDogDto) throws Exception;
-	void deleteArticle(int articleNo, String path) throws Exception;
+	boolean deleteArticle(int articleNo, String path) throws Exception;
 	List<FileInfoDto> getFile(int articleNo) throws Exception;
 	
 }

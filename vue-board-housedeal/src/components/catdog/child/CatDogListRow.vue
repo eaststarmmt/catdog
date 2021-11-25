@@ -29,7 +29,7 @@
           thumbnail
           fluid
           :src="
-            require(`C:/SSAFY/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
+            require(`C:/Users/82108/갈매기/happyhouse_final_4-_-_/happyhouse_4조_김동규_김한주_이재영/src/main/webapp/resources/img/${fileInfos[0].saveFolder}/${fileInfos[0].saveFile}`)
           "
         />
       </b-col>
@@ -49,7 +49,7 @@ export default {
     };
   },
   mounted() {
-    // console.log("article: ", this.article);
+    console.log("리스트 로우에서 호출하는 articleno: ", this.articleno);
     console.log("fileInfos: ", this.fileInfos);
   },
   props: {

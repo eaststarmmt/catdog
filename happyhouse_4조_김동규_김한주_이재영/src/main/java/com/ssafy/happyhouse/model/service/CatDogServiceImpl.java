@@ -95,7 +95,7 @@ public class CatDogServiceImpl implements CatDogService {
 
 	@Override
 	@Transactional
-	public void deleteArticle(int articleNo, String path) throws Exception {
+	public boolean deleteArticle(int articleNo, String path) throws Exception {
 		// TODO Auto-generated method stub
 		CatDogMapper catDogMapper = sqlSession.getMapper(CatDogMapper.class);
 		List<FileInfoDto> fileList = catDogMapper.getFile(articleNo);
@@ -105,7 +105,7 @@ public class CatDogServiceImpl implements CatDogService {
 			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
 			file.delete();
 		}
-		sqlSession.getMapper(CatDogMapper.class).deleteArticle(articleNo);
+		return sqlSession.getMapper(CatDogMapper.class).deleteArticle(articleNo);
 	}
 
 	@Override
