@@ -29,7 +29,7 @@
       <b-col>
         <b-card
           :header-html="`<h3>${article.articleno}.
-          ${article.subject} [${article.hit}]</h3><div><h6>${article.userid}</div><div>${article.regtime}</h6></div>`"
+          ${article.subject} </h3><div><h6>${article.userid}아이디</div><div>${article.regTime}</h6></div>`"
           class="mb-2"
           border-variant="dark"
           no-body
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-// import moment from "moment";
+import moment from "moment";
 import { mapActions, mapState } from "vuex";
 import ReplyList from "@/components/reply/ReplyList";
 import ReplyWrite from "@/components/reply/ReplyWrite";
@@ -74,14 +74,15 @@ export default {
         return this.article.content.split("\n").join("<br>");
       return "";
     },
-    // changeDateFormat() {
-    //   return moment(new Date(this.article.regtime)).format(
-    //     "YYYY.MM.DD hh:mm:ss"
-    //   );
-    // },
+    changeDateFormat() {
+      return moment(new Date(this.article.regtime)).format(
+        "YYYY.MM.DD hh:mm:ss"
+      );
+    },
   },
   created() {
     this.loginid = this.userInfo.userid;
+    console.log("캣독뷰 로그인 아이디 확인", this.loginid);
     getArticle(
       this.$route.params.articleno,
       (response) => {
@@ -106,7 +107,7 @@ export default {
       this.$router.push({ name: "CatDogList" });
     },
     async moveModifyArticle() {
-      console.log("캣독뷰에서 호출", this.articleno);
+      console.log("캣독뷰에서 호출", this.article.articleno);
       this.setUserid(this.article.userid);
       this.$router.replace({
         name: "CatDogUpdate",
