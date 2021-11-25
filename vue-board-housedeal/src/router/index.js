@@ -23,8 +23,8 @@ import BoardUpdate from "@/components/board/BoardUpdate.vue";
 import Notice from "@/views/Notice.vue";
 import NoticeList from "@/components/notice/NoticeList.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
-// import NoticeView from "@/components/notice/NoticeView.vue";
-// import NoticeUpdate from "@/components/notice/NoticeUpdate.vue";
+import NoticeView from "@/components/notice/NoticeView.vue";
+import NoticeUpdate from "@/components/notice/NoticeUpdate.vue";
 
 import House from "@/views/House.vue";
 
@@ -57,7 +57,15 @@ const boardAuthUser = async (to, from, next) => {
   if (checkUserInfo.userid != "admin" && checkUserInfo.userid != writerid) {
     alert("권한이 없습니다");
   } else {
-    alert("권한 확인");
+    next();
+  }
+};
+
+const onlyAdmin = async (to, from, next) => {
+  const checkUserInfo = store.getters["memberStore/checkUserInfo"];
+  if (checkUserInfo.userid != "admin") {
+    alert("권한이 없습니다");
+  } else {
     next();
   }
 };
@@ -113,21 +121,21 @@ const routes = [
       {
         path: "noticewrite",
         name: "NoticeWrite",
-        beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAdmin,
         component: NoticeWrite,
       },
-      // {
-      //   path: "noticedetail/:articleno",
-      //   name: "NoticeView",
-      //   beforeEnter: onlyAuthUser,
-      //   component: NoticeView,
-      // },
-      // {
-      //   path: "noticeupdate/:articleno",
-      //   name: "NoticeUpdate",
-      //   beforeEnter: boardAuthUser,
-      //   component: NoticeUpdate,
-      // },
+      {
+        path: "noticedetail/:articleno",
+        name: "NoticeView",
+
+        component: NoticeView,
+      },
+      {
+        path: "noticeupdate/:articleno",
+        name: "NoticeUpdate",
+        beforeEnter: onlyAdmin,
+        component: NoticeUpdate,
+      },
     ],
   },
   {

@@ -3,7 +3,7 @@
     <b-td>{{ articleno }}</b-td>
     <b-th class="text-left">
       <router-link
-        :to="{ name: 'BoardView', params: { articleno: articleno } }"
+        :to="{ name: 'NoticeView', params: { articleno: articleno } }"
         >{{ subject }}</router-link
       >
     </b-th>
@@ -17,7 +17,7 @@
 // import moment from "moment";
 
 export default {
-  name: "BoardListRow",
+  name: "NoticeListRow",
   props: {
     articleno: Number,
     userid: String,
