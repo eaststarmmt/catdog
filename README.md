@@ -27,17 +27,17 @@
 
 ## 기능 소개
 
-![KakaoTalk_20211125_235852640](/uploads/ca680949dd6bb790e0ecf5b8b85297c7/KakaoTalk_20211125_235852640.png)
+![image](https://user-images.githubusercontent.com/52435869/162626786-66c7831f-cb10-41fb-b4f4-3027cd9a62ef.png)
   
-**Pic 1** 📷 : **네이버에서 부동산 관련 기사 제공**(홈 화면)
-![KakaoTalk_20211126_005115855](/uploads/a72cf3328c2528d19050187c30093355/KakaoTalk_20211126_005115855.png)
+### **Pic 1** 📷 : **네이버에서 부동산 관련 기사 제공**(홈 화면)
+![image](https://user-images.githubusercontent.com/52435869/162626829-a9bae54b-314f-49cc-9882-ac3ea1db9401.png)
 
-**Pic 2** 📷 : 원하는 리스트 클릭시 해당 주택에 대한 상세정보 제공
+### **Pic 2** 📷 : **원하는 리스트 클릭시 해당 주택에 대한 상세정보 제공**
 
-![KakaoTalk_20211126_005144493](/uploads/eee820e986524f2c7211f27ca0d14b82/KakaoTalk_20211126_005144493.png)
+![image](https://user-images.githubusercontent.com/52435869/162626866-a25111bf-c853-4b37-a408-8b46da399a5c.png)
 
-**Pic 3** 📷 : **QnA 게시판**
+### **Pic 3** 📷 : **QnA 게시판**
 
-![KakaoTalk_20211126_005227470](/uploads/b6c8520ae4690c09ad86e60e5fb9bd1f/KakaoTalk_20211126_005227470.png)
+![image](https://user-images.githubusercontent.com/52435869/162626883-4d5332b4-ea98-47c9-a369-3bf31ece9b4f.png)
 
-**Pic 4** 📷 : **원하는 지역 클릭시 편의시설 조회 제공**(KaKaoMap API 이용)
+### **Pic 4** 📷 : **원하는 지역 클릭시 편의시설 조회 제공**(KaKaoMap API 이용)
